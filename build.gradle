@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+group 'me.often'
+version '1.14'
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    archiveClassifier.set('')
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url = 'https://maven.enginehub.org/repo/' }
+}
+
+dependencies {
+    shadow "net.objecthunter:exp4j:0.4.8"
+    compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.1.1'
+    compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    compileOnly 'me.clip:placeholderapi:2.10.10'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -9,19 +9,17 @@ import org.bukkit.event.entity.EntityDeathEvent;
 public class MobDeath implements Listener {
 
     @EventHandler
-    public void onDeath(EntityDeathEvent e){
-
-        if (!(e.getEntity() instanceof Monster m)){
+    public void onDeath(EntityDeathEvent e) {
+        if (!(e.getEntity() instanceof Monster m)) {
             return;
         }
 
-        if (!AureliumMob.isAureliumMob(m)){
+        if (!AureliumMob.isAureliumMob(m)) {
             return;
         }
 
         m.setCustomNameVisible(false);
         m.setCustomName(null);
-
     }
 
 }

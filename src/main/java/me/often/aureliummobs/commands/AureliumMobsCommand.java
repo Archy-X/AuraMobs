@@ -12,14 +12,14 @@ public class AureliumMobsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (command.getName().equalsIgnoreCase("aureliummobs")){
+        if (command.getName().equalsIgnoreCase("aureliummobs")) {
             if (args.length == 0){
                 //Send info
                 return true;
             }
             else if (args.length == 1){
-                if (args[0].equalsIgnoreCase("reload")){
-                    if (!(sender instanceof Player)){
+                if (args[0].equalsIgnoreCase("reload")) {
+                    if (!(sender instanceof Player)) {
                         Main.getInstance().reloadConfig();
                         Main.getInstance().onDisable();
                         Main.getInstance().onEnable();
@@ -27,7 +27,7 @@ public class AureliumMobsCommand implements CommandExecutor {
                     }
                     else {
                         Player player = (Player) sender;
-                        if (!player.hasPermission("aureliummobs.reload")){
+                        if (!player.hasPermission("aureliummobs.reload")) {
                             MessageUtils.sendMessage(Main.getInstance().getConfigString("messages.no-permission"), player);
                         }
                         else {

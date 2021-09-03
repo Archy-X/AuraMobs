@@ -21,7 +21,7 @@ public class MoveEvent implements Listener {
 
 
     @EventHandler
-    public void onMove(PlayerMoveEvent e){
+    public void onMove(PlayerMoveEvent e) {
 
         int range = plugin.getConfigInt("settings.display-range");
 
@@ -31,12 +31,12 @@ public class MoveEvent implements Listener {
                 .filter(mob -> mob instanceof Monster && AureliumMob.isAureliumMob((Monster) mob)).toList();
 
         to.forEach(mob -> {
-            if (!from.contains(mob)){
+            if (!from.contains(mob)) {
                 mob.setCustomNameVisible(e.getPlayer().hasLineOfSight(mob));
             }
         });
         from.forEach(mob -> {
-            if (!to.contains(mob)){
+            if (!to.contains(mob)) {
                 mob.setCustomNameVisible(false);
             }
         });

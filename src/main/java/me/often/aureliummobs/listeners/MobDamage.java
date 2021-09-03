@@ -33,7 +33,7 @@ public class MobDamage implements Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
+    public void onChat(AsyncPlayerChatEvent event) {
 
         Inventory inv = Bukkit.createInventory(null, InventoryType.ANVIL);
 
@@ -48,9 +48,9 @@ public class MobDamage implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onMobDamage(EntityDamageEvent e){
+    public void onMobDamage(EntityDamageEvent e) {
 
-        if (!(e.getEntity() instanceof Monster m)){
+        if (!(e.getEntity() instanceof Monster m)) {
             return;
         }
 
@@ -80,17 +80,17 @@ public class MobDamage implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onArrowHit(EntityDamageByEntityEvent e){
+    public void onArrowHit(EntityDamageByEntityEvent e) {
 
-        if (!(e.getEntity() instanceof Projectile p)){
+        if (!(e.getEntity() instanceof Projectile p)) {
             return;
         }
 
-        if (!(p.getShooter() instanceof Monster m)){
+        if (!(p.getShooter() instanceof Monster m)) {
             return;
         }
 
-        if (!AureliumMob.isAureliumMob(m)){
+        if (!AureliumMob.isAureliumMob(m)) {
             return;
         }
 

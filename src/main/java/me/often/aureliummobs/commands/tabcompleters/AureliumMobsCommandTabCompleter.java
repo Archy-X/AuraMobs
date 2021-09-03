@@ -14,15 +14,15 @@ public class AureliumMobsCommandTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (completions.isEmpty()){
+        if (completions.isEmpty()) {
             completions.add("reload");
         }
 
         List<String> fit = new ArrayList<>();
 
-        if (args.length == 1){
-            for (String a: completions){
-                if (a.startsWith(args[0])){
+        if (args.length == 1) {
+            for (String a: completions) {
+                if (a.startsWith(args[0])) {
                     fit.add(a);
                 }
             }

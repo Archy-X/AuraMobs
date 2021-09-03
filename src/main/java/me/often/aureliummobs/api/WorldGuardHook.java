@@ -21,7 +21,6 @@ public record WorldGuardHook(boolean hasWorldGuard) {
     public static Flag<StateFlag.State> mobsEnabled;
 
     public WorldGuardHook(boolean hasWorldGuard) {
-
         this.hasWorldGuard = hasWorldGuard;
 
         if (!hasWorldGuard) {
@@ -38,14 +37,10 @@ public record WorldGuardHook(boolean hasWorldGuard) {
             registry.register(minMoblevel);
             registry.register(maxMoblevel);
             registry.register(mobsEnabled);
-        } catch (IllegalStateException ignored){}
-
-
-
+        } catch (IllegalStateException ignored) {}
     }
 
     public int getMinLevel(Location loc) {
-
         if (!hasWorldGuard) {
             return -1;
         }
@@ -63,11 +58,9 @@ public record WorldGuardHook(boolean hasWorldGuard) {
         }
 
         return -1;
-
     }
 
     public int getMaxLevel(Location loc) {
-
         if (!hasWorldGuard) {
             return Integer.MAX_VALUE;
         }
@@ -85,11 +78,9 @@ public record WorldGuardHook(boolean hasWorldGuard) {
         }
 
         return Integer.MAX_VALUE;
-
     }
 
     public boolean mobsEnabled(Location loc) {
-
         if (!hasWorldGuard) {
             return true;
         }
@@ -107,7 +98,6 @@ public record WorldGuardHook(boolean hasWorldGuard) {
         }
 
         return true;
-
     }
 
 }

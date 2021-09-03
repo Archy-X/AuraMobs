@@ -12,17 +12,17 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 public class MobTransform implements Listener {
 
     @EventHandler
-    public void onMutate(EntityTransformEvent event){
+    public void onMutate(EntityTransformEvent event) {
 
-        if (!(event.getEntity() instanceof Monster monster)){
+        if (!(event.getEntity() instanceof Monster monster)) {
             return;
         }
 
-        if (!AureliumMob.isAureliumMob(monster)){
+        if (!AureliumMob.isAureliumMob(monster)) {
             return;
         }
 
-        if (!(event.getTransformedEntity() instanceof Monster)){
+        if (!(event.getTransformedEntity() instanceof Monster)) {
 
             event.getTransformedEntity().getPersistentDataContainer().remove(Main.mobKey);
             event.getTransformedEntity().setCustomNameVisible(false);
@@ -33,17 +33,17 @@ public class MobTransform implements Listener {
     }
 
     @EventHandler
-    public void onRename(PlayerInteractAtEntityEvent event){
+    public void onRename(PlayerInteractAtEntityEvent event) {
 
-        if (!(event.getRightClicked() instanceof Monster monster)){
+        if (!(event.getRightClicked() instanceof Monster monster)) {
             return;
         }
 
-        if (!AureliumMob.isAureliumMob(monster)){
+        if (!AureliumMob.isAureliumMob(monster)) {
             return;
         }
 
-        if (!event.getPlayer().getInventory().getItem(event.getHand()).getType().equals(Material.NAME_TAG)){
+        if (!event.getPlayer().getInventory().getItem(event.getHand()).getType().equals(Material.NAME_TAG)) {
             return;
         }
 

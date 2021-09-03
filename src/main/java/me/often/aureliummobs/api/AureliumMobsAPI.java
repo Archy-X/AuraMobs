@@ -17,16 +17,16 @@ public class AureliumMobsAPI {
      * @param e - mob to get level of
      * @return the level of given mob, if not AureliumMob returns 1
      */
-    public static int getMobLevel(Entity e){
-        if (!(e instanceof Monster)){
+    public static int getMobLevel(Entity e) {
+        if (!(e instanceof Monster)) {
             return 1;
         }
         Monster m = (Monster) e;
-        if (!AureliumMob.isAureliumMob(m)){
+        if (!AureliumMob.isAureliumMob(m)) {
             return 1;
         }
         String persistent = m.getPersistentDataContainer().get(Main.mobKey, PersistentDataType.STRING);
-        if (persistent == null || persistent.isEmpty()){
+        if (persistent == null || persistent.isEmpty()) {
             return 1;
         }
         return Integer.parseInt(persistent);
@@ -37,8 +37,8 @@ public class AureliumMobsAPI {
      * @param e - mob to get health of
      * @return health of given mob, if not a Monster returns 1
      */
-    public static double getMobHealth(Entity e){
-        if (!(e instanceof Monster m)){
+    public static double getMobHealth(Entity e) {
+        if (!(e instanceof Monster m)) {
             return 1;
         }
         return BigDecimal.valueOf(m.getHealth()).setScale(2, RoundingMode.CEILING).doubleValue();
@@ -49,8 +49,8 @@ public class AureliumMobsAPI {
      * @param e - mob to get max health of
      * @return max health of given mob, if not a Monster returns 1
      */
-    public static double getMobMaxHealth(Entity e){
-        if (!(e instanceof Monster m)){
+    public static double getMobMaxHealth(Entity e) {
+        if (!(e instanceof Monster m)) {
             return 1;
         }
         return BigDecimal.valueOf(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()).setScale(2, RoundingMode.CEILING).doubleValue();
@@ -61,8 +61,8 @@ public class AureliumMobsAPI {
      * @param e - mob to get damage of
      * @return damage of given mob, if not a Monster returns 1
      */
-    public static int getMobDamage(Entity e){
-        if (!(e instanceof Monster m)){
+    public static int getMobDamage(Entity e) {
+        if (!(e instanceof Monster m)) {
             return 1;
         }
         return BigDecimal.valueOf(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()).setScale(2, RoundingMode.CEILING).intValue();

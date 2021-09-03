@@ -151,7 +151,7 @@ public class ColorUtils {
         return msg;
     }
 
-    public static String colorize(String s){
+    public static String colorize(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 

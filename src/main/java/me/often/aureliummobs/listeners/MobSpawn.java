@@ -25,23 +25,23 @@ public class MobSpawn implements Listener {
     }
 
     @EventHandler (ignoreCancelled = true)
-    public void onSpawn(CreatureSpawnEvent e){
+    public void onSpawn(CreatureSpawnEvent e) {
         try {
 
-            if (e.getEntity() instanceof Boss){
+            if (e.getEntity() instanceof Boss) {
                 return;
             }
 
-            if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)){
+            if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) {
                 return;
             }
 
-            if (!(e.getEntity() instanceof Monster monster)){
+            if (!(e.getEntity() instanceof Monster monster)) {
                 return;
             }
 
             if (Main.wghook != null){
-                if (!(Main.wghook.mobsEnabled(e.getLocation()))){
+                if (!(Main.wghook.mobsEnabled(e.getLocation()))) {
                     return;
                 }
             }
@@ -49,10 +49,10 @@ public class MobSpawn implements Listener {
             List<String> mobs = plugin.getConfigStringList("mob-replacements.list");
             String type = plugin.getConfigString("mob-replacements.type");
 
-            if (type.equalsIgnoreCase("blacklist") && (mobs.contains(e.getEntity().getType().name()) || mobs.contains("*"))){
+            if (type.equalsIgnoreCase("blacklist") && (mobs.contains(e.getEntity().getType().name()) || mobs.contains("*"))) {
                 return;
             }
-            else if (type.equalsIgnoreCase("whitelist") && (!mobs.contains(e.getEntity().getType().name().toUpperCase()) && !mobs.contains("*"))){
+            else if (type.equalsIgnoreCase("whitelist") && (!mobs.contains(e.getEntity().getType().name().toUpperCase()) && !mobs.contains("*"))) {
                 return;
             }
 
@@ -60,24 +60,24 @@ public class MobSpawn implements Listener {
 
             changeMob(monster, radius).runTask(plugin);
 
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
 
     }
 
-    public BukkitRunnable changeMob(Monster monster, int radius){
+    public BukkitRunnable changeMob(Monster monster, int radius) {
         return new BukkitRunnable() {
             @Override
             public void run() {
-                if (monster.isDead() || !monster.isValid()){
+                if (monster.isDead() || !monster.isValid()) {
                     return;
                 }
                 int sumlevel = 0;
                 int maxlevel = Integer.MIN_VALUE;
                 int minlevel = Integer.MAX_VALUE;
                 List<Entity> players = monster.getNearbyEntities(radius, radius, radius).stream().filter(entity -> entity instanceof Player).toList();
-                for (Entity player: players){
+                for (Entity player: players) {
                     int lvl = plugin.getLevel((Player) player);
                     sumlevel+=lvl;
                     if (lvl>maxlevel) {maxlevel = lvl;}
@@ -87,7 +87,7 @@ public class MobSpawn implements Listener {
                 Location spawnpoint = monster.getLocation().getWorld().getSpawnLocation();
                 double distance = mobloc.distance(spawnpoint);
                 int level;
-                if (players.size() == 0 || sumlevel == 0){
+                if (players.size() == 0 || sumlevel == 0) {
                     String lformula = MessageUtils.setPlaceholders(null, plugin.getConfigString("settings.default-mob-level-formula")
                             .replace("{distance}", Double.toString(distance))
                             .replace("{sumlevel_global}", Integer.toString(Main.getInstance().getGlobalLevel()))
@@ -110,20 +110,16 @@ public class MobSpawn implements Listener {
         };
     }
 
-    public int correctLevel(Location loc, int level){
-
-        if (Main.wghook == null){
+    public int correctLevel(Location loc, int level) {
+        if (Main.wghook == null) {
             return level;
         }
 
-        if (level < Main.wghook.getMinLevel(loc)){
+        if (level < Main.wghook.getMinLevel(loc)) {
             return Main.wghook.getMinLevel(loc);
-        }
-
-        else if (level > Main.wghook.getMaxLevel(loc)){
+        } else if (level > Main.wghook.getMaxLevel(loc)) {
             return Main.wghook.getMaxLevel(loc);
-        }
-         else {
+        } else {
              return level;
         }
     }

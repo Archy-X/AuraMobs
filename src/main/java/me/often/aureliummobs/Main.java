@@ -30,17 +30,17 @@ public class Main extends JavaPlugin {
     private Formatter formatter;
 
     @Override
-    public void onLoad(){
-        if (getServer().getPluginManager().getPlugin("WorldGuard") != null){
+    public void onLoad() {
+        if (getServer().getPluginManager().getPlugin("WorldGuard") != null) {
             wghook = new WorldGuardHook(true);
         }
     }
 
     @Override
-    public void onEnable(){
+    public void onEnable() {
         globalLevel = 0;
         this.saveDefaultConfig();
-        for (Player player: this.getServer().getOnlinePlayers()){
+        for (Player player: this.getServer().getOnlinePlayers()) {
             globalLevel+=getLevel(player);
         }
         mobKey = new NamespacedKey(this, "isAureliumMob");
@@ -72,38 +72,39 @@ public class Main extends JavaPlugin {
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable() {
     }
 
-    public void initCommands(){
+    public void initCommands() {
         getCommand("aureliummobs").setExecutor(new AureliumMobsCommand());
         getCommand("aureliummobs").setTabCompleter(new AureliumMobsCommandTabCompleter());
     }
 
-    public boolean isNamesEnabled(){
+    public boolean isNamesEnabled() {
         return namesEnabled;
     }
 
-    public double getMaxHealth(){
+    public double getMaxHealth() {
         return maxHealth;
     }
 
-    public double getMaxDamage(){
+    public double getMaxDamage() {
         return maxDamage;
     }
 
-    public static Main getInstance(){
+    public static Main getInstance() {
         return instance;
     }
 
-    public String getConfigString(String path){
+    public String getConfigString(String path) {
         return this.getConfig().getString(path);
     }
-    public List<String> getConfigStringList(String path){
+
+    public List<String> getConfigStringList(String path) {
         return this.getConfig().getStringList(path);
     }
 
-    public int getConfigInt(String path){
+    public int getConfigInt(String path) {
         return this.getConfig().getInt(path);
 
     }
@@ -134,15 +135,15 @@ public class Main extends JavaPlugin {
         }
     }*/
 
-    public boolean getConfigBool(String path){
+    public boolean getConfigBool(String path) {
         return this.getConfig().getBoolean(path);
     }
 
-    public int getSumLevel(Player p){
+    public int getSumLevel(Player p) {
 
         int result = 0;
 
-        for (Skills s: Skills.values()){
+        for (Skills s: Skills.values()) {
             result+= AureliumAPI.getSkillLevel(p, s);
         }
 
@@ -150,7 +151,7 @@ public class Main extends JavaPlugin {
 
     }
 
-    public int getGlobalLevel(){
+    public int getGlobalLevel() {
         return globalLevel;
     }
 

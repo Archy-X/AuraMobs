@@ -33,7 +33,7 @@ public class AureliumMob {
     Expression resDamage;
     Expression resHealth;
 
-    public AureliumMob (Monster mob, int level, Main plugin){
+    public AureliumMob (Monster mob, int level, Main plugin) {
 
         if (mob instanceof Zombie){
             for (AttributeModifier modifier : mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers()) {
@@ -42,7 +42,7 @@ public class AureliumMob {
             }
         }
 
-        if (level > 0){
+        if (level > 0) {
             this.level = level;
         }
         else {
@@ -69,17 +69,17 @@ public class AureliumMob {
         double damage = BigDecimal.valueOf(resDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
         double health = resHealth.evaluate();
         String formattedHealth = plugin.getFormatter().format(health);
-        if (health > plugin.getMaxHealth()){
+        if (health > plugin.getMaxHealth()) {
             health = plugin.getMaxHealth();
         }
-        if (damage > plugin.getMaxDamage()){
+        if (damage > plugin.getMaxDamage()) {
             damage = plugin.getMaxDamage();
         }
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
         mob.setHealth(health);
         mob.getPersistentDataContainer().set(Main.mobKey, PersistentDataType.INTEGER, level);
-        if (Main.getInstance().isNamesEnabled()){
+        if (Main.getInstance().isNamesEnabled()) {
             mob.setCustomName(ColorUtils.colorMessage(plugin.getConfigString("settings.name-format")
                     .replace("{mob}", plugin.getConfigString("mobs."+mob.getType().name().toLowerCase()))
                     .replace("{lvl}", String.valueOf(this.level))
@@ -93,7 +93,7 @@ public class AureliumMob {
 
 
 
-    public static boolean isAureliumMob(Monster m){
+    public static boolean isAureliumMob(Monster m) {
         return m.getPersistentDataContainer().has(Main.mobKey, PersistentDataType.INTEGER);
     }
     /*

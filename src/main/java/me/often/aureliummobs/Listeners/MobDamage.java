@@ -30,26 +30,6 @@ public class MobDamage implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
-    public void onClick(InventoryClickEvent event){
-        System.out.println(event.getSlot());
-    }
-
-    @EventHandler
-    public void onChat(AsyncPlayerChatEvent event){
-
-        Inventory inv = Bukkit.createInventory(null, InventoryType.ANVIL);
-
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            event.getPlayer().openInventory(inv);
-            inv.addItem(event.getPlayer().getInventory().getItemInMainHand());
-            inv.addItem(event.getPlayer().getInventory().getItemInMainHand());
-            event.getPlayer().updateInventory();
-            System.out.println(Arrays.toString(inv.getContents()));
-        }, 1);
-
-    }
-
     @EventHandler(ignoreCancelled = true)
     public void onMobDamage(EntityDamageEvent e){
 

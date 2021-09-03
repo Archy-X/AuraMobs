@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'me.often'
-version '1.14'
+version '1.16'
 
 shadowJar {
     configurations = [project.configurations.shadow]

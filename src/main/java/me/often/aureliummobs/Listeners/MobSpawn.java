@@ -92,6 +92,9 @@ public class MobSpawn implements Listener {
                     String lformula = MessageUtils.setPlaceholders(null, plugin.getConfigString("settings.default-mob-level-formula")
                             .replace("{distance}", Double.toString(distance))
                             .replace("{sumlevel_global}", Integer.toString(Main.getInstance().getGlobalLevel()))
+                            .replace("{location_x}", Double.toString(monster.getLocation().getX()))
+                            .replace("{location_y}", Double.toString(monster.getLocation().getY()))
+                            .replace("{location_z}", Double.toString(monster.getLocation().getZ()))
                     );
                     level = (int) new ExpressionBuilder(lformula).build().evaluate();
                 }
@@ -103,6 +106,9 @@ public class MobSpawn implements Listener {
                             .replace("{playercount}", Integer.toString(players.size()))
                             .replace("{distance}", Double.toString(distance))
                             .replace("{sumlevel_global}", Integer.toString(Main.getInstance().getGlobalLevel()))
+                            .replace("{location_x}", Double.toString(monster.getLocation().getX()))
+                            .replace("{location_y}", Double.toString(monster.getLocation().getY()))
+                            .replace("{location_z}", Double.toString(monster.getLocation().getZ()))
                     );
                     level = (int) new ExpressionBuilder(lformula).build().evaluate();
                 }

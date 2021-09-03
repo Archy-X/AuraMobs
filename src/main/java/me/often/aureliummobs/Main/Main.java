@@ -1,7 +1,5 @@
 package me.often.aureliummobs.Main;
 
-import com.archyx.aureliumskills.AureliumSkills;
-import com.google.gson.stream.JsonToken;
 import me.often.aureliummobs.API.WorldGuardHook;
 import me.often.aureliummobs.Commands.AureliumMobsCommand;
 import me.often.aureliummobs.Listeners.*;
@@ -9,20 +7,13 @@ import me.often.aureliummobs.TabCompleters.AureliumMobsCommandTabCompleter;
 import me.often.aureliummobs.Utils.Metrics;
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
+import me.often.aureliummobs.Utils.Formatter;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 public class Main extends JavaPlugin {
@@ -36,6 +27,7 @@ public class Main extends JavaPlugin {
     private static Metrics metrics;
     private static final int bstatsId = 12142;
     public static int globalLevel;
+    private Formatter formatter;
 
     @Override
     public void onLoad(){
@@ -75,6 +67,8 @@ public class Main extends JavaPlugin {
         initCommands();
         maxHealth = Bukkit.spigot().getConfig().getDouble("settings.attribute.maxHealth.max");
         maxDamage = Bukkit.spigot().getConfig().getDouble("settings.attribute.attackDamage.max");
+
+        formatter = new Formatter(getConfigInt("settings.health-format-max-places"));
     }
 
     @Override
@@ -175,6 +169,10 @@ public class Main extends JavaPlugin {
 
         return level;
 
+    }
+
+    public Formatter getFormatter() {
+        return formatter;
     }
     
 }

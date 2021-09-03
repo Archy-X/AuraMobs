@@ -62,20 +62,21 @@ public class MobDamage implements Listener {
         }
 
         int level = m.getPersistentDataContainer().get(Main.mobKey, PersistentDataType.INTEGER);
-        double resHealth = BigDecimal.valueOf(m.getHealth() - e.getDamage()).setScale(2, RoundingMode.CEILING).doubleValue();
+        double resHealth = m.getHealth() - e.getDamage();
+        String formattedHealth = plugin.getFormatter().format(resHealth);
         try {
             m.setCustomName(ColorUtils.colorMessage(plugin.getConfigString("settings.name-format")
                     .replace("{mob}", plugin.getConfigString("mobs."+m.getType().name().toLowerCase()))
                     .replace("{lvl}", Integer.toString(level))
-                    .replace("{health}", Double.toString(resHealth))
-                    .replace("{maxhealth}", Double.toString(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
+                    .replace("{health}", formattedHealth)
+                    .replace("{maxhealth}", plugin.getFormatter().format(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
             ));
         } catch (NullPointerException ex){
             m.setCustomName(ColorUtils.colorMessage(plugin.getConfigString("settings.name-format")
                     .replace("{mob}", m.getType().name())
                     .replace("{lvl}", Integer.toString(level))
-                    .replace("{health}", Double.toString(resHealth))
-                    .replace("{maxhealth}", Double.toString(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
+                    .replace("{health}", formattedHealth)
+                    .replace("{maxhealth}", plugin.getFormatter().format(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
             ));
         }
 

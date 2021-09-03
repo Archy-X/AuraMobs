@@ -11,6 +11,7 @@ settings:
   display-range: 5 #Range to display custom mob names (Only if display-by-range is true)
   enable-mob-names: true #Wether plugin should add custom formatted names to mobs that it spawn
   name-format: "&6Lvl {lvl}&8. | &f{mob} &8| &c&l❤ &f{health}&8/&f{maxhealth}" #Custom mob name format
+  health-format-max-places: 2
   # Available variables:
   # {sumall} - summ player level from all skills
   # {skillcount} - skills count

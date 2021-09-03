@@ -67,7 +67,8 @@ public class AureliumMob {
         resDamage = new ExpressionBuilder(damageFormula).build();
         resHealth = new ExpressionBuilder(healthFormula).build();
         double damage = BigDecimal.valueOf(resDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
-        double health = BigDecimal.valueOf(resHealth.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
+        double health = resHealth.evaluate();
+        String formattedHealth = plugin.getFormatter().format(health);
         if (health > plugin.getMaxHealth()){
             health = plugin.getMaxHealth();
         }
@@ -82,8 +83,8 @@ public class AureliumMob {
             mob.setCustomName(ColorUtils.colorMessage(plugin.getConfigString("settings.name-format")
                     .replace("{mob}", plugin.getConfigString("mobs."+mob.getType().name().toLowerCase()))
                     .replace("{lvl}", String.valueOf(this.level))
-                    .replace("{health}", Double.toString(health))
-                    .replace("{maxhealth}", Double.toString(health))
+                    .replace("{health}", formattedHealth)
+                    .replace("{maxhealth}", formattedHealth)
                     .replace("{distance}", Double.toString(distance))
             ));
             mob.setCustomNameVisible(false);

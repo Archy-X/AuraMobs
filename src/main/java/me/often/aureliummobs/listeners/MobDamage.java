@@ -1,8 +1,8 @@
-package me.often.aureliummobs.Listeners;
+package me.often.aureliummobs.listeners;
 
-import me.often.aureliummobs.Entities.AureliumMob;
-import me.often.aureliummobs.Main.Main;
-import me.often.aureliummobs.Utils.ColorUtils;
+import me.often.aureliummobs.entities.AureliumMob;
+import me.often.aureliummobs.Main;
+import me.often.aureliummobs.util.ColorUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Monster;
@@ -14,12 +14,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Arrays;
 
 public class MobDamage implements Listener {

@@ -1,8 +1,8 @@
-package me.often.aureliummobs.Entities;
+package me.often.aureliummobs.entities;
 
-import me.often.aureliummobs.Main.Main;
-import me.often.aureliummobs.Utils.ColorUtils;
-import me.often.aureliummobs.Utils.MessageUtils;
+import me.often.aureliummobs.Main;
+import me.often.aureliummobs.util.ColorUtils;
+import me.often.aureliummobs.util.MessageUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;

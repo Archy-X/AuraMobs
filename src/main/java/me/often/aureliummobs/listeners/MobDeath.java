@@ -1,6 +1,6 @@
-package me.often.aureliummobs.Listeners;
+package me.often.aureliummobs.listeners;
 
-import me.often.aureliummobs.Entities.AureliumMob;
+import me.often.aureliummobs.entities.AureliumMob;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

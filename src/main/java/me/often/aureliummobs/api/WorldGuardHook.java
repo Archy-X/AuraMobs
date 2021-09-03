@@ -1,4 +1,4 @@
-package me.often.aureliummobs.API;
+package me.often.aureliummobs.api;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;

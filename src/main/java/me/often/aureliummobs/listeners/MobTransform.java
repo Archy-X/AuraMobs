@@ -1,12 +1,12 @@
-package me.often.aureliummobs.Listeners;
+package me.often.aureliummobs.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTransformEvent;
-import me.often.aureliummobs.Entities.AureliumMob;
-import me.often.aureliummobs.Main.Main;
+import me.often.aureliummobs.entities.AureliumMob;
+import me.often.aureliummobs.Main;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 public class MobTransform implements Listener {

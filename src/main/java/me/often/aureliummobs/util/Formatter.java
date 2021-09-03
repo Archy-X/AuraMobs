@@ -1,4 +1,4 @@
-package me.often.aureliummobs.Utils;
+package me.often.aureliummobs.util;
 
 import org.apache.commons.lang.StringUtils;
 

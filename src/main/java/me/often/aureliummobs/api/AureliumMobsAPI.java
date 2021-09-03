@@ -1,7 +1,7 @@
-package me.often.aureliummobs.API;
+package me.often.aureliummobs.api;
 
-import me.often.aureliummobs.Entities.AureliumMob;
-import me.often.aureliummobs.Main.Main;
+import me.often.aureliummobs.entities.AureliumMob;
+import me.often.aureliummobs.Main;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;

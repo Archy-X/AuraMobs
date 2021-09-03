@@ -1,7 +1,7 @@
-package me.often.aureliummobs.Commands;
+package me.often.aureliummobs.commands;
 
-import me.often.aureliummobs.Utils.MessageUtils;
-import me.often.aureliummobs.Main.Main;
+import me.often.aureliummobs.util.MessageUtils;
+import me.often.aureliummobs.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

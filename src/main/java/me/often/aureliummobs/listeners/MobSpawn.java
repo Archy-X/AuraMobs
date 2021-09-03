@@ -1,10 +1,9 @@
-package me.often.aureliummobs.Listeners;
+package me.often.aureliummobs.listeners;
 
-import me.often.aureliummobs.Entities.AureliumMob;
-import me.often.aureliummobs.Main.Main;
-import me.often.aureliummobs.Utils.MessageUtils;
+import me.often.aureliummobs.entities.AureliumMob;
+import me.often.aureliummobs.Main;
+import me.often.aureliummobs.util.MessageUtils;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Boss;
 import org.bukkit.entity.Entity;

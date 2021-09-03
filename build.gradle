@@ -4,8 +4,8 @@ plugins {
 }
 
 group 'me.often'
-version '1.14'
-
+version '1.16'
+//1
 shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')

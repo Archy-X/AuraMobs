@@ -31,7 +31,7 @@ settings:
   # {mining} - player mining level
   # {sorcery} - player sorcery level
   # {distance} - distance from world spawnpoint
-  # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
+  # ANY PLACEHOLDERAPI PLACEHOLDER
   player-level-formula: "{sumall}"
   # Available variables:
   # {sumlevel} - summ level of all players in the check-radius
@@ -40,11 +40,17 @@ settings:
   # {lowestlvl} - highest of player levels in check-radius
   # {distance} - distance from world spawnpoint
   # {sumlevel_global} - summ level of all players online
+  # {location_x} - X coordinate of the mob
+  # {location_y} - Y coordinate of the mob
+  # {location_z} - Z coordinate of the mob
   # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
   mob-level-formula: "{sumlevel}/{playercount}"
   # Available variables:
   # {distance} - distance from world spawnpoint
   # {sumlevel_global} - summ level of all players online
+  # {location_x} - X coordinate of the mob
+  # {location_y} - Y coordinate of the mob
+  # {location_z} - Z coordinate of the mob
   # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
   default-mob-level-formula: "{distance}*0.01"
 

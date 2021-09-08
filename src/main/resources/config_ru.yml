@@ -59,6 +59,12 @@ mob-replacements: # Supports any minecraft monster
     - "*"
     - "ZOMBIE"
 
+worlds:
+  type: blacklist
+  list: #The list itself (use - "*" to enable/disable all worlds). You can also use world_* to enable/disable all worlds that start with 'world_'
+    - "disabledworld"
+    - "worldexample_*"
+
 mobs:
   blaze: Ифрит
   cave_spider: Пещерный паук

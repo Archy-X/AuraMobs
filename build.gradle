@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'me.often'
-version '1.16'
+version '1.17'
 //1
 shadowJar {
     configurations = [project.configurations.shadow]
@@ -32,8 +32,8 @@ dependencies {
     shadow "net.objecthunter:exp4j:0.4.8"
     compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.1.1'
     compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     compileOnly 'me.clip:placeholderapi:2.10.10'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4-SNAPSHOT'
 }

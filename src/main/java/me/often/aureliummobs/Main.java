@@ -13,11 +13,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.List;
 
 public class Main extends JavaPlugin {
 
+    public static List<String> enabledworlds;
+    public static boolean world_whitelist;
     public static NamespacedKey mobKey;
     public static WorldGuardHook wghook;
     private static Main instance;
@@ -65,6 +66,7 @@ public class Main extends JavaPlugin {
         }*/
         instance = this;
         initCommands();
+        loadWorlds();
         maxHealth = Bukkit.spigot().getConfig().getDouble("settings.attribute.maxHealth.max");
         maxDamage = Bukkit.spigot().getConfig().getDouble("settings.attribute.attackDamage.max");
 
@@ -73,6 +75,11 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+    }
+
+    public void loadWorlds() {
+        enabledworlds = this.getConfigStringList("worlds.list");
+        world_whitelist = this.getConfigString("worlds.type").equalsIgnoreCase("whitelist");
     }
 
     public void initCommands() {

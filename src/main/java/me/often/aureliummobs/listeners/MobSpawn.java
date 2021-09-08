@@ -5,6 +5,7 @@ import me.often.aureliummobs.Main;
 import me.often.aureliummobs.util.MessageUtils;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Boss;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -27,7 +28,6 @@ public class MobSpawn implements Listener {
     @EventHandler (ignoreCancelled = true)
     public void onSpawn(CreatureSpawnEvent e) {
         try {
-
             if (e.getEntity() instanceof Boss) {
                 return;
             }
@@ -39,6 +39,8 @@ public class MobSpawn implements Listener {
             if (!(e.getEntity() instanceof Monster monster)) {
                 return;
             }
+
+            if (!passWorld(e.getEntity().getWorld())) return;
 
             if (Main.wghook != null){
                 if (!(Main.wghook.mobsEnabled(e.getLocation()))) {
@@ -64,6 +66,24 @@ public class MobSpawn implements Listener {
             ex.printStackTrace();
         }
 
+    }
+
+    public boolean passWorld(World world) {
+
+        if (Main.world_whitelist) {
+            if (Main.enabledworlds.contains("*")) return true;
+            for (String enabledworld : Main.enabledworlds) {
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) return true;
+            }
+            return false;
+        }
+        else {
+            if (Main.enabledworlds.contains("*")) return false;
+            for (String enabledworld : Main.enabledworlds) {
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) return false;
+            }
+            return true;
+        }
     }
 
     public BukkitRunnable changeMob(Monster monster, int radius) {

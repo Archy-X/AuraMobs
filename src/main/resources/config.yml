@@ -54,9 +54,15 @@ settings:
   # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
   default-mob-level-formula: "{distance}*0.01"
 
+worlds:
+  type: blacklist
+  list: #The list itself (use - "*" to enable/disable all worlds). You can also use world_* to enable/disable all worlds that start with 'world_'
+    - "disabledworld"
+    - "worldexample_*"
+
 mob-replacements: # Supports any minecraft monster
   type: whitelist # whitelist/blacklist
-  list: # The list itself (use - "*" to enable/disable all mobs)
+  list: # he list itself (use - "*" to enable/disable all mobs)T
     - "*"
     - "ZOMBIE"
 

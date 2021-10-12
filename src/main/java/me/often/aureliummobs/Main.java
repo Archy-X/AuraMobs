@@ -1,5 +1,13 @@
 package me.often.aureliummobs;
 
+import com.archyx.aureliumskills.AureliumSkills;
+import com.osiris.dyml.DYModule;
+import com.osiris.dyml.DYValueContainer;
+import com.osiris.dyml.DreamYaml;
+import com.osiris.dyml.exceptions.DYReaderException;
+import com.osiris.dyml.exceptions.DYWriterException;
+import com.osiris.dyml.exceptions.DuplicateKeyException;
+import com.osiris.dyml.exceptions.IllegalListException;
 import me.often.aureliummobs.api.WorldGuardHook;
 import me.often.aureliummobs.commands.AureliumMobsCommand;
 import me.often.aureliummobs.listeners.*;
@@ -11,9 +19,20 @@ import me.often.aureliummobs.util.Formatter;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Main extends JavaPlugin {
 
@@ -61,7 +80,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MobDeath(), this);
         /*try {
             this.initConfig();
-        } catch (IOException e) {
+        } catch (IOException | DYWriterException | DuplicateKeyException | DYReaderException | IllegalListException e) {
             e.printStackTrace();
         }*/
         instance = this;
@@ -113,12 +132,12 @@ public class Main extends JavaPlugin {
 
     public int getConfigInt(String path) {
         return this.getConfig().getInt(path);
-
     }
 
-    /*public void initConfig() throws IOException {
+    public void initConfig() throws IOException, DuplicateKeyException, DYReaderException, IllegalListException, DYWriterException {
         File oldCfg = new File(this.getDataFolder(), "config_old.yml");
         File cfg = new File(this.getDataFolder(), "config.yml");
+        DreamYaml dreamYaml = new DreamYaml(cfg).load();
         if (!cfg.exists()){
             this.saveDefaultConfig();
         }
@@ -133,14 +152,48 @@ public class Main extends JavaPlugin {
             for (String key : oldConfig.getKeys(true)) {
                 if (this.getConfig().get(key) != null && !(this.getConfig().get(key) instanceof ConfigurationSection)){
                     this.getConfig().set(key, oldConfig.get(key));
+                    saveKey(dreamYaml, oldConfig.get(key), key);
                 }
             }
+            dreamYaml.save();
             System.out.println((this.getConfig().saveToString()));
             PrintWriter printWriter = new PrintWriter(new File(this.getDataFolder(), "config.yml"));
             getConfig().options().copyDefaults(true);
             saveConfig();
         }
-    }*/
+    }
+
+    public void saveKey(DreamYaml config, Object value, String key) {
+
+        if (value instanceof String string) {
+            config.get(key).setValues(string);
+        }
+
+        else if (value instanceof Integer integer){
+            config.get(key).setValues(""+integer);
+        }
+
+        else if (value instanceof Double doubl){
+            config.get(key).setValues(""+doubl);
+        }
+
+        else if (value instanceof Float fl){
+            config.get(key).setValues(""+fl);
+        }
+
+        else if (value instanceof Boolean bool){
+            config.get(key).setValues(""+bool);
+        }
+
+        else if (value instanceof List list){
+            List<DYValueContainer> newList = new ArrayList<>();
+            for (Object o: list) {
+                newList.add(new DYValueContainer(""+o));
+            }
+            config.get(key).setValues(newList);
+        }
+
+    }
 
     public boolean getConfigBool(String path) {
         return this.getConfig().getBoolean(path);

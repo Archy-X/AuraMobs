@@ -1,7 +1,7 @@
 main: me.often.aureliummobs.Main
 name: AureliumMobs
 author: _OfTeN_
-version: 1.17
+version: 1.18
 api-version: 1.16
 depend:
   - AureliumSkills

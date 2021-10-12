@@ -31,10 +31,11 @@ public class MobSpawn implements Listener {
             if (e.getEntity() instanceof Boss) {
                 return;
             }
-
-            if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) {
-                return;
+            boolean f = false;
+            for (String s : plugin.getConfigStringList("spawn-reasons")) {
+                if (e.getSpawnReason().name().equalsIgnoreCase(s)) f = true;
             }
+            if (!f) return;
 
             if (!(e.getEntity() instanceof Monster monster)) {
                 return;

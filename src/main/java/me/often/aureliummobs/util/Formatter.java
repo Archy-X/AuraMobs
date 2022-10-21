@@ -1,9 +1,8 @@
 package me.often.aureliummobs.util;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 
 public class Formatter {
 
@@ -15,8 +14,17 @@ public class Formatter {
         if (maxPlaces > 0) {
             pattern.append(".");
         }
-        pattern.append(StringUtils.repeat("#", maxPlaces));
+        pattern.append(repeat('#', maxPlaces));
         this.numberFormat = new DecimalFormat(pattern.toString());
+    }
+
+    private String repeat(char ch, int repeat) {
+        if (repeat <= 0) {
+            return "";
+        }
+        final char[] buf = new char[repeat];
+        Arrays.fill(buf, ch);
+        return new String(buf);
     }
 
     public String format(double input) {

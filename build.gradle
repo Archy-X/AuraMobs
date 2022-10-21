@@ -33,12 +33,12 @@ repositories {
 dependencies {
     shadow "net.objecthunter:exp4j:0.4.8"
     shadow 'com.github.Osiris-Team:Dream-Yaml:6.9'
-    compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.1.1'
+    compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.3.10'
     compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
-    compileOnly 'me.clip:placeholderapi:2.10.10'
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.2'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7-SNAPSHOT'
 }
 
 test {

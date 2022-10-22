@@ -1,4 +1,4 @@
-package me.often.aureliummobs.commands.tabcompleters;
+package dev.aurelium.aureliummobs.commands.tabcompleters;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

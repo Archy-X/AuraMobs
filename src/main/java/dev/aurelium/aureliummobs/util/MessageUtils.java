@@ -1,7 +1,7 @@
-package me.often.aureliummobs.util;
+package dev.aurelium.aureliummobs.util;
 
+import dev.aurelium.aureliummobs.AureliumMobs;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.often.aureliummobs.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -48,7 +48,7 @@ public class MessageUtils {
     }
 
     public static String setPlaceholders(Player player, String text){
-        if (Main.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
+        if (AureliumMobs.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             return text;
         } else {
             return PlaceholderAPI.setPlaceholders(player, text);

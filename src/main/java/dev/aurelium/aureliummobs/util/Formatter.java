@@ -1,4 +1,4 @@
-package me.often.aureliummobs.util;
+package dev.aurelium.aureliummobs.util;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

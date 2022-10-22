@@ -1,4 +1,4 @@
-package me.often.aureliummobs.util;
+package dev.aurelium.aureliummobs.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -1,28 +1,25 @@
-package me.often.aureliummobs;
+package dev.aurelium.aureliummobs;
 
-import com.archyx.aureliumskills.AureliumSkills;
-import com.osiris.dyml.DYModule;
+import dev.aurelium.aureliummobs.commands.AureliumMobsCommand;
+import dev.aurelium.aureliummobs.commands.tabcompleters.AureliumMobsCommandTabCompleter;
+import dev.aurelium.aureliummobs.util.Formatter;
+import dev.aurelium.aureliummobs.util.Metrics;
 import com.osiris.dyml.DYValueContainer;
 import com.osiris.dyml.DreamYaml;
 import com.osiris.dyml.exceptions.DYReaderException;
 import com.osiris.dyml.exceptions.DYWriterException;
 import com.osiris.dyml.exceptions.DuplicateKeyException;
 import com.osiris.dyml.exceptions.IllegalListException;
-import me.often.aureliummobs.api.WorldGuardHook;
-import me.often.aureliummobs.commands.AureliumMobsCommand;
-import me.often.aureliummobs.listeners.*;
-import me.often.aureliummobs.commands.tabcompleters.AureliumMobsCommandTabCompleter;
-import me.often.aureliummobs.util.Metrics;
+import dev.aurelium.aureliummobs.api.WorldGuardHook;
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
-import me.often.aureliummobs.util.Formatter;
+import dev.aurelium.aureliummobs.listeners.*;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -32,15 +29,14 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class Main extends JavaPlugin {
+public class AureliumMobs extends JavaPlugin {
 
     public static List<String> enabledworlds;
     public static boolean world_whitelist;
     public static NamespacedKey mobKey;
     public static WorldGuardHook wghook;
-    private static Main instance;
+    private static AureliumMobs instance;
     private static double maxHealth;
     private static double maxDamage;
     private static boolean namesEnabled;
@@ -118,7 +114,7 @@ public class Main extends JavaPlugin {
         return maxDamage;
     }
 
-    public static Main getInstance() {
+    public static AureliumMobs getInstance() {
         return instance;
     }
 

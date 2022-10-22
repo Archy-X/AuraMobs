@@ -34,7 +34,6 @@ public class AureliumMob {
     Expression resHealth;
 
     public AureliumMob (Monster mob, int level, AureliumMobs plugin) {
-
         if (mob instanceof Zombie){
             for (AttributeModifier modifier : mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers()) {
                 mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers().clear();
@@ -54,12 +53,12 @@ public class AureliumMob {
         double distance = mobloc.distance(spawnpoint);
         double startDamage = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
         double startHealth = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
-        String damageFormula = MessageUtils.setPlaceholders(null, plugin.getConfigString("settings.damage-formula")
+        String damageFormula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_defaults.damage.formula")
                 .replace("{mob_damage}", String.valueOf(startDamage))
                 .replace("{level}", String.valueOf(this.level))
                 .replace("{distance}", Double.toString(distance))
         );
-        String healthFormula = MessageUtils.setPlaceholders(null, plugin.getConfigString("settings.health-formula")
+        String healthFormula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_defaults.health_formula")
                 .replace("{mob_health}", String.valueOf(startHealth))
                 .replace("{level}", Integer.toString(this.level))
                 .replace("{distance}", Double.toString(distance))
@@ -79,9 +78,9 @@ public class AureliumMob {
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
         mob.setHealth(health);
         mob.getPersistentDataContainer().set(AureliumMobs.mobKey, PersistentDataType.INTEGER, level);
-        if (AureliumMobs.getInstance().isNamesEnabled()) {
-            mob.setCustomName(ColorUtils.colorMessage(plugin.getConfigString("settings.name-format")
-                    .replace("{mob}", plugin.getConfigString("mobs."+mob.getType().name().toLowerCase()))
+        if (plugin.isNamesEnabled()) {
+            mob.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
+                    .replace("{mob}", plugin.getMsg("mobs." + mob.getType().name().toLowerCase()))
                     .replace("{lvl}", String.valueOf(this.level))
                     .replace("{health}", formattedHealth)
                     .replace("{maxhealth}", formattedHealth)
@@ -91,11 +90,10 @@ public class AureliumMob {
         }
     }
 
-
-
     public static boolean isAureliumMob(Monster m) {
         return m.getPersistentDataContainer().has(AureliumMobs.mobKey, PersistentDataType.INTEGER);
     }
+
     /*
     public Monster spawnAt(Location loc){
         Monster mob = (Monster) loc.getWorld().spawnEntity(loc, this.type);

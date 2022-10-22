@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
     id 'maven-publish'
 }
 
@@ -28,11 +28,21 @@ repositories {
     maven { url = 'https://oss.sonatype.org/content/repositories/central' }
     maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url = 'https://maven.enginehub.org/repo/' }
+    maven { url = "https://repo.aikar.co/content/groups/aikar/" }
+    maven { url = "https://hub.spigotmc.org/nexus/content/groups/public/" }
+}
+
+compileJava {
+    options.compilerArgs += ["-parameters"]
+    options.fork = true
+    options.forkOptions.executable = 'javac'
 }
 
 dependencies {
     shadow "net.objecthunter:exp4j:0.4.8"
     shadow 'com.github.Osiris-Team:Dream-Yaml:6.9'
+    shadow 'com.github.Archy-X:Polyglot:ffc9201244'
+    shadow 'co.aikar:acf-paper:0.5.1-SNAPSHOT'
     compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.3.10'
     compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
@@ -41,6 +51,13 @@ dependencies {
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7-SNAPSHOT'
 }
 
+shadowJar {
+    relocate 'co.aikar.commands', 'dev.aurelium.aureliummobs.acf'
+    relocate 'co.aikar.locales', 'dev.aurelium.aureliummobs.locales'
+}
+
 test {
     useJUnitPlatform()
 }
+
+build.dependsOn shadowJar

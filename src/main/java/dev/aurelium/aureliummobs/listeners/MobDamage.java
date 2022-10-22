@@ -35,14 +35,14 @@ public class MobDamage implements Listener {
         double resHealth = m.getHealth() - e.getDamage();
         String formattedHealth = plugin.getFormatter().format(resHealth);
         try {
-            m.setCustomName(ColorUtils.colorMessage(plugin.getConfigString("settings.name-format")
-                    .replace("{mob}", plugin.getConfigString("mobs."+m.getType().name().toLowerCase()))
+            m.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
+                    .replace("{mob}", plugin.getMsg("mobs." + m.getType().name().toLowerCase()))
                     .replace("{lvl}", Integer.toString(level))
                     .replace("{health}", formattedHealth)
                     .replace("{maxhealth}", plugin.getFormatter().format(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
             ));
         } catch (NullPointerException ex){
-            m.setCustomName(ColorUtils.colorMessage(plugin.getConfigString("settings.name-format")
+            m.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
                     .replace("{mob}", m.getType().name())
                     .replace("{lvl}", Integer.toString(level))
                     .replace("{health}", formattedHealth)

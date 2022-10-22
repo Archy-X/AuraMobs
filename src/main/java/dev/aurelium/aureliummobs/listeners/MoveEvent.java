@@ -23,7 +23,7 @@ public class MoveEvent implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
 
-        int range = plugin.getConfigInt("settings.display-range");
+        int range = plugin.optionInt("custom_name.display_range");
 
         List<Entity> from = e.getFrom().getWorld().getNearbyEntities(e.getFrom(), range, range, range).stream()
                 .filter(mob -> mob instanceof Monster && AureliumMob.isAureliumMob((Monster) mob)).toList();

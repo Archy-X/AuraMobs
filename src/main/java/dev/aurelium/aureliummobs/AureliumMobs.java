@@ -1,34 +1,28 @@
 package dev.aurelium.aureliummobs;
 
-import dev.aurelium.aureliummobs.commands.AureliumMobsCommand;
-import dev.aurelium.aureliummobs.commands.tabcompleters.AureliumMobsCommandTabCompleter;
-import dev.aurelium.aureliummobs.util.Formatter;
-import dev.aurelium.aureliummobs.util.Metrics;
-import com.osiris.dyml.DYValueContainer;
-import com.osiris.dyml.DreamYaml;
-import com.osiris.dyml.exceptions.DYReaderException;
-import com.osiris.dyml.exceptions.DYWriterException;
-import com.osiris.dyml.exceptions.DuplicateKeyException;
-import com.osiris.dyml.exceptions.IllegalListException;
-import dev.aurelium.aureliummobs.api.WorldGuardHook;
+import co.aikar.commands.PaperCommandManager;
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
+import com.archyx.polyglot.Polyglot;
+import com.archyx.polyglot.config.PolyglotConfig;
+import com.archyx.polyglot.config.PolyglotConfigBuilder;
+import com.archyx.polyglot.lang.MessageKey;
+import dev.aurelium.aureliummobs.api.WorldGuardHook;
+import dev.aurelium.aureliummobs.commands.AureliumMobsCommand;
+import dev.aurelium.aureliummobs.config.ConfigManager;
+import dev.aurelium.aureliummobs.config.OptionKey;
+import dev.aurelium.aureliummobs.config.OptionValue;
 import dev.aurelium.aureliummobs.listeners.*;
+import dev.aurelium.aureliummobs.util.Formatter;
+import dev.aurelium.aureliummobs.util.Metrics;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AureliumMobs extends JavaPlugin {
 
@@ -36,14 +30,16 @@ public class AureliumMobs extends JavaPlugin {
     public static boolean world_whitelist;
     public static NamespacedKey mobKey;
     public static WorldGuardHook wghook;
-    private static AureliumMobs instance;
     private static double maxHealth;
     private static double maxDamage;
     private static boolean namesEnabled;
     private static Metrics metrics;
     private static final int bstatsId = 12142;
-    public static int globalLevel;
+    private int globalLevel;
     private Formatter formatter;
+    private ConfigManager configManager;
+    private Polyglot polyglot;
+    private Locale language;
 
     @Override
     public void onLoad() {
@@ -55,18 +51,29 @@ public class AureliumMobs extends JavaPlugin {
     @Override
     public void onEnable() {
         globalLevel = 0;
-        this.saveDefaultConfig();
+        // Load config
+        configManager = new ConfigManager(this);
+        configManager.loadConfig();
+        // Load messages
+        PolyglotConfig polyglotConfig = new PolyglotConfigBuilder()
+                .defaultLanguage("en")
+                .messageDirectory("messages")
+                .messageFileName("messages_{language}.yml").build();
+        polyglot = new Polyglot(this, polyglotConfig);
+        polyglot.getMessageManager().loadMessages();
+
         for (Player player: this.getServer().getOnlinePlayers()) {
-            globalLevel+=getLevel(player);
+            globalLevel += getLevel(player);
         }
+        language = new Locale(optionString("language"));
         mobKey = new NamespacedKey(this, "isAureliumMob");
-        namesEnabled = getConfigBool("settings.enable-mob-names");
+        namesEnabled = optionBoolean("custom_name.enabled");
         this.getServer().getPluginManager().registerEvents(new MobSpawn(this), this);
-        if (namesEnabled){
+        if (namesEnabled) {
             this.getServer().getPluginManager().registerEvents(new MobDamage(this), this);
             this.getServer().getPluginManager().registerEvents(new MobTransform(), this);
-            this.getServer().getPluginManager().registerEvents(new PlayerJoinLeave(), this);
-            if (getConfigBool("settings.display-by-range")){
+            this.getServer().getPluginManager().registerEvents(new PlayerJoinLeave(this), this);
+            if (optionBoolean("custom_name.display_by_range")) {
                 this.getServer().getPluginManager().registerEvents(new MoveEvent(this), this);
             }
         }
@@ -74,18 +81,13 @@ public class AureliumMobs extends JavaPlugin {
         metrics = new Metrics(this, bstatsId);
 
         getServer().getPluginManager().registerEvents(new MobDeath(), this);
-        /*try {
-            this.initConfig();
-        } catch (IOException | DYWriterException | DuplicateKeyException | DYReaderException | IllegalListException e) {
-            e.printStackTrace();
-        }*/
-        instance = this;
-        initCommands();
+
+        registerCommands();
         loadWorlds();
         maxHealth = Bukkit.spigot().getConfig().getDouble("settings.attribute.maxHealth.max");
         maxDamage = Bukkit.spigot().getConfig().getDouble("settings.attribute.attackDamage.max");
 
-        formatter = new Formatter(getConfigInt("settings.health-format-max-places"));
+        formatter = new Formatter(optionInt("custom_name.health_rounding_places"));
     }
 
     @Override
@@ -93,17 +95,17 @@ public class AureliumMobs extends JavaPlugin {
     }
 
     public void loadWorlds() {
-        enabledworlds = this.getConfigStringList("worlds.list");
-        world_whitelist = this.getConfigString("worlds.type").equalsIgnoreCase("whitelist");
+        enabledworlds = optionList("worlds.list");
+        world_whitelist = optionString("worlds.type").equalsIgnoreCase("whitelist");
     }
 
-    public void initCommands() {
-        getCommand("aureliummobs").setExecutor(new AureliumMobsCommand());
-        getCommand("aureliummobs").setTabCompleter(new AureliumMobsCommandTabCompleter());
+    public void registerCommands() {
+        PaperCommandManager manager = new PaperCommandManager(this);
+        manager.registerCommand(new AureliumMobsCommand(this));
     }
 
     public boolean isNamesEnabled() {
-        return namesEnabled;
+        return isEnabled();
     }
 
     public double getMaxHealth() {
@@ -112,87 +114,6 @@ public class AureliumMobs extends JavaPlugin {
 
     public double getMaxDamage() {
         return maxDamage;
-    }
-
-    public static AureliumMobs getInstance() {
-        return instance;
-    }
-
-    public String getConfigString(String path) {
-        return this.getConfig().getString(path);
-    }
-
-    public List<String> getConfigStringList(String path) {
-        return this.getConfig().getStringList(path);
-    }
-
-    public int getConfigInt(String path) {
-        return this.getConfig().getInt(path);
-    }
-
-    public void initConfig() throws IOException, DuplicateKeyException, DYReaderException, IllegalListException, DYWriterException {
-        File oldCfg = new File(this.getDataFolder(), "config_old.yml");
-        File cfg = new File(this.getDataFolder(), "config.yml");
-        DreamYaml dreamYaml = new DreamYaml(cfg).load();
-        if (!cfg.exists()){
-            this.saveDefaultConfig();
-        }
-        else {
-            if (oldCfg.exists()){
-                oldCfg.delete();
-            }
-            cfg.renameTo(oldCfg);
-            Files.copy(this.getResource("config.yml"), cfg.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            this.reloadConfig();
-            YamlConfiguration oldConfig = YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), "config_old.yml"));
-            for (String key : oldConfig.getKeys(true)) {
-                if (this.getConfig().get(key) != null && !(this.getConfig().get(key) instanceof ConfigurationSection)){
-                    this.getConfig().set(key, oldConfig.get(key));
-                    saveKey(dreamYaml, oldConfig.get(key), key);
-                }
-            }
-            dreamYaml.save();
-            System.out.println((this.getConfig().saveToString()));
-            PrintWriter printWriter = new PrintWriter(new File(this.getDataFolder(), "config.yml"));
-            getConfig().options().copyDefaults(true);
-            saveConfig();
-        }
-    }
-
-    public void saveKey(DreamYaml config, Object value, String key) {
-
-        if (value instanceof String string) {
-            config.get(key).setValues(string);
-        }
-
-        else if (value instanceof Integer integer){
-            config.get(key).setValues(""+integer);
-        }
-
-        else if (value instanceof Double doubl){
-            config.get(key).setValues(""+doubl);
-        }
-
-        else if (value instanceof Float fl){
-            config.get(key).setValues(""+fl);
-        }
-
-        else if (value instanceof Boolean bool){
-            config.get(key).setValues(""+bool);
-        }
-
-        else if (value instanceof List list){
-            List<DYValueContainer> newList = new ArrayList<>();
-            for (Object o: list) {
-                newList.add(new DYValueContainer(""+o));
-            }
-            config.get(key).setValues(newList);
-        }
-
-    }
-
-    public boolean getConfigBool(String path) {
-        return this.getConfig().getBoolean(path);
     }
 
     public int getSumLevel(Player p) {
@@ -211,9 +132,13 @@ public class AureliumMobs extends JavaPlugin {
         return globalLevel;
     }
 
+    public void setGlobalLevel(int globalLevel) {
+        this.globalLevel = globalLevel;
+    }
+
     public int getLevel(Player p) {
 
-        String formula = getConfigString("settings.player-level-formula")
+        String formula = optionString("player_level.formula")
                 .replace("{sumall}", Integer.toString(getSumLevel(p)))
                 .replace("{skillcount}", Integer.toString(Skills.values().length));
 
@@ -231,5 +156,37 @@ public class AureliumMobs extends JavaPlugin {
     public Formatter getFormatter() {
         return formatter;
     }
-    
+
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public String getMsg(String key) {
+        return polyglot.getMessageManager().get(language, MessageKey.of(key));
+    }
+
+    public OptionValue option(String key) {
+        return configManager.getOption(new OptionKey(key));
+    }
+
+    public String optionString(String key) {
+        return option(key).asString();
+    }
+
+    public int optionInt(String key) {
+        return option(key).asInt();
+    }
+
+    public double optionDouble(String key) {
+        return option(key).asDouble();
+    }
+
+    public boolean optionBoolean(String key) {
+        return option(key).asBoolean();
+    }
+
+    public List<String> optionList(String key) {
+        return option(key).asList();
+    }
+
 }

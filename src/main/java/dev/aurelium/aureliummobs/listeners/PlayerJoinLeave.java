@@ -8,13 +8,20 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerJoinLeave implements Listener {
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        AureliumMobs.globalLevel+= AureliumMobs.getInstance().getLevel(event.getPlayer());
+    private final AureliumMobs plugin;
+
+    public PlayerJoinLeave(AureliumMobs plugin) {
+        this.plugin = plugin;
     }
 
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        plugin.setGlobalLevel(plugin.getGlobalLevel() + plugin.getLevel(event.getPlayer()));
+    }
+
+    @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        AureliumMobs.globalLevel-= AureliumMobs.getInstance().getLevel(event.getPlayer());
+        plugin.setGlobalLevel(plugin.getGlobalLevel() - plugin.getLevel(event.getPlayer()));
     }
 
 }

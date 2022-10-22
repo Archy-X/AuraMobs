@@ -32,7 +32,7 @@ public class MobSpawn implements Listener {
                 return;
             }
             boolean f = false;
-            for (String s : plugin.getConfigStringList("spawn-reasons")) {
+            for (String s : plugin.optionList("spawn_reasons")) {
                 if (e.getSpawnReason().name().equalsIgnoreCase(s)) f = true;
             }
             if (!f) return;
@@ -49,8 +49,8 @@ public class MobSpawn implements Listener {
                 }
             }
 
-            List<String> mobs = plugin.getConfigStringList("mob-replacements.list");
-            String type = plugin.getConfigString("mob-replacements.type");
+            List<String> mobs = plugin.optionList("mob_replacements.list");
+            String type = plugin.optionString("mob_replacements.type");
 
             if (type.equalsIgnoreCase("blacklist") && (mobs.contains(e.getEntity().getType().name()) || mobs.contains("*"))) {
                 return;
@@ -59,7 +59,7 @@ public class MobSpawn implements Listener {
                 return;
             }
 
-            int radius = plugin.getConfigInt("settings.check-radius");
+            int radius = plugin.optionInt("player_level.check_radius");
 
             changeMob(monster, radius).runTask(plugin);
 
@@ -109,9 +109,9 @@ public class MobSpawn implements Listener {
                 double distance = mobloc.distance(spawnpoint);
                 int level;
                 if (players.size() == 0 || sumlevel == 0) {
-                    String lformula = MessageUtils.setPlaceholders(null, plugin.getConfigString("settings.default-mob-level-formula")
+                    String lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
                             .replace("{distance}", Double.toString(distance))
-                            .replace("{sumlevel_global}", Integer.toString(AureliumMobs.getInstance().getGlobalLevel()))
+                            .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
                             .replace("{location_x}", Double.toString(monster.getLocation().getX()))
                             .replace("{location_y}", Double.toString(monster.getLocation().getY()))
                             .replace("{location_z}", Double.toString(monster.getLocation().getZ()))
@@ -119,13 +119,13 @@ public class MobSpawn implements Listener {
                     level = (int) new ExpressionBuilder(lformula).build().evaluate();
                 }
                 else {
-                    String lformula = MessageUtils.setPlaceholders(null, plugin.getConfigString("settings.mob-level-formula")
+                    String lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
                             .replace("{highestlvl}", Integer.toString(maxlevel))
                             .replace("{lowestlvl}", Integer.toString(minlevel))
                             .replace("{sumlevel}", Integer.toString(sumlevel))
                             .replace("{playercount}", Integer.toString(players.size()))
                             .replace("{distance}", Double.toString(distance))
-                            .replace("{sumlevel_global}", Integer.toString(AureliumMobs.getInstance().getGlobalLevel()))
+                            .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
                             .replace("{location_x}", Double.toString(monster.getLocation().getX()))
                             .replace("{location_y}", Double.toString(monster.getLocation().getY()))
                             .replace("{location_z}", Double.toString(monster.getLocation().getZ()))

@@ -1,5 +1,6 @@
 package dev.aurelium.aureliummobs.listeners;
 
+import dev.aurelium.aureliummobs.api.WorldGuardHook;
 import dev.aurelium.aureliummobs.entities.AureliumMob;
 import dev.aurelium.aureliummobs.AureliumMobs;
 import dev.aurelium.aureliummobs.util.MessageUtils;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MobSpawn implements Listener {
 
-    private AureliumMobs plugin;
+    private final AureliumMobs plugin;
 
     public MobSpawn(AureliumMobs plugin){
         this.plugin = plugin;
@@ -43,8 +44,8 @@ public class MobSpawn implements Listener {
 
             if (!passWorld(e.getEntity().getWorld())) return;
 
-            if (AureliumMobs.wghook != null){
-                if (!(AureliumMobs.wghook.mobsEnabled(e.getLocation()))) {
+            if (plugin.getWorldGuard() != null){
+                if (!(plugin.getWorldGuard().mobsEnabled(e.getLocation()))) {
                     return;
                 }
             }
@@ -70,17 +71,16 @@ public class MobSpawn implements Listener {
     }
 
     public boolean passWorld(World world) {
-
-        if (AureliumMobs.world_whitelist) {
-            if (AureliumMobs.enabledworlds.contains("*")) return true;
-            for (String enabledworld : AureliumMobs.enabledworlds) {
+        if (plugin.isWorldWhitelist()) {
+            if (plugin.getEnabledWorlds().contains("*")) return true;
+            for (String enabledworld : plugin.getEnabledWorlds()) {
                 if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) return true;
             }
             return false;
         }
         else {
-            if (AureliumMobs.enabledworlds.contains("*")) return false;
-            for (String enabledworld : AureliumMobs.enabledworlds) {
+            if (plugin.getEnabledWorlds().contains("*")) return false;
+            for (String enabledworld : plugin.getEnabledWorlds()) {
                 if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) return false;
             }
             return true;
@@ -105,21 +105,21 @@ public class MobSpawn implements Listener {
                     if (lvl<minlevel) {minlevel = lvl;}
                 }
                 Location mobloc = monster.getLocation();
-                Location spawnpoint = monster.getLocation().getWorld().getSpawnLocation();
+                Location spawnpoint = monster.getWorld().getSpawnLocation();
                 double distance = mobloc.distance(spawnpoint);
                 int level;
+                String lformula;
                 if (players.size() == 0 || sumlevel == 0) {
-                    String lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
+                    lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
                             .replace("{distance}", Double.toString(distance))
                             .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
                             .replace("{location_x}", Double.toString(monster.getLocation().getX()))
                             .replace("{location_y}", Double.toString(monster.getLocation().getY()))
                             .replace("{location_z}", Double.toString(monster.getLocation().getZ()))
                     );
-                    level = (int) new ExpressionBuilder(lformula).build().evaluate();
                 }
                 else {
-                    String lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
+                    lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
                             .replace("{highestlvl}", Integer.toString(maxlevel))
                             .replace("{lowestlvl}", Integer.toString(minlevel))
                             .replace("{sumlevel}", Integer.toString(sumlevel))
@@ -130,25 +130,22 @@ public class MobSpawn implements Listener {
                             .replace("{location_y}", Double.toString(monster.getLocation().getY()))
                             .replace("{location_z}", Double.toString(monster.getLocation().getZ()))
                     );
-                    level = (int) new ExpressionBuilder(lformula).build().evaluate();
                 }
+                level = (int) new ExpressionBuilder(lformula).build().evaluate();
                 new AureliumMob(monster, correctLevel(monster.getLocation(), level), plugin);
             }
         };
     }
 
     public int correctLevel(Location loc, int level) {
-        if (AureliumMobs.wghook == null) {
+        WorldGuardHook wg = plugin.getWorldGuard();
+        if (wg == null) {
             return level;
         }
 
-        if (level < AureliumMobs.wghook.getMinLevel(loc)) {
-            return AureliumMobs.wghook.getMinLevel(loc);
-        } else if (level > AureliumMobs.wghook.getMaxLevel(loc)) {
-            return AureliumMobs.wghook.getMaxLevel(loc);
-        } else {
-             return level;
-        }
+        if (level < wg.getMinLevel(loc)) {
+            return wg.getMinLevel(loc);
+        } else return Math.min(level, wg.getMaxLevel(loc));
     }
 
 }

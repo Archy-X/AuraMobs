@@ -1,6 +1,5 @@
 package dev.aurelium.aureliummobs.listeners;
 
-import dev.aurelium.aureliummobs.entities.AureliumMob;
 import dev.aurelium.aureliummobs.AureliumMobs;
 import dev.aurelium.aureliummobs.util.ColorUtils;
 import org.bukkit.attribute.Attribute;
@@ -14,7 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class MobDamage implements Listener {
 
-    private AureliumMobs plugin;
+    private final AureliumMobs plugin;
 
     public MobDamage(AureliumMobs plugin){
         this.plugin = plugin;
@@ -27,11 +26,11 @@ public class MobDamage implements Listener {
             return;
         }
 
-        if (!AureliumMob.isAureliumMob(m)){
+        if (!plugin.isAureliumMob(m)){
             return;
         }
 
-        int level = m.getPersistentDataContainer().get(AureliumMobs.mobKey, PersistentDataType.INTEGER);
+        int level = m.getPersistentDataContainer().get(plugin.getMobKey(), PersistentDataType.INTEGER);
         double resHealth = m.getHealth() - e.getDamage();
         String formattedHealth = plugin.getFormatter().format(resHealth);
         try {
@@ -63,7 +62,7 @@ public class MobDamage implements Listener {
             return;
         }
 
-        if (!AureliumMob.isAureliumMob(m)) {
+        if (!plugin.isAureliumMob(m)) {
             return;
         }
 

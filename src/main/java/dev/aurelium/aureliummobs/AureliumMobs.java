@@ -7,6 +7,7 @@ import com.archyx.polyglot.Polyglot;
 import com.archyx.polyglot.config.PolyglotConfig;
 import com.archyx.polyglot.config.PolyglotConfigBuilder;
 import com.archyx.polyglot.lang.MessageKey;
+import dev.aurelium.aureliummobs.api.AureliumMobsAPI;
 import dev.aurelium.aureliummobs.api.WorldGuardHook;
 import dev.aurelium.aureliummobs.commands.AureliumMobsCommand;
 import dev.aurelium.aureliummobs.config.ConfigManager;
@@ -18,7 +19,9 @@ import dev.aurelium.aureliummobs.util.Metrics;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -26,30 +29,30 @@ import java.util.Locale;
 
 public class AureliumMobs extends JavaPlugin {
 
-    public static List<String> enabledworlds;
-    public static boolean world_whitelist;
-    public static NamespacedKey mobKey;
-    public static WorldGuardHook wghook;
-    private static double maxHealth;
-    private static double maxDamage;
-    private static boolean namesEnabled;
-    private static Metrics metrics;
     private static final int bstatsId = 12142;
+    private NamespacedKey mobKey;
+    private WorldGuardHook worldGuard;
+    private double maxHealth;
+    private double maxDamage;
+    private boolean namesEnabled;
     private int globalLevel;
     private Formatter formatter;
     private ConfigManager configManager;
     private Polyglot polyglot;
     private Locale language;
+    private List<String> enabledWorlds;
+    private boolean worldWhitelist;
 
     @Override
     public void onLoad() {
         if (getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-            wghook = new WorldGuardHook(true);
+            worldGuard = new WorldGuardHook(true);
         }
     }
 
     @Override
     public void onEnable() {
+        AureliumMobsAPI.setPlugin(this);
         globalLevel = 0;
         // Load config
         configManager = new ConfigManager(this);
@@ -71,16 +74,16 @@ public class AureliumMobs extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new MobSpawn(this), this);
         if (namesEnabled) {
             this.getServer().getPluginManager().registerEvents(new MobDamage(this), this);
-            this.getServer().getPluginManager().registerEvents(new MobTransform(), this);
+            this.getServer().getPluginManager().registerEvents(new MobTransform(this), this);
             this.getServer().getPluginManager().registerEvents(new PlayerJoinLeave(this), this);
             if (optionBoolean("custom_name.display_by_range")) {
                 this.getServer().getPluginManager().registerEvents(new MoveEvent(this), this);
             }
         }
 
-        metrics = new Metrics(this, bstatsId);
+        new Metrics(this, bstatsId);
 
-        getServer().getPluginManager().registerEvents(new MobDeath(), this);
+        getServer().getPluginManager().registerEvents(new MobDeath(this), this);
 
         registerCommands();
         loadWorlds();
@@ -95,8 +98,8 @@ public class AureliumMobs extends JavaPlugin {
     }
 
     public void loadWorlds() {
-        enabledworlds = optionList("worlds.list");
-        world_whitelist = optionString("worlds.type").equalsIgnoreCase("whitelist");
+        enabledWorlds = optionList("worlds.list");
+        worldWhitelist = optionString("worlds.type").equalsIgnoreCase("whitelist");
     }
 
     public void registerCommands() {
@@ -105,7 +108,7 @@ public class AureliumMobs extends JavaPlugin {
     }
 
     public boolean isNamesEnabled() {
-        return isEnabled();
+        return namesEnabled;
     }
 
     public double getMaxHealth() {
@@ -147,18 +150,31 @@ public class AureliumMobs extends JavaPlugin {
             formula = formula.replace(replace, Integer.toString(AureliumAPI.getSkillLevel(p, s)));
         }
 
-        int level = (int) new ExpressionBuilder(formula).build().evaluate();
+        return (int) Math.round(new ExpressionBuilder(formula).build().evaluate());
+    }
 
-        return level;
-
+    public boolean isAureliumMob(Monster m) {
+        return m.getPersistentDataContainer().has(mobKey, PersistentDataType.INTEGER);
     }
 
     public Formatter getFormatter() {
         return formatter;
     }
 
-    public ConfigManager getConfigManager() {
-        return configManager;
+    public List<String> getEnabledWorlds() {
+        return enabledWorlds;
+    }
+
+    public boolean isWorldWhitelist() {
+        return worldWhitelist;
+    }
+
+    public WorldGuardHook getWorldGuard() {
+        return worldGuard;
+    }
+
+    public NamespacedKey getMobKey() {
+        return mobKey;
     }
 
     public String getMsg(String key) {

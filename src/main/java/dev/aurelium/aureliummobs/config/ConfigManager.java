@@ -90,6 +90,7 @@ public class ConfigManager {
         }
 
         plugin.saveResource("config.yml", true);
+        plugin.reloadConfig();
     }
 
 }

@@ -5,6 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class ConfigManager {
     public void loadConfig() {
         plugin.getConfig().options().copyDefaults(true);
         plugin.saveDefaultConfig();
+        migrateConfig();
         updateConfig(); // Add new options in embedded config to config on file
         loadDefaultOptions(); // Load embedded options
         loadOptions(plugin.getConfig()); // Load options on file
@@ -72,4 +74,22 @@ public class ConfigManager {
             loadOptions(config);
         }
     }
+
+    private void migrateConfig() {
+        if (!plugin.getConfig().contains("settings.damage-formula")) return; // Check if config is old version
+
+        File file = new File(plugin.getDataFolder() + "/config.yml");
+        if (!file.exists()) return;
+
+        File renamed = new File(plugin.getDataFolder() + "/config_old.yml");
+        if (file.renameTo(renamed)) {
+            plugin.getLogger().warning("Existing config file has been renamed to config_old.yml");
+            plugin.getLogger().warning("Migrate your options manually from config_old.yml to the new config.yml file");
+        } else {
+            plugin.getLogger().warning("Failed to rename existing config file: it will be replaced");
+        }
+
+        plugin.saveResource("config.yml", true);
+    }
+
 }

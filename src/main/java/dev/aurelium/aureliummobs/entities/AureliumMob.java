@@ -38,7 +38,7 @@ public class AureliumMob {
                 .replace("{level}", String.valueOf(level1))
                 .replace("{distance}", Double.toString(distance))
         );
-        String healthFormula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_defaults.health_formula")
+        String healthFormula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_defaults.health.formula")
                 .replace("{mob_health}", String.valueOf(startHealth))
                 .replace("{level}", Integer.toString(level1))
                 .replace("{distance}", Double.toString(distance))

@@ -42,6 +42,7 @@ public class AureliumMobs extends JavaPlugin {
     private Locale language;
     private List<String> enabledWorlds;
     private boolean worldWhitelist;
+    private boolean placeholderAPIEnabled;
 
     @Override
     public void onLoad() {
@@ -91,6 +92,8 @@ public class AureliumMobs extends JavaPlugin {
         maxDamage = Bukkit.spigot().getConfig().getDouble("settings.attribute.attackDamage.max");
 
         formatter = new Formatter(optionInt("custom_name.health_rounding_places"));
+        // Check for PlaceholderAPI
+        placeholderAPIEnabled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
     @Override
@@ -177,6 +180,11 @@ public class AureliumMobs extends JavaPlugin {
         return mobKey;
     }
 
+    public boolean isPlaceholderAPIEnabled() {
+        return placeholderAPIEnabled;
+    }
+
+    // Message and config convenience methods
     public String getMsg(String key) {
         return polyglot.getMessageManager().get(language, MessageKey.of(key));
     }

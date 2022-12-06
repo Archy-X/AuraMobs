@@ -43,7 +43,7 @@ dependencies {
     shadow 'com.github.Osiris-Team:Dream-Yaml:6.9'
     shadow 'com.github.Archy-X:Polyglot:ffc9201244'
     shadow 'co.aikar:acf-paper:0.5.1-SNAPSHOT'
-    compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.3.10'
+    compileOnly 'com.github.Archy-X:AureliumSkills:0a3c244930'
     compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'

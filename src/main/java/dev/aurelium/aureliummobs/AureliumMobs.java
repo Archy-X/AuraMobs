@@ -1,6 +1,7 @@
 package dev.aurelium.aureliummobs;
 
 import co.aikar.commands.PaperCommandManager;
+import com.archyx.aureliumskills.AureliumSkills;
 import com.archyx.aureliumskills.api.AureliumAPI;
 import com.archyx.aureliumskills.skills.Skills;
 import com.archyx.polyglot.Polyglot;
@@ -22,6 +23,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -32,6 +34,7 @@ public class AureliumMobs extends JavaPlugin {
     private static final int bstatsId = 12142;
     private NamespacedKey mobKey;
     private WorldGuardHook worldGuard;
+    private AureliumSkills skillsInstance;
     private double maxHealth;
     private double maxDamage;
     private boolean namesEnabled;
@@ -54,6 +57,12 @@ public class AureliumMobs extends JavaPlugin {
     @Override
     public void onEnable() {
         AureliumMobsAPI.setPlugin(this);
+        // Set Aurelium Skills instance
+        Plugin pluginSkills = getServer().getPluginManager().getPlugin("AureliumSkills");
+        if (pluginSkills instanceof AureliumSkills) {
+            skillsInstance = (AureliumSkills) pluginSkills;
+        }
+
         globalLevel = 0;
         // Load config
         configManager = new ConfigManager(this);
@@ -73,6 +82,7 @@ public class AureliumMobs extends JavaPlugin {
         mobKey = new NamespacedKey(this, "isAureliumMob");
         namesEnabled = optionBoolean("custom_name.enabled");
         this.getServer().getPluginManager().registerEvents(new MobSpawn(this), this);
+        this.getServer().getPluginManager().registerEvents(new EntityXpGainListener(this), this);
         if (namesEnabled) {
             this.getServer().getPluginManager().registerEvents(new MobDamage(this), this);
             this.getServer().getPluginManager().registerEvents(new MobTransform(this), this);
@@ -108,6 +118,10 @@ public class AureliumMobs extends JavaPlugin {
     public void registerCommands() {
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new AureliumMobsCommand(this));
+    }
+
+    public AureliumSkills getSkillsInstance() {
+        return skillsInstance;
     }
 
     public boolean isNamesEnabled() {

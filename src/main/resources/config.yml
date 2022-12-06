@@ -16,6 +16,9 @@ custom_name:
   health_rounding_places: 1
   display_by_range: true
   display_range: 5
+skills_xp:
+  enabled: true
+  default_formula: '{source_xp} * (1 + {mob_level} / 100)'
 worlds:
   type: blacklist
   list:

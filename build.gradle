@@ -4,6 +4,10 @@ plugins {
     id 'maven-publish'
 }
 
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'com.github.johnrengelman.shadow'
+
 group 'me.often'
 version '1.18'
 //1

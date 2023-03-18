@@ -137,15 +137,17 @@ public class AureliumMobs extends JavaPlugin {
     }
 
     public int getSumLevel(Player p) {
-
         int result = 0;
 
-        for (Skills s: Skills.values()) {
+        for (Skills s : Skills.values()) {
             result+= AureliumAPI.getSkillLevel(p, s);
         }
 
         return result;
+    }
 
+    public int getAverageLevel(Player p) {
+        return getSumLevel(p) / Skills.values().length;
     }
 
     public int getGlobalLevel() {
@@ -160,6 +162,7 @@ public class AureliumMobs extends JavaPlugin {
 
         String formula = optionString("player_level.formula")
                 .replace("{sumall}", Integer.toString(getSumLevel(p)))
+                .replace("{average}", Integer.toString(getAverageLevel(p)))
                 .replace("{skillcount}", Integer.toString(Skills.values().length));
 
         for (Skills s: Skills.values()){

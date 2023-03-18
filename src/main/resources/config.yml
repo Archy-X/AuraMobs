@@ -9,7 +9,7 @@ mob_level:
   backup_formula: '{distance}*0.01'
 player_level:
   check_radius: 10
-  formula: '{sumall}'
+  formula: '{average}'
 custom_name:
   enabled: true
   format: '&6Lvl {lvl}&8 | &f{mob} &8| &c&l❤ &f{health}&8/&f{maxhealth}'

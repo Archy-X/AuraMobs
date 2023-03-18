@@ -1,13 +1,10 @@
 main: dev.aurelium.aureliummobs.AureliumMobs
 name: AureliumMobs
 author: _OfTeN_
-version: 1.18
+version: 2.0.0
 api-version: 1.16
 depend:
   - AureliumSkills
 softdepend:
   - PlaceholderAPI
   - WorldGuard
-commands:
-  aureliummobs:
-    aliases: [amobs, am]

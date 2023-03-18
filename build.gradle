@@ -9,8 +9,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group 'me.often'
-version '1.18'
-//1
+version '2.0.0'
+
 shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')
@@ -48,7 +48,7 @@ dependencies {
     shadow 'com.github.Archy-X:Polyglot:ffc9201244'
     shadow 'co.aikar:acf-paper:0.5.1-SNAPSHOT'
     compileOnly 'com.github.Archy-X:AureliumSkills:6ad95e51b1'
-    compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     compileOnly 'me.clip:placeholderapi:2.11.2'

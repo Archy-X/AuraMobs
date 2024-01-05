@@ -34,6 +34,7 @@ settings:
   # ANY PLACEHOLDERAPI PLACEHOLDER
   player-level-formula: "{sumall}"
   # Available variables:
+  # {world} - name of world, can be used in changeoutput placeholder
   # {sumlevel} - summ level of all players in the check-radius
   # {playercount} - count of players in check-radius
   # {highestlvl} - highest of player levels in check-radius
@@ -46,6 +47,7 @@ settings:
   # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
   mob-level-formula: "{sumlevel}/{playercount}"
   # Available variables:
+  # {world} - name of world, can be used in changeoutput placeholder
   # {distance} - distance from world spawnpoint
   # {sumlevel_global} - summ level of all players online
   # {location_x} - X coordinate of the mob

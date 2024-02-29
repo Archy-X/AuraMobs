@@ -1,6 +1,6 @@
-package dev.aurelium.aureliummobs.api;
+package dev.aurelium.auramobs.api;
 
-import dev.aurelium.aureliummobs.AureliumMobs;
+import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -9,11 +9,11 @@ import org.bukkit.persistence.PersistentDataType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class AureliumMobsAPI {
+public class AuraMobsAPI {
 
-    private static AureliumMobs plugin;
+    private static AuraMobs plugin;
 
-    public static void setPlugin(AureliumMobs instance) {
+    public static void setPlugin(AuraMobs instance) {
         if (plugin == null) {
             plugin = instance;
         } else {
@@ -30,7 +30,7 @@ public class AureliumMobsAPI {
         if (!(e instanceof Monster m)) {
             return 1;
         }
-        if (!plugin.isAureliumMob(m)) {
+        if (!plugin.isAuraMob(m)) {
             return 1;
         }
         String persistent = m.getPersistentDataContainer().get(plugin.getMobKey(), PersistentDataType.STRING);

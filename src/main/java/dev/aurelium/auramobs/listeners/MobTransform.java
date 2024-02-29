@@ -1,6 +1,6 @@
-package dev.aurelium.aureliummobs.listeners;
+package dev.aurelium.auramobs.listeners;
 
-import dev.aurelium.aureliummobs.AureliumMobs;
+import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.Material;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
@@ -11,9 +11,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class MobTransform implements Listener {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
 
-    public MobTransform(AureliumMobs plugin) {
+    public MobTransform(AuraMobs plugin) {
         this.plugin = plugin;
     }
 
@@ -24,7 +24,7 @@ public class MobTransform implements Listener {
             return;
         }
 
-        if (!plugin.isAureliumMob(monster)) {
+        if (!plugin.isAuraMob(monster)) {
             return;
         }
 
@@ -45,7 +45,7 @@ public class MobTransform implements Listener {
             return;
         }
 
-        if (!plugin.isAureliumMob(monster)) {
+        if (!plugin.isAuraMob(monster)) {
             return;
         }
 

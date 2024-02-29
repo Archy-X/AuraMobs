@@ -1,8 +1,8 @@
-package dev.aurelium.aureliummobs.entities;
+package dev.aurelium.auramobs.entities;
 
-import dev.aurelium.aureliummobs.AureliumMobs;
-import dev.aurelium.aureliummobs.util.ColorUtils;
-import dev.aurelium.aureliummobs.util.MessageUtils;
+import dev.aurelium.auramobs.AuraMobs;
+import dev.aurelium.auramobs.util.ColorUtils;
+import dev.aurelium.auramobs.util.MessageUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
@@ -16,7 +16,7 @@ import java.math.RoundingMode;
 
 public class AureliumMob {
 
-    public AureliumMob(Monster mob, int level, AureliumMobs plugin) {
+    public AureliumMob(Monster mob, int level, AuraMobs plugin) {
         if (mob instanceof Zombie){
             mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers().clear();
         }

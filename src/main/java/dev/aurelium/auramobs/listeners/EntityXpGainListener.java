@@ -1,8 +1,8 @@
-package dev.aurelium.aureliummobs.listeners;
+package dev.aurelium.auramobs.listeners;
 
 import com.archyx.aureliumskills.api.event.source.EntityXpGainEvent;
-import dev.aurelium.aureliummobs.AureliumMobs;
-import dev.aurelium.aureliummobs.util.MessageUtils;
+import dev.aurelium.auramobs.AuraMobs;
+import dev.aurelium.auramobs.util.MessageUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.entity.Monster;
@@ -14,9 +14,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class EntityXpGainListener implements Listener {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
 
-    public EntityXpGainListener(AureliumMobs plugin) {
+    public EntityXpGainListener(AuraMobs plugin) {
         this.plugin = plugin;
     }
 
@@ -28,7 +28,7 @@ public class EntityXpGainListener implements Listener {
             return;
         }
 
-        if (!plugin.isAureliumMob(monster)){
+        if (!plugin.isAuraMob(monster)){
             return;
         }
 

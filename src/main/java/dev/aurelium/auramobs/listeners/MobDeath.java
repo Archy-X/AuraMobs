@@ -1,6 +1,6 @@
-package dev.aurelium.aureliummobs.listeners;
+package dev.aurelium.auramobs.listeners;
 
-import dev.aurelium.aureliummobs.AureliumMobs;
+import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,9 +8,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 public class MobDeath implements Listener {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
 
-    public MobDeath(AureliumMobs plugin) {
+    public MobDeath(AuraMobs plugin) {
         this.plugin = plugin;
     }
 
@@ -20,7 +20,7 @@ public class MobDeath implements Listener {
             return;
         }
 
-        if (!plugin.isAureliumMob(m)) {
+        if (!plugin.isAuraMob(m)) {
             return;
         }
 

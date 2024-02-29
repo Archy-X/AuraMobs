@@ -1,6 +1,6 @@
-package dev.aurelium.aureliummobs.listeners;
+package dev.aurelium.auramobs.listeners;
 
-import dev.aurelium.aureliummobs.AureliumMobs;
+import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -12,9 +12,9 @@ import java.util.List;
 
 public class MoveEvent implements Listener {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
 
-    public MoveEvent(AureliumMobs plugin){
+    public MoveEvent(AuraMobs plugin){
         this.plugin = plugin;
     }
 
@@ -29,9 +29,9 @@ public class MoveEvent implements Listener {
         if (fromWorld == null || toWorld == null) return;
 
         List<Entity> from = fromWorld.getNearbyEntities(e.getFrom(), range, range, range).stream()
-                .filter(mob -> mob instanceof Monster && plugin.isAureliumMob((Monster) mob)).toList();
+                .filter(mob -> mob instanceof Monster && plugin.isAuraMob((Monster) mob)).toList();
         List<Entity> to = toWorld.getNearbyEntities(e.getTo(), range, range, range).stream()
-                .filter(mob -> mob instanceof Monster && plugin.isAureliumMob((Monster) mob)).toList();
+                .filter(mob -> mob instanceof Monster && plugin.isAuraMob((Monster) mob)).toList();
 
         to.forEach(mob -> {
             if (!from.contains(mob)) {

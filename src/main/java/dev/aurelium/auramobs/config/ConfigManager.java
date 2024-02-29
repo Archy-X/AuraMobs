@@ -1,6 +1,6 @@
-package dev.aurelium.aureliummobs.config;
+package dev.aurelium.auramobs.config;
 
-import dev.aurelium.aureliummobs.AureliumMobs;
+import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,10 +14,10 @@ import java.util.Objects;
 
 public class ConfigManager {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
     private final Map<OptionKey, OptionValue> options;
 
-    public ConfigManager(AureliumMobs plugin) {
+    public ConfigManager(AuraMobs plugin) {
         this.plugin = plugin;
         this.options = new HashMap<>();
     }

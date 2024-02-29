@@ -1,9 +1,9 @@
-package dev.aurelium.aureliummobs.listeners;
+package dev.aurelium.auramobs.listeners;
 
-import dev.aurelium.aureliummobs.api.WorldGuardHook;
-import dev.aurelium.aureliummobs.entities.AureliumMob;
-import dev.aurelium.aureliummobs.AureliumMobs;
-import dev.aurelium.aureliummobs.util.MessageUtils;
+import dev.aurelium.auramobs.api.WorldGuardHook;
+import dev.aurelium.auramobs.entities.AureliumMob;
+import dev.aurelium.auramobs.AuraMobs;
+import dev.aurelium.auramobs.util.MessageUtils;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -20,9 +20,9 @@ import java.util.List;
 
 public class MobSpawn implements Listener {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
 
-    public MobSpawn(AureliumMobs plugin){
+    public MobSpawn(AuraMobs plugin){
         this.plugin = plugin;
     }
 

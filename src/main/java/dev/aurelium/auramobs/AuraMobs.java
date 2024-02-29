@@ -1,4 +1,4 @@
-package dev.aurelium.aureliummobs;
+package dev.aurelium.auramobs;
 
 import co.aikar.commands.PaperCommandManager;
 import com.archyx.aureliumskills.AureliumSkills;
@@ -8,15 +8,15 @@ import com.archyx.polyglot.Polyglot;
 import com.archyx.polyglot.config.PolyglotConfig;
 import com.archyx.polyglot.config.PolyglotConfigBuilder;
 import com.archyx.polyglot.lang.MessageKey;
-import dev.aurelium.aureliummobs.api.AureliumMobsAPI;
-import dev.aurelium.aureliummobs.api.WorldGuardHook;
-import dev.aurelium.aureliummobs.commands.AureliumMobsCommand;
-import dev.aurelium.aureliummobs.config.ConfigManager;
-import dev.aurelium.aureliummobs.config.OptionKey;
-import dev.aurelium.aureliummobs.config.OptionValue;
-import dev.aurelium.aureliummobs.listeners.*;
-import dev.aurelium.aureliummobs.util.Formatter;
-import dev.aurelium.aureliummobs.util.Metrics;
+import dev.aurelium.auramobs.api.AuraMobsAPI;
+import dev.aurelium.auramobs.api.WorldGuardHook;
+import dev.aurelium.auramobs.commands.AureliumMobsCommand;
+import dev.aurelium.auramobs.config.ConfigManager;
+import dev.aurelium.auramobs.config.OptionKey;
+import dev.aurelium.auramobs.config.OptionValue;
+import dev.aurelium.auramobs.listeners.*;
+import dev.aurelium.auramobs.util.Formatter;
+import dev.aurelium.auramobs.util.Metrics;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -29,7 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.Locale;
 
-public class AureliumMobs extends JavaPlugin {
+public class AuraMobs extends JavaPlugin {
 
     private static final int bstatsId = 12142;
     private NamespacedKey mobKey;
@@ -56,7 +56,7 @@ public class AureliumMobs extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        AureliumMobsAPI.setPlugin(this);
+        AuraMobsAPI.setPlugin(this);
         // Set Aurelium Skills instance
         Plugin pluginSkills = getServer().getPluginManager().getPlugin("AureliumSkills");
         if (pluginSkills instanceof AureliumSkills) {
@@ -173,7 +173,7 @@ public class AureliumMobs extends JavaPlugin {
         return (int) Math.round(new ExpressionBuilder(formula).build().evaluate());
     }
 
-    public boolean isAureliumMob(Monster m) {
+    public boolean isAuraMob(Monster m) {
         return m.getPersistentDataContainer().has(mobKey, PersistentDataType.INTEGER);
     }
 

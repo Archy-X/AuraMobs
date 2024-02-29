@@ -1,4 +1,4 @@
-package dev.aurelium.aureliummobs.util;
+package dev.aurelium.auramobs.util;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;

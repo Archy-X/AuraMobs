@@ -1,4 +1,4 @@
-package dev.aurelium.aureliummobs.util;
+package dev.aurelium.auramobs.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;

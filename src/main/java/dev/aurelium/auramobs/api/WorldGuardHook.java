@@ -1,4 +1,4 @@
-package dev.aurelium.aureliummobs.api;
+package dev.aurelium.auramobs.api;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -27,9 +27,9 @@ public record WorldGuardHook(boolean hasWorldGuard) {
             return;
         }
 
-        minMoblevel = new IntegerFlag("aureliummobs-min-level");
-        maxMoblevel = new IntegerFlag("aureliummobs-max-level");
-        mobsEnabled = new StateFlag("aureliummobs-mob-spawning", true);
+        minMoblevel = new IntegerFlag("auramobs-min-level");
+        maxMoblevel = new IntegerFlag("auramobs-max-level");
+        mobsEnabled = new StateFlag("auramobs-mob-spawning", true);
 
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 

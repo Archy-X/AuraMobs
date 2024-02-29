@@ -1,4 +1,4 @@
-package dev.aurelium.aureliummobs.config;
+package dev.aurelium.auramobs.config;
 
 import org.bukkit.ChatColor;
 

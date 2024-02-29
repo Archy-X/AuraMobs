@@ -1,16 +1,16 @@
-package dev.aurelium.aureliummobs.commands;
+package dev.aurelium.auramobs.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
-import dev.aurelium.aureliummobs.AureliumMobs;
+import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.command.CommandSender;
 
 public class AureliumMobsCommand extends BaseCommand {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
 
-    public AureliumMobsCommand(AureliumMobs plugin) {
+    public AureliumMobsCommand(AuraMobs plugin) {
         this.plugin = plugin;
     }
 

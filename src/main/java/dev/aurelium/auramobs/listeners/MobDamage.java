@@ -1,7 +1,7 @@
-package dev.aurelium.aureliummobs.listeners;
+package dev.aurelium.auramobs.listeners;
 
-import dev.aurelium.aureliummobs.AureliumMobs;
-import dev.aurelium.aureliummobs.util.ColorUtils;
+import dev.aurelium.auramobs.AuraMobs;
+import dev.aurelium.auramobs.util.ColorUtils;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Projectile;
@@ -13,9 +13,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class MobDamage implements Listener {
 
-    private final AureliumMobs plugin;
+    private final AuraMobs plugin;
 
-    public MobDamage(AureliumMobs plugin){
+    public MobDamage(AuraMobs plugin){
         this.plugin = plugin;
     }
 
@@ -26,7 +26,7 @@ public class MobDamage implements Listener {
             return;
         }
 
-        if (!plugin.isAureliumMob(m)){
+        if (!plugin.isAuraMob(m)){
             return;
         }
 
@@ -62,7 +62,7 @@ public class MobDamage implements Listener {
             return;
         }
 
-        if (!plugin.isAureliumMob(m)) {
+        if (!plugin.isAuraMob(m)) {
             return;
         }
 

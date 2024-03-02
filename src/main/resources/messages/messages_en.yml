@@ -1,6 +1,6 @@
 messages:
   commands:
-    reload: '&8(&6&l!&8) &7Plugin successfully reloaded!'
+    reload: 'AuraMobs successfully reloaded!'
   mobs:
     blaze: Blaze
     cave_spider: Cave Spider

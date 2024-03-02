@@ -1,29 +1,28 @@
 package dev.aurelium.auramobs;
 
 import co.aikar.commands.PaperCommandManager;
-import com.archyx.aureliumskills.AureliumSkills;
-import com.archyx.aureliumskills.api.AureliumAPI;
-import com.archyx.aureliumskills.skills.Skills;
 import com.archyx.polyglot.Polyglot;
 import com.archyx.polyglot.config.PolyglotConfig;
 import com.archyx.polyglot.config.PolyglotConfigBuilder;
 import com.archyx.polyglot.lang.MessageKey;
 import dev.aurelium.auramobs.api.AuraMobsAPI;
 import dev.aurelium.auramobs.api.WorldGuardHook;
-import dev.aurelium.auramobs.commands.AureliumMobsCommand;
+import dev.aurelium.auramobs.commands.AuraMobsCommand;
 import dev.aurelium.auramobs.config.ConfigManager;
 import dev.aurelium.auramobs.config.OptionKey;
 import dev.aurelium.auramobs.config.OptionValue;
 import dev.aurelium.auramobs.listeners.*;
 import dev.aurelium.auramobs.util.Formatter;
 import dev.aurelium.auramobs.util.Metrics;
+import dev.aurelium.auraskills.api.AuraSkillsApi;
+import dev.aurelium.auraskills.api.skill.Skill;
+import dev.aurelium.auraskills.api.user.SkillsUser;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -34,7 +33,7 @@ public class AuraMobs extends JavaPlugin {
     private static final int bstatsId = 12142;
     private NamespacedKey mobKey;
     private WorldGuardHook worldGuard;
-    private AureliumSkills skillsInstance;
+    private AuraSkillsApi auraSkills;
     private double maxHealth;
     private double maxDamage;
     private boolean namesEnabled;
@@ -58,10 +57,7 @@ public class AuraMobs extends JavaPlugin {
     public void onEnable() {
         AuraMobsAPI.setPlugin(this);
         // Set Aurelium Skills instance
-        Plugin pluginSkills = getServer().getPluginManager().getPlugin("AureliumSkills");
-        if (pluginSkills instanceof AureliumSkills) {
-            skillsInstance = (AureliumSkills) pluginSkills;
-        }
+        auraSkills = AuraSkillsApi.get();
 
         globalLevel = 0;
         // Load config
@@ -117,11 +113,19 @@ public class AuraMobs extends JavaPlugin {
 
     public void registerCommands() {
         PaperCommandManager manager = new PaperCommandManager(this);
-        manager.registerCommand(new AureliumMobsCommand(this));
+        manager.registerCommand(new AuraMobsCommand(this));
     }
 
-    public AureliumSkills getSkillsInstance() {
-        return skillsInstance;
+    public AuraSkillsApi getAuraSkills() {
+        return auraSkills;
+    }
+
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public Polyglot getPolyglot() {
+        return polyglot;
     }
 
     public boolean isNamesEnabled() {
@@ -136,18 +140,23 @@ public class AuraMobs extends JavaPlugin {
         return maxDamage;
     }
 
-    public int getSumLevel(Player p) {
-        int result = 0;
+    public int getSumLevel(Player player) {
+        int sum = 0;
 
-        for (Skills s : Skills.values()) {
-            result+= AureliumAPI.getSkillLevel(p, s);
+        SkillsUser user = auraSkills.getUser(player.getUniqueId());
+        for (Skill skill : getEnabledSkills()) {
+            sum += user.getSkillLevel(skill);
         }
 
-        return result;
+        return sum;
     }
 
     public int getAverageLevel(Player p) {
-        return getSumLevel(p) / Skills.values().length;
+        return getSumLevel(p) / getEnabledSkills().size();
+    }
+
+    private List<Skill> getEnabledSkills() {
+        return auraSkills.getGlobalRegistry().getSkills().stream().filter(Skill::isEnabled).toList();
     }
 
     public int getGlobalLevel() {
@@ -159,15 +168,16 @@ public class AuraMobs extends JavaPlugin {
     }
 
     public int getLevel(Player p) {
-
+        SkillsUser user = auraSkills.getUser(p.getUniqueId());
+        List<Skill> skills = getEnabledSkills();
         String formula = optionString("player_level.formula")
                 .replace("{sumall}", Integer.toString(getSumLevel(p)))
                 .replace("{average}", Integer.toString(getAverageLevel(p)))
-                .replace("{skillcount}", Integer.toString(Skills.values().length));
+                .replace("{skillcount}", Integer.toString(skills.size()));
 
-        for (Skills s: Skills.values()){
-            String replace = "{" + s.name().toLowerCase() + "}";
-            formula = formula.replace(replace, Integer.toString(AureliumAPI.getSkillLevel(p, s)));
+        for (Skill skill : skills) {
+            String replace = "{" + skill.name().toLowerCase() + "}";
+            formula = formula.replace(replace, Integer.toString(user.getSkillLevel(skill)));
         }
 
         return (int) Math.round(new ExpressionBuilder(formula).build().evaluate());

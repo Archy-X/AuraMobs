@@ -26,11 +26,11 @@ public class MobDamage implements Listener {
             return;
         }
 
-        if (!plugin.isAuraMob(m)){
+        if (!plugin.isAuraMob(m)) {
             return;
         }
 
-        int level = m.getPersistentDataContainer().get(plugin.getMobKey(), PersistentDataType.INTEGER);
+        int level = m.getPersistentDataContainer().getOrDefault(plugin.getMobKey(), PersistentDataType.INTEGER, 0);
         double resHealth = m.getHealth() - e.getDamage();
         String formattedHealth = plugin.getFormatter().format(resHealth);
         try {

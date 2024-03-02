@@ -109,7 +109,7 @@ public class MobSpawn implements Listener {
                 double distance = mobloc.distance(spawnpoint);
                 int level;
                 String lformula;
-                if (players.size() == 0 || sumlevel == 0) {
+                if (players.isEmpty() || sumlevel == 0) {
                     lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
                             .replace("{distance}", Double.toString(distance))
                             .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
@@ -132,6 +132,7 @@ public class MobSpawn implements Listener {
                     );
                 }
                 level = (int) new ExpressionBuilder(lformula).build().evaluate();
+                level = Math.min(level, plugin.optionInt("mob_level.max_level"));
                 new AureliumMob(monster, correctLevel(monster.getLocation(), level), plugin);
             }
         };

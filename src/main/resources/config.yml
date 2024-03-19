@@ -1,3 +1,11 @@
+# +----------------------------------------------------------------------------+ #
+# |                            AuraMobs Main Config                            | #
+# |                                                                            | #
+# |                    Discord: https://discord.gg/Bh2EZfB                     | #
+# |             Source Code: https://github.com/Archy-X/AuraMobs               | #
+# |        Config Guide: https://wiki.aurelium.dev/auramobs/main-config        | #
+# +----------------------------------------------------------------------------+ #
+
 language: en
 mob_defaults:
   damage:

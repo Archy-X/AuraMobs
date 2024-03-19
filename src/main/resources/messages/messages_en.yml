@@ -1,37 +1,36 @@
-messages:
-  commands:
-    reload: 'AuraMobs successfully reloaded!'
-  mobs:
-    blaze: Blaze
-    cave_spider: Cave Spider
-    creeper: Creeper
-    enderman: Enderman
-    endermite: Endermite
-    evoker: Evoker
-    evoker_fangs: Evoker fangs
-    ghast: Ghast
-    giant: Giant
-    guardian: Guardian
-    husk: Husk
-    illusioner: Illusioner
-    piglin: Piglin
-    hoglin: Hoglin
-    shulker: Shulker
-    silverfish: Silverfish
-    skeleton: Skeleton
-    slime: Slime
-    spider: Spider
-    vex: Vex
-    vindicator: Vindicator
-    witch: Witch
-    wither_skeleton: Wither Skeleton
-    zombie: Zombie
-    drowned: Drowned
-    magma_cube: Magma Cube
-    piglin_brute: Brutal Piglin
-    pillager: Pillager
-    ravager: Ravager
-    zombified_piglin: Zombified Piglin
-    zombie_villager: Zombie Villager
-    stray: Stray
+commands:
+  reload: 'AuraMobs successfully reloaded!'
+mobs:
+  blaze: Blaze
+  cave_spider: Cave Spider
+  creeper: Creeper
+  enderman: Enderman
+  endermite: Endermite
+  evoker: Evoker
+  evoker_fangs: Evoker fangs
+  ghast: Ghast
+  giant: Giant
+  guardian: Guardian
+  husk: Husk
+  illusioner: Illusioner
+  piglin: Piglin
+  hoglin: Hoglin
+  shulker: Shulker
+  silverfish: Silverfish
+  skeleton: Skeleton
+  slime: Slime
+  spider: Spider
+  vex: Vex
+  vindicator: Vindicator
+  witch: Witch
+  wither_skeleton: Wither Skeleton
+  zombie: Zombie
+  drowned: Drowned
+  magma_cube: Magma Cube
+  piglin_brute: Brutal Piglin
+  pillager: Pillager
+  ravager: Ravager
+  zombified_piglin: Zombified Piglin
+  zombie_villager: Zombie Villager
+  stray: Stray
 file_version: 1

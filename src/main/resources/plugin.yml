@@ -1,6 +1,6 @@
 main: dev.aurelium.auramobs.AuraMobs
 name: AuraMobs
-author: _OfTeN_
+authors: [Archyx, _OfTeN_]
 version: 2.0.0
 api-version: 1.16
 depend:

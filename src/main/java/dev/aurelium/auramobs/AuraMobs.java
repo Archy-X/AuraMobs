@@ -2,6 +2,7 @@ package dev.aurelium.auramobs;
 
 import co.aikar.commands.PaperCommandManager;
 import com.archyx.polyglot.Polyglot;
+import com.archyx.polyglot.PolyglotProvider;
 import com.archyx.polyglot.config.PolyglotConfig;
 import com.archyx.polyglot.config.PolyglotConfigBuilder;
 import com.archyx.polyglot.lang.MessageKey;
@@ -28,7 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.Locale;
 
-public class AuraMobs extends JavaPlugin {
+public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     private static final int bstatsId = 12142;
     private NamespacedKey mobKey;
@@ -240,4 +241,18 @@ public class AuraMobs extends JavaPlugin {
         return option(key).asList();
     }
 
+    @Override
+    public void logInfo(String message) {
+        getLogger().info(message);
+    }
+
+    @Override
+    public void logWarn(String message) {
+        getLogger().warning(message);
+    }
+
+    @Override
+    public void logSevere(String message) {
+        getLogger().severe(message);
+    }
 }

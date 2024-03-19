@@ -21,7 +21,7 @@ repositories {
 dependencies {
     implementation("net.objecthunter:exp4j:0.4.8")
     implementation("com.github.Osiris-Team:Dream-Yaml:6.9")
-    implementation("com.github.Archy-X:Polyglot:ffc9201244")
+    implementation("com.github.Archy-X:Polyglot:d6debe617a")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     compileOnly("dev.aurelium:auraskills-api-bukkit:2.0.0-SNAPSHOT")
     compileOnly("org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT")

@@ -1,13 +1,13 @@
-main: me.often.aureliummobs.Main
-name: AureliumMobs
+main: dev.aurelium.auramobs.AuraMobs
+name: AuraMobs
 author: _OfTeN_
-version: 1.18
+version: 2.0.0
 api-version: 1.16
 depend:
-  - AureliumSkills
+  - AuraSkills
 softdepend:
   - PlaceholderAPI
   - WorldGuard
-commands:
-  aureliummobs:
-    aliases: [amobs, am]
+permissions:
+  auramobs.reload:
+    default: op

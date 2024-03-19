@@ -1,0 +1,141 @@
+settings:
+  # Available variables:
+  # {mob_damage} - mob default damage
+  # {mob_health} - mob default health
+  # {level} - mob level
+  # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
+  damage-formula: "{mob_damage}+({mob_damage}*{level}/100)" # A formula to calculate health of levelled mob
+  health-formula: "{mob_health}*(1+{level}/100)" # A formula to calculate damage of levelled mob
+  check-radius: 10 #A radius to check for players to calculate level
+  display-by-range: true #Display custom mob names by range instead of only when hovering over them.
+  display-range: 5 #Range to display custom mob names (Only if display-by-range is true)
+  enable-mob-names: true #Wether plugin should add custom formatted names to mobs that it spawn
+  name-format: "&6Lvl {lvl}&8. | &f{mob} &8| &c&l❤ &f{health}&8/&f{maxhealth}" #Custom mob name format
+  health-format-max-places: 2
+  # Available variables:
+  # {sumall} - summ player level from all skills
+  # {skillcount} - skills count
+  # {agility} - player agility level
+  # {alchemy} - player alchemy level
+  # {archery} - player archery level
+  # {defense} - player defence level
+  # {enchanting} - player enchanting level
+  # {endurance} - player endurance level
+  # {excavation} - player excavation level
+  # {farming} - player farming level
+  # {fighting} - player fighting level
+  # {fishing} - player fishing level
+  # {foraging} - player foraging level
+  # {forging} - player forging level
+  # {healing} - player healing level
+  # {mining} - player mining level
+  # {sorcery} - player sorcery level
+  # {distance} - distance from world spawnpoint
+  # ANY PLACEHOLDERAPI PLACEHOLDER
+  player-level-formula: "{sumall}"
+  # Available variables:
+  # {sumlevel} - summ level of all players in the check-radius
+  # {playercount} - count of players in check-radius
+  # {highestlvl} - highest of player levels in check-radius
+  # {lowestlvl} - highest of player levels in check-radius
+  # {distance} - distance from world spawnpoint
+  # {sumlevel_global} - summ level of all players online
+  # {location_x} - X coordinate of the mob
+  # {location_y} - Y coordinate of the mob
+  # {location_z} - Z coordinate of the mob
+  # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
+  mob-level-formula: "{sumlevel}/{playercount}"
+  # Available variables:
+  # {distance} - distance from world spawnpoint
+  # {sumlevel_global} - summ level of all players online
+  # {location_x} - X coordinate of the mob
+  # {location_y} - Y coordinate of the mob
+  # {location_z} - Z coordinate of the mob
+  # ANY PLAYER-UNRELATED PLACEHOLDERAPI PLACEHOLDER
+  default-mob-level-formula: "{distance}*0.01"
+
+worlds:
+  type: blacklist
+  list: #The list itself (use - "*" to enable/disable all worlds). You can also use world_* to enable/disable all worlds that start with 'world_'
+    - "disabledworld"
+    - "worldexample_*"
+
+mob-replacements: # Supports any minecraft monster
+  type: whitelist # whitelist/blacklist
+  list: # he list itself (use - "*" to enable/disable all mobs)T
+    - "*"
+    - "ZOMBIE"
+
+spawn-reasons: #https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
+  - "NATURAL"
+  - "JOCKEY"
+  - "SPAWNER"
+  - "EGG"
+  - "SPAWNER_EGG"
+  - "LIGHTNING"
+  - "BUILD_SNOWMAN"
+  - "BUILD_IRONGOLEM"
+  - "BUILD_WITHER"
+  - "VILLAGE_DEFENSE"
+  - "VILLAGE_INVASION"
+  - "BREEDING"
+  - "SLIME_SPLIT"
+  - "REINFORCEMENTS"
+  - "NETHER_PORTAL"
+  - "DISPENSE_EGG"
+  - "INFECTION"
+  - "CURED"
+  - "OCELOT_BABY"
+  - "SILVERFISH_BLOCK"
+  - "MOUNT"
+  - "TRAP"
+  - "ENDER_PEARL"
+  - "SHOULDER_ENTITY"
+  - "DROWNED"
+  - "SHEARED"
+  - "EXPLOSION"
+  - "RAID"
+  - "PATROL"
+  - "BEEHIVE"
+  - "PIGLIN_ZOMBIFIED"
+  - "COMMAND"
+  - "CUSTOM"
+  - "DEFAULT"
+
+messages: # Available message types: chat! actionbar! title!
+  plugin-reloaded: "actionbar! &8(&6&l!&8) &7Plugin successfully reloaded!"
+  no-permission: "chat! &8(&c&l&8) &7Insufficient permissions!"
+
+mobs:
+  blaze: Blaze
+  cave_spider: Cave Spider
+  creeper: Creeper
+  enderman: Enderman
+  endermite: Endermite
+  evoker: Evoker
+  evoker_fangs: Evoker fangs
+  ghast: Ghast
+  giant: Giant
+  guardian: Guardian
+  husk: Husk
+  illusioner: Illusioner
+  piglin: Piglin
+  hoglin: Hoglin
+  shulker: Shulker
+  silverfish: Silverfish
+  skeleton: Skeleton
+  slime: Slime
+  spider: Spider
+  vex: Vex
+  vindicator: Vindicator
+  witch: Witch
+  wither_skeleton: Wither Skeleton
+  zombie: Zombie
+  drowned: Drowned
+  magma_cube: Magma Cube
+  piglin_brute: Brutal Piglin
+  pillager: Pillager
+  ravager: Ravager
+  zombified_piglin: Zombified Piglin
+  zombie_villager: Zombie Villager
+  stray: Stray

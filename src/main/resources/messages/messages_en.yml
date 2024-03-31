@@ -33,4 +33,8 @@ mobs:
   zombified_piglin: Zombified Piglin
   zombie_villager: Zombie Villager
   stray: Stray
+  zoglin: Zoglin
+  warden: Warden
+  breeze: Breeze
+  bogged: Bogged
 file_version: 1

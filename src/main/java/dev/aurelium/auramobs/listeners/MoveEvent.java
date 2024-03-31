@@ -3,7 +3,7 @@ package dev.aurelium.auramobs.listeners;
 import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -20,7 +20,6 @@ public class MoveEvent implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
-
         int range = plugin.optionInt("custom_name.display_range");
 
         World fromWorld = e.getFrom().getWorld();
@@ -29,9 +28,9 @@ public class MoveEvent implements Listener {
         if (fromWorld == null || toWorld == null) return;
 
         List<Entity> from = fromWorld.getNearbyEntities(e.getFrom(), range, range, range).stream()
-                .filter(mob -> mob instanceof Monster && plugin.isAuraMob((Monster) mob)).toList();
+                .filter(mob -> mob instanceof LivingEntity && plugin.isAuraMob((LivingEntity) mob)).toList();
         List<Entity> to = toWorld.getNearbyEntities(e.getTo(), range, range, range).stream()
-                .filter(mob -> mob instanceof Monster && plugin.isAuraMob((Monster) mob)).toList();
+                .filter(mob -> mob instanceof LivingEntity && plugin.isAuraMob((LivingEntity) mob)).toList();
 
         to.forEach(mob -> {
             if (!from.contains(mob)) {
@@ -43,8 +42,6 @@ public class MoveEvent implements Listener {
                 mob.setCustomNameVisible(false);
             }
         });
-
-
     }
 
 }

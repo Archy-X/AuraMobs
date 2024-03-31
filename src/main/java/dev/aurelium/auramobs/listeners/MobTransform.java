@@ -2,7 +2,7 @@ package dev.aurelium.auramobs.listeners;
 
 import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.Material;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTransformEvent;
@@ -19,33 +19,28 @@ public class MobTransform implements Listener {
 
     @EventHandler
     public void onMutate(EntityTransformEvent event) {
-
-        if (!(event.getEntity() instanceof Monster monster)) {
+        if (!(event.getEntity() instanceof LivingEntity entity)) {
             return;
         }
 
-        if (!plugin.isAuraMob(monster)) {
+        if (!plugin.isAuraMob(entity)) {
             return;
         }
 
-        if (!(event.getTransformedEntity() instanceof Monster)) {
-
+        if (!(event.getTransformedEntity() instanceof LivingEntity)) {
             event.getTransformedEntity().getPersistentDataContainer().remove(plugin.getMobKey());
             event.getTransformedEntity().setCustomNameVisible(false);
             event.getTransformedEntity().setCustomName(null);
-
         }
-
     }
 
     @EventHandler
     public void onRename(PlayerInteractAtEntityEvent event) {
-
-        if (!(event.getRightClicked() instanceof Monster monster)) {
+        if (!(event.getRightClicked() instanceof LivingEntity entity)) {
             return;
         }
 
-        if (!plugin.isAuraMob(monster)) {
+        if (!plugin.isAuraMob(entity)) {
             return;
         }
 
@@ -56,7 +51,6 @@ public class MobTransform implements Listener {
 
         event.getRightClicked().getPersistentDataContainer().remove(plugin.getMobKey());
         event.getRightClicked().setCustomNameVisible(false);
-
     }
 
 

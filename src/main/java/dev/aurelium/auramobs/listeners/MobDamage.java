@@ -3,7 +3,7 @@ package dev.aurelium.auramobs.listeners;
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.util.ColorUtils;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,30 +22,30 @@ public class MobDamage implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onMobDamage(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof Monster m)) {
+        if (!(e.getEntity() instanceof LivingEntity entity)) {
             return;
         }
 
-        if (!plugin.isAuraMob(m)) {
+        if (!plugin.isAuraMob(entity)) {
             return;
         }
 
-        int level = m.getPersistentDataContainer().getOrDefault(plugin.getMobKey(), PersistentDataType.INTEGER, 0);
-        double resHealth = m.getHealth() - e.getDamage();
+        int level = entity.getPersistentDataContainer().getOrDefault(plugin.getMobKey(), PersistentDataType.INTEGER, 0);
+        double resHealth = entity.getHealth() - e.getDamage();
         String formattedHealth = plugin.getFormatter().format(resHealth);
         try {
-            m.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
-                    .replace("{mob}", plugin.getMsg("mobs." + m.getType().name().toLowerCase()))
+            entity.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
+                    .replace("{mob}", plugin.getMsg("mobs." + entity.getType().name().toLowerCase()))
                     .replace("{lvl}", Integer.toString(level))
                     .replace("{health}", formattedHealth)
-                    .replace("{maxhealth}", plugin.getFormatter().format(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
+                    .replace("{maxhealth}", plugin.getFormatter().format(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
             ));
         } catch (NullPointerException ex){
-            m.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
-                    .replace("{mob}", m.getType().name())
+            entity.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
+                    .replace("{mob}", entity.getType().name())
                     .replace("{lvl}", Integer.toString(level))
                     .replace("{health}", formattedHealth)
-                    .replace("{maxhealth}", plugin.getFormatter().format(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
+                    .replace("{maxhealth}", plugin.getFormatter().format(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))
             ));
         }
 
@@ -53,21 +53,19 @@ public class MobDamage implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onArrowHit(EntityDamageByEntityEvent e) {
-
         if (!(e.getEntity() instanceof Projectile p)) {
             return;
         }
 
-        if (!(p.getShooter() instanceof Monster m)) {
+        if (!(p.getShooter() instanceof LivingEntity entity)) {
             return;
         }
 
-        if (!plugin.isAuraMob(m)) {
+        if (!plugin.isAuraMob(entity)) {
             return;
         }
 
-        e.setDamage(m.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
-
+        e.setDamage(entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
     }
 
 }

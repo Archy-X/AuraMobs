@@ -5,7 +5,7 @@ import dev.aurelium.auramobs.util.MessageUtils;
 import dev.aurelium.auraskills.api.event.skill.EntityXpGainEvent;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,17 +24,15 @@ public class EntityXpGainListener implements Listener {
     public void onXpGain(EntityXpGainEvent event) {
         if (!plugin.optionBoolean("skills_xp.enabled")) return;
 
-        if (!(event.getAttacked() instanceof Monster monster)) {
-            return;
-        }
+        LivingEntity entity = event.getAttacked();
 
-        if (!plugin.isAuraMob(monster)) {
+        if (!plugin.isAuraMob(entity)) {
             return;
         }
 
         Player player = event.getPlayer();
         double sourceXp = event.getAmount();
-        int mobLevel = monster.getPersistentDataContainer().getOrDefault(plugin.getMobKey(), PersistentDataType.INTEGER, 0);
+        int mobLevel = entity.getPersistentDataContainer().getOrDefault(plugin.getMobKey(), PersistentDataType.INTEGER, 0);
 
         if (mobLevel <= 0) return;
 

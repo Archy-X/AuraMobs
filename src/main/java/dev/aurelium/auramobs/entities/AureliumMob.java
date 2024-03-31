@@ -7,7 +7,7 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -16,8 +16,8 @@ import java.math.RoundingMode;
 
 public class AureliumMob {
 
-    public AureliumMob(Monster mob, int level, AuraMobs plugin) {
-        if (mob instanceof Zombie){
+    public AureliumMob(LivingEntity mob, int level, AuraMobs plugin) {
+        if (mob instanceof Zombie) {
             mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers().clear();
         }
 

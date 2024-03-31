@@ -21,7 +21,7 @@ import dev.aurelium.auraskills.api.user.SkillsUser;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -184,7 +184,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         return (int) Math.round(new ExpressionBuilder(formula).build().evaluate());
     }
 
-    public boolean isAuraMob(Monster m) {
+    public boolean isAuraMob(LivingEntity m) {
         return m.getPersistentDataContainer().has(mobKey, PersistentDataType.INTEGER);
     }
 

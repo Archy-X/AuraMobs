@@ -3,7 +3,7 @@ package dev.aurelium.auramobs.api;
 import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.math.BigDecimal;
@@ -27,7 +27,7 @@ public class AuraMobsAPI {
      * @return the level of given mob, if not AureliumMob returns 1
      */
     public static int getMobLevel(Entity e) {
-        if (!(e instanceof Monster m)) {
+        if (!(e instanceof LivingEntity m)) {
             return 1;
         }
         if (!plugin.isAuraMob(m)) {
@@ -46,7 +46,7 @@ public class AuraMobsAPI {
      * @return health of given mob, if not a Monster returns 1
      */
     public static double getMobHealth(Entity e) {
-        if (!(e instanceof Monster m)) {
+        if (!(e instanceof LivingEntity m)) {
             return 1;
         }
         return BigDecimal.valueOf(m.getHealth()).setScale(2, RoundingMode.CEILING).doubleValue();
@@ -58,7 +58,7 @@ public class AuraMobsAPI {
      * @return max health of given mob, if not a Monster returns 1
      */
     public static double getMobMaxHealth(Entity e) {
-        if (!(e instanceof Monster m)) {
+        if (!(e instanceof LivingEntity m)) {
             return 1;
         }
         return BigDecimal.valueOf(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()).setScale(2, RoundingMode.CEILING).doubleValue();
@@ -70,7 +70,7 @@ public class AuraMobsAPI {
      * @return damage of given mob, if not a Monster returns 1
      */
     public static int getMobDamage(Entity e) {
-        if (!(e instanceof Monster m)) {
+        if (!(e instanceof LivingEntity m)) {
             return 1;
         }
         return BigDecimal.valueOf(m.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()).setScale(2, RoundingMode.CEILING).intValue();

@@ -17,6 +17,7 @@ import dev.aurelium.auramobs.util.Formatter;
 import dev.aurelium.auramobs.util.Metrics;
 import dev.aurelium.auraskills.api.AuraSkillsApi;
 import dev.aurelium.auraskills.api.skill.Skill;
+import dev.aurelium.auraskills.api.skill.Skills;
 import dev.aurelium.auraskills.api.user.SkillsUser;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
@@ -153,7 +154,11 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     }
 
     public int getAverageLevel(Player p) {
-        return getSumLevel(p) / getEnabledSkills().size();
+        int enabled = getEnabledSkills().size();
+        if (enabled == 0) {
+            enabled = Skills.values().length;
+        }
+        return getSumLevel(p) / enabled;
     }
 
     private List<Skill> getEnabledSkills() {

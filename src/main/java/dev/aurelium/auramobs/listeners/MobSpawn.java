@@ -64,7 +64,7 @@ public class MobSpawn implements Listener {
 
     private boolean isInvalidEntity(Entity entity) {
         if (entity instanceof Boss || !(entity instanceof LivingEntity)) return true; // Types to exclude
-        if (entity instanceof Hoglin) return false; // Types to include
+        if (entity instanceof Hoglin || entity instanceof Slime) return false; // Types to include
         return !(entity instanceof Monster);
     }
 

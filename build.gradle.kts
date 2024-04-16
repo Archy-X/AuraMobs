@@ -41,6 +41,11 @@ tasks.withType<ShadowJar> {
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 tasks {
+    processResources {
+        filesMatching("plugin.yml") {
+            expand("projectVersion" to project.version)
+        }
+    }
     build {
         dependsOn(shadowJar)
     }

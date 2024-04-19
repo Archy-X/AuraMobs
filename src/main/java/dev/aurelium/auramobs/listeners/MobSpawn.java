@@ -106,7 +106,7 @@ public class MobSpawn implements Listener {
                 double distance = mobloc.distance(spawnpoint);
                 int level;
                 String lformula;
-                if (players.isEmpty() || sumlevel == 0) {
+                if (players.isEmpty()) {
                     lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
                             .replace("{distance}", Double.toString(distance))
                             .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))

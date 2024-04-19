@@ -106,10 +106,12 @@ public class MobSpawn implements Listener {
                 double distance = mobloc.distance(spawnpoint);
                 int level;
                 String lformula;
+                int globalOnline = plugin.getServer().getOnlinePlayers().size();
                 if (players.isEmpty()) {
                     lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
                             .replace("{distance}", Double.toString(distance))
                             .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
+                            .replace("{playercount}", globalOnline > 0 ? String.valueOf(globalOnline) : "1")
                             .replace("{location_x}", Double.toString(entity.getLocation().getX()))
                             .replace("{location_y}", Double.toString(entity.getLocation().getY()))
                             .replace("{location_z}", Double.toString(entity.getLocation().getZ()))

@@ -7,6 +7,7 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.persistence.PersistentDataType;
@@ -55,8 +56,14 @@ public class AureliumMob {
             damage = plugin.getMaxDamage();
         }
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
-        mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
-        mob.setHealth(health);
+
+        AttributeInstance healthAttr = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (healthAttr == null) return;
+        healthAttr.setBaseValue(health);
+
+        double maxValue = healthAttr.getValue();
+        mob.setHealth(Math.min(health, maxValue));
+
         mob.getPersistentDataContainer().set(plugin.getMobKey(), PersistentDataType.INTEGER, level);
         if (plugin.isNamesEnabled()) {
             mob.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")

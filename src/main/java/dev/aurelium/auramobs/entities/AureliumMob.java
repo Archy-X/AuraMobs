@@ -64,7 +64,7 @@ public class AureliumMob {
         double maxValue = healthAttr.getValue();
         mob.setHealth(Math.min(health, maxValue));
 
-        mob.getPersistentDataContainer().set(plugin.getMobKey(), PersistentDataType.INTEGER, level);
+        mob.getPersistentDataContainer().set(plugin.getMobKey(), PersistentDataType.INTEGER, level1);
         if (plugin.isNamesEnabled()) {
             mob.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
                     .replace("{mob}", plugin.getMsg("mobs." + mob.getType().name().toLowerCase()))

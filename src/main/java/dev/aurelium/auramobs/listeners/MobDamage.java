@@ -30,8 +30,9 @@ public class MobDamage implements Listener {
             return;
         }
 
-        int level = entity.getPersistentDataContainer().getOrDefault(plugin.getMobKey(), PersistentDataType.INTEGER, 0);
-        double resHealth = entity.getHealth() - e.getDamage();
+        int level = entity.getPersistentDataContainer().getOrDefault(plugin.getMobKey(), PersistentDataType.INTEGER, 1);
+        double resHealth = entity.getHealth() - e.getFinalDamage();
+        resHealth = Math.max(resHealth, 0.0);
         String formattedHealth = plugin.getFormatter().format(resHealth);
         try {
             entity.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")

@@ -23,7 +23,7 @@ dependencies {
     implementation("com.github.Osiris-Team:Dream-Yaml:6.9")
     implementation("com.github.Archy-X:Polyglot:d6debe617a")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
-    compileOnly("dev.aurelium:auraskills-api-bukkit:2.0.7")
+    compileOnly("dev.aurelium:auraskills-api-bukkit:2.1.0")
     compileOnly("org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.2")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.7-SNAPSHOT")

@@ -68,6 +68,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         // Load messages
         PolyglotConfig polyglotConfig = new PolyglotConfigBuilder()
                 .defaultLanguage("en")
+                .providedLanguages(new String[] {"en", "es"})
                 .messageDirectory("messages")
                 .messageFileName("messages_{language}.yml").build();
         polyglot = new Polyglot(this, polyglotConfig);
@@ -220,6 +221,14 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     // Message and config convenience methods
     public String getMsg(String key) {
         return polyglot.getMessageManager().get(language, MessageKey.of(key));
+    }
+
+    public Locale getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Locale language) {
+        this.language = language;
     }
 
     public OptionValue option(String key) {

@@ -7,6 +7,8 @@ import co.aikar.commands.annotation.Subcommand;
 import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.command.CommandSender;
 
+import java.util.Locale;
+
 @CommandAlias("auramobs")
 public class AuraMobsCommand extends BaseCommand {
 
@@ -22,6 +24,7 @@ public class AuraMobsCommand extends BaseCommand {
         plugin.reloadConfig();
         plugin.getConfigManager().loadConfig();
         plugin.getPolyglot().getMessageManager().loadMessages();
+        plugin.setLanguage(new Locale(plugin.optionString("language")));
         sender.sendMessage(plugin.getMsg("commands.reload"));
     }
 

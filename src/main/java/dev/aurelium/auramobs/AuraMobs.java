@@ -14,12 +14,12 @@ import dev.aurelium.auramobs.config.OptionKey;
 import dev.aurelium.auramobs.config.OptionValue;
 import dev.aurelium.auramobs.listeners.*;
 import dev.aurelium.auramobs.util.Formatter;
-import dev.aurelium.auramobs.util.Metrics;
 import dev.aurelium.auraskills.api.AuraSkillsApi;
 import dev.aurelium.auraskills.api.skill.Skill;
 import dev.aurelium.auraskills.api.skill.Skills;
 import dev.aurelium.auraskills.api.user.SkillsUser;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
@@ -32,7 +32,7 @@ import java.util.Locale;
 
 public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
-    private static final int bstatsId = 12142;
+    private static final int bstatsId = 22266;
     private NamespacedKey mobKey;
     private WorldGuardHook worldGuard;
     private AuraSkillsApi auraSkills;

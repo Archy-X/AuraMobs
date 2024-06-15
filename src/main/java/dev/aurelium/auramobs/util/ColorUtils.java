@@ -22,7 +22,7 @@ public class ColorUtils {
 
     public static String legacyToJson(String legacyString) {
         if (legacyString == null) return "";
-        return ComponentSerializer.toString(TextComponent.fromLegacyText(legacyString));
+        return ComponentSerializer.toString(TextComponent.fromLegacy(legacyString));
     }
 
 

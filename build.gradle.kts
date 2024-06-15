@@ -20,8 +20,9 @@ repositories {
 
 dependencies {
     implementation("net.objecthunter:exp4j:0.4.8")
-    implementation("com.github.Osiris-Team:Dream-Yaml:6.9")
-    implementation("com.github.Archy-X:Polyglot:d6debe617a")
+    implementation("com.github.Archy-X:Polyglot:1.2.1") {
+        exclude("org.yaml", "snakeyaml")
+    }
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
     implementation("org.bstats:bstats-bukkit:3.0.2")
     compileOnly("dev.aurelium:auraskills-api-bukkit:2.1.2")
@@ -38,6 +39,10 @@ tasks.withType<ShadowJar> {
     relocate("co.aikar.locales", "dev.aurelium.auramobs.locales")
     relocate("com.archyx.polyglot", "dev.aurelium.auramobs.polyglot")
     relocate("org.bstats", "dev.aurelium.auramobs.bstats")
+    relocate("net.kyori", "dev.aurelium.auramobs.kyori")
+    relocate("net.objecthunter.exp4j", "dev.aurelium.auramobs.exp4j")
+    relocate("org.spongepowered.configurate", "dev.aurelium.auramobs.configurate")
+    relocate("io.leangen.geantyref", "dev.aurelium.auramobs.geantyref")
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17

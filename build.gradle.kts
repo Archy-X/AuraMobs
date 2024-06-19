@@ -73,3 +73,15 @@ tasks.withType<JavaCompile> {
     options.isFork = true
     options.forkOptions.executable = "javac"
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.github.Archy-X"
+            artifactId = "AuraMobs"
+            version = project.property("projectVersion") as String
+
+            from(components["java"])
+        }
+    }
+}

@@ -60,9 +60,6 @@ tasks {
     assemble {
         dependsOn(shadowJar)
     }
-    jar {
-        enabled = false
-    }
     javadoc {
         options {
             (this as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")

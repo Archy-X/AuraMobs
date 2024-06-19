@@ -57,6 +57,9 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
+    assemble {
+        dependsOn(shadowJar)
+    }
     jar {
         enabled = false
     }

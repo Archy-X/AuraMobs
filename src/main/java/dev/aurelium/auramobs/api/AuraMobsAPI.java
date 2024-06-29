@@ -33,11 +33,18 @@ public class AuraMobsAPI {
         if (!plugin.isAuraMob(m)) {
             return 1;
         }
-        String persistent = m.getPersistentDataContainer().get(plugin.getMobKey(), PersistentDataType.STRING);
-        if (persistent == null || persistent.isEmpty()) {
+        Integer persistent = m.getPersistentDataContainer().get(plugin.getMobKey(), PersistentDataType.INTEGER);
+        if (persistent == null) {
             return 1;
         }
-        return Integer.parseInt(persistent);
+        return persistent;
+    }
+
+    public static boolean isAuraMob(Entity entity) {
+       if (!(entity instanceof LivingEntity m)) {
+           return false;
+       }
+        return plugin.isAuraMob(m);
     }
 
     /**

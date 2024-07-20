@@ -32,7 +32,7 @@ public class MobSpawn implements Listener {
             }
             if (!f) return;
 
-            if (isInvalidEntity(e.getEntity())) {
+            if (plugin.isInvalidEntity(e.getEntity())) {
                 return;
             }
             LivingEntity entity = e.getEntity();
@@ -62,11 +62,6 @@ public class MobSpawn implements Listener {
         }
     }
 
-    private boolean isInvalidEntity(Entity entity) {
-        if (entity instanceof Boss || !(entity instanceof LivingEntity)) return true; // Types to exclude
-        if (entity instanceof Hoglin || entity instanceof Slime) return false; // Types to include
-        return !(entity instanceof Monster);
-    }
 
     public boolean passWorld(World world) {
         if (plugin.isWorldWhitelist()) {

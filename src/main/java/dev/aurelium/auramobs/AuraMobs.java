@@ -22,8 +22,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -192,6 +191,12 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     public boolean isAuraMob(LivingEntity m) {
         return m.getPersistentDataContainer().has(mobKey, PersistentDataType.INTEGER);
+    }
+
+    public boolean isInvalidEntity(Entity entity) {
+        if (entity instanceof Boss || !(entity instanceof LivingEntity)) return true; // Types to exclude
+        if (entity instanceof Hoglin || entity instanceof Slime) return false; // Types to include
+        return !(entity instanceof Monster);
     }
 
     public Formatter getFormatter() {

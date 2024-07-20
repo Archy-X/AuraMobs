@@ -27,7 +27,7 @@ public class MobTransform implements Listener {
             return;
         }
 
-        if (!(event.getTransformedEntity() instanceof LivingEntity)) {
+        if (plugin.isInvalidEntity(entity)) {
             event.getTransformedEntity().getPersistentDataContainer().remove(plugin.getMobKey());
             event.getTransformedEntity().setCustomNameVisible(false);
             event.getTransformedEntity().setCustomName(null);

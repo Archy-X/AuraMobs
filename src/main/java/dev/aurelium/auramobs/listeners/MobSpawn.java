@@ -7,10 +7,14 @@ import dev.aurelium.auramobs.util.MessageUtils;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -100,35 +104,64 @@ public class MobSpawn implements Listener {
                 Location spawnpoint = entity.getWorld().getSpawnLocation();
                 double distance = mobloc.distance(spawnpoint);
                 int level;
-                String lformula;
-                int globalOnline = plugin.getServer().getOnlinePlayers().size();
-                if (players.isEmpty()) {
-                    lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
-                            .replace("{distance}", Double.toString(distance))
-                            .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
-                            .replace("{playercount}", globalOnline > 0 ? String.valueOf(globalOnline) : "1")
-                            .replace("{location_x}", Double.toString(entity.getLocation().getX()))
-                            .replace("{location_y}", Double.toString(entity.getLocation().getY()))
-                            .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
-                    );
+
+                int overrideLevel = getMetadataLevel(entity);
+                if (overrideLevel != 0) {
+                    level = overrideLevel;
                 } else {
-                    lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
-                            .replace("{highestlvl}", Integer.toString(maxlevel))
-                            .replace("{lowestlvl}", Integer.toString(minlevel))
-                            .replace("{sumlevel}", Integer.toString(sumlevel))
-                            .replace("{playercount}", Integer.toString(players.size()))
-                            .replace("{distance}", Double.toString(distance))
-                            .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
-                            .replace("{location_x}", Double.toString(entity.getLocation().getX()))
-                            .replace("{location_y}", Double.toString(entity.getLocation().getY()))
-                            .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
-                    );
+                    level = getCalculatedLevel(entity, players, distance, maxlevel, minlevel, sumlevel);
                 }
-                level = (int) new ExpressionBuilder(lformula).build().evaluate();
-                level = Math.min(level, plugin.optionInt("mob_level.max_level"));
                 new AureliumMob(entity, correctLevel(entity.getLocation(), level), plugin);
             }
         };
+    }
+
+    private int getCalculatedLevel(Entity entity, List<Entity> players, double distance, int maxlevel, int minlevel, int sumlevel) {
+        int level;
+        String lformula;
+        int globalOnline = plugin.getServer().getOnlinePlayers().size();
+        if (players.isEmpty()) {
+            lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
+                    .replace("{distance}", Double.toString(distance))
+                    .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
+                    .replace("{playercount}", globalOnline > 0 ? String.valueOf(globalOnline) : "1")
+                    .replace("{location_x}", Double.toString(entity.getLocation().getX()))
+                    .replace("{location_y}", Double.toString(entity.getLocation().getY()))
+                    .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
+            );
+        } else {
+            lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
+                    .replace("{highestlvl}", Integer.toString(maxlevel))
+                    .replace("{lowestlvl}", Integer.toString(minlevel))
+                    .replace("{sumlevel}", Integer.toString(sumlevel))
+                    .replace("{playercount}", Integer.toString(players.size()))
+                    .replace("{distance}", Double.toString(distance))
+                    .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
+                    .replace("{location_x}", Double.toString(entity.getLocation().getX()))
+                    .replace("{location_y}", Double.toString(entity.getLocation().getY()))
+                    .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
+            );
+        }
+        level = (int) new ExpressionBuilder(lformula).build().evaluate();
+        level = Math.min(level, plugin.optionInt("mob_level.max_level"));
+        return level;
+    }
+
+    private int getMetadataLevel(Entity entity) {
+        int overrideLevel = 0;
+        List<MetadataValue> meta = entity.getMetadata("auraskills_level");
+        if (!meta.isEmpty()) {
+            for (MetadataValue val : meta) {
+                Plugin owning = val.getOwningPlugin();
+                if (owning == null) continue;
+
+                if (owning.getName().equals("AuraSkills")) {
+                    overrideLevel = val.asInt();
+                    break;
+                }
+            }
+        }
+        return overrideLevel;
     }
 
     public int correctLevel(Location loc, int level) {

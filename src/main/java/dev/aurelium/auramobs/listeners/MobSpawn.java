@@ -18,10 +18,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.Random;
 
 public class MobSpawn implements Listener {
 
     private final AuraMobs plugin;
+    private final Random random = new Random();
 
     public MobSpawn(AuraMobs plugin){
         this.plugin = plugin;
@@ -128,6 +130,8 @@ public class MobSpawn implements Listener {
                     .replace("{location_x}", Double.toString(entity.getLocation().getX()))
                     .replace("{location_y}", Double.toString(entity.getLocation().getY()))
                     .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
+                    .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
+                    .replace("{random_double}", String.valueOf(random.nextDouble()))
             );
         } else {
             lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
@@ -140,6 +144,8 @@ public class MobSpawn implements Listener {
                     .replace("{location_x}", Double.toString(entity.getLocation().getX()))
                     .replace("{location_y}", Double.toString(entity.getLocation().getY()))
                     .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
+                    .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
+                    .replace("{random_double}", String.valueOf(random.nextDouble()))
             );
         }
         level = (int) new ExpressionBuilder(lformula).build().evaluate();

@@ -182,7 +182,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
                 .replace("{skillcount}", Integer.toString(skills.size()));
 
         for (Skill skill : skills) {
-            String replace = "{" + skill.name().toLowerCase() + "}";
+            String replace = "{" + skill.name().toLowerCase(Locale.ROOT) + "}";
             formula = formula.replace(replace, Integer.toString(user.getSkillLevel(skill)));
         }
 

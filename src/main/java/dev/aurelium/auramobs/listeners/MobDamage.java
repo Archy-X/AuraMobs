@@ -12,6 +12,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Locale;
+
 public class MobDamage implements Listener {
 
     private final AuraMobs plugin;
@@ -36,7 +38,7 @@ public class MobDamage implements Listener {
         String formattedHealth = plugin.getFormatter().format(resHealth);
         try {
             entity.setCustomName(ColorUtils.colorMessage(plugin.optionString("custom_name.format")
-                    .replace("{mob}", plugin.getMsg("mobs." + entity.getType().name().toLowerCase()))
+                    .replace("{mob}", plugin.getMsg("mobs." + entity.getType().name().toLowerCase(Locale.ROOT)))
                     .replace("{lvl}", Integer.toString(level))
                     .replace("{health}", formattedHealth)
                     .replace("{maxhealth}", plugin.getFormatter().format(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()))

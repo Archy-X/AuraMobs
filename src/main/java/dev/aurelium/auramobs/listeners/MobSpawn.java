@@ -18,6 +18,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MobSpawn implements Listener {
@@ -56,7 +57,7 @@ public class MobSpawn implements Listener {
 
             if (type.equalsIgnoreCase("blacklist") && (mobs.contains(e.getEntity().getType().name()) || mobs.contains("*"))) {
                 return;
-            } else if (type.equalsIgnoreCase("whitelist") && (!mobs.contains(e.getEntity().getType().name().toUpperCase()) && !mobs.contains("*"))) {
+            } else if (type.equalsIgnoreCase("whitelist") && (!mobs.contains(e.getEntity().getType().name().toUpperCase(Locale.ROOT)) && !mobs.contains("*"))) {
                 return;
             }
 

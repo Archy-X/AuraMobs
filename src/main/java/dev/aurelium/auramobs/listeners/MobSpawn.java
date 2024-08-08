@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.MetadataValue;
@@ -30,14 +31,17 @@ public class MobSpawn implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onSpawn(CreatureSpawnEvent e) {
         try {
-            boolean f = false;
+            boolean valid = false;
             for (String s : plugin.optionList("spawn_reasons")) {
-                if (e.getSpawnReason().name().equalsIgnoreCase(s)) f = true;
+                if (e.getSpawnReason().name().equalsIgnoreCase(s)) {
+                    valid = true;
+                    break;
+                }
             }
-            if (!f) return;
+            if (!valid) return;
 
             if (plugin.isInvalidEntity(e.getEntity())) {
                 return;
@@ -61,11 +65,17 @@ public class MobSpawn implements Listener {
                 return;
             }
 
+            if(plugin.optionBoolean("custom_name.allow_override")) {
+                if(e.getEntity().getCustomName() != null) {
+                    return;
+                }
+            }
+
             int radius = plugin.optionInt("player_level.check_radius");
 
             changeMob(entity, radius).runTask(plugin);
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
+            plugin.getLogger().severe(ex.getMessage());
         }
     }
 

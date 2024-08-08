@@ -90,6 +90,8 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
             }
         }
 
+        this.getServer().getPluginManager().registerEvents(new MobDeath(this), this);
+
         new Metrics(this, bstatsId);
 
         registerCommands();

@@ -96,7 +96,7 @@ public class ColorUtils {
                 finalMsg.append(text);
                 continue;
             }
-            if (text.length() == 0) continue;
+            if (text.isEmpty()) continue;
             if (hexIndex + 1 >= hexes.size()) {
                 if (!finalMsg.toString().contains(text)) finalMsg.append(text);
                 continue;
@@ -146,7 +146,7 @@ public class ColorUtils {
             if (underlined) formats += ChatColor.UNDERLINE;
             if (strikethrough) formats += ChatColor.STRIKETHROUGH;
             if (magic) formats += ChatColor.MAGIC;
-            msg = msg.replaceFirst("<\\$>", "" + ChatColor.of(hex) + formats);
+            msg = msg.replaceFirst("<\\$>", ChatColor.of(hex) + formats);
         }
         return msg;
     }

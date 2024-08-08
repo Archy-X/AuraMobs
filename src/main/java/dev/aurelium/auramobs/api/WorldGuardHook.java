@@ -51,7 +51,7 @@ public record WorldGuardHook(boolean hasWorldGuard) {
 
         Set<ProtectedRegion> regions = manager.getApplicableRegions(position).getRegions();
 
-        if (regions.size() < 1) {
+        if (regions.isEmpty()) {
             return -1;
         } else if (new ArrayList<>(regions).get(0).getFlags().containsKey(minMoblevel)) {
             return new ArrayList<>(regions).get(0).getFlag(minMoblevel);
@@ -71,7 +71,7 @@ public record WorldGuardHook(boolean hasWorldGuard) {
 
         Set<ProtectedRegion> regions = manager.getApplicableRegions(position).getRegions();
 
-        if (regions.size() < 1) {
+        if (regions.isEmpty()) {
             return Integer.MAX_VALUE;
         } else if (new ArrayList<>(regions).get(0).getFlags().containsKey(maxMoblevel)) {
             return new ArrayList<>(regions).get(0).getFlag(maxMoblevel);
@@ -91,7 +91,7 @@ public record WorldGuardHook(boolean hasWorldGuard) {
 
         Set<ProtectedRegion> regions = manager.getApplicableRegions(position).getRegions();
 
-        if (regions.size() < 1) {
+        if (regions.isEmpty()) {
             return true;
         } else if (new ArrayList<>(regions).get(0).getFlags().containsKey(mobsEnabled)) {
             return new ArrayList<>(regions).get(0).getFlag(mobsEnabled).equals(StateFlag.State.ALLOW);

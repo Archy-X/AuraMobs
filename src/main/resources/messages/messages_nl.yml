@@ -1,0 +1,40 @@
+commands:
+  reload: 'AuraMobs succesvol opnieuw geladen!'
+mobs:
+  blaze: Blaze
+  cave_spider: Grottenspin
+  creeper: Creeper
+  enderman: Enderman
+  endermite: Endermijt
+  evoker: Oproeper
+  evoker_fangs: Opgeroepen tanden
+  ghast: Ghast
+  giant: Reus
+  guardian: Bewaker
+  husk: Mummie
+  illusioner: Illusionist
+  piglin: Piglin
+  hoglin: Hoglin
+  shulker: Shulker
+  silverfish: Zilvervis
+  skeleton: Skelet
+  slime: Slijmkubus
+  spider: Spider
+  vex: Ergernis
+  vindicator: Verdediger
+  witch: Heks
+  wither_skeleton: Witherskelet
+  zombie: Zombie
+  drowned: Drenkeling
+  magma_cube: Magmakubus
+  piglin_brute: Piglinbruut
+  pillager: Rover
+  ravager: Verwoester
+  zombified_piglin: Zombifiepiglin
+  zombie_villager: Zombiedorpeling
+  stray: Verdwaalde
+  zoglin: Zoglin
+  warden: Hoeder
+  breeze: Vlaag
+  bogged: Zomper
+file_version: 1

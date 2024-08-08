@@ -107,7 +107,8 @@ public class MobSpawn implements Listener {
                 int maxlevel = Integer.MIN_VALUE;
                 int minlevel = Integer.MAX_VALUE;
                 List<Entity> players = entity.getNearbyEntities(radius, radius, radius).stream().filter(entity -> entity instanceof Player).toList();
-                for (Entity player: players) {
+                for (Entity player : players) {
+                    if (player.hasMetadata("NPC")) continue;
                     int lvl = plugin.getLevel((Player) player);
                     sumlevel+=lvl;
                     if (lvl>maxlevel) {maxlevel = lvl;}

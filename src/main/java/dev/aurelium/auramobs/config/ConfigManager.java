@@ -52,7 +52,7 @@ public class ConfigManager {
                 plugin.saveConfig();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            plugin.getLogger().warning("Failed to update config file: " + e.getMessage());
         }
     }
 

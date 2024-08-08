@@ -65,8 +65,8 @@ public class MobSpawn implements Listener {
                 return;
             }
 
-            if(plugin.optionBoolean("custom_name.allow_override")) {
-                if(e.getEntity().getCustomName() != null) {
+            if (plugin.optionBoolean("custom_name.allow_override")) {
+                if (e.getEntity().getCustomName() != null) {
                     return;
                 }
             }

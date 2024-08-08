@@ -92,8 +92,6 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
         new Metrics(this, bstatsId);
 
-        getServer().getPluginManager().registerEvents(new MobDeath(this), this);
-
         registerCommands();
         loadWorlds();
         maxHealth = Bukkit.spigot().getConfig().getDouble("settings.attribute.maxHealth.max");

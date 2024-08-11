@@ -194,9 +194,13 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     }
 
     public boolean isInvalidEntity(Entity entity) {
-        if (entity instanceof Boss || !(entity instanceof LivingEntity)) return true; // Types to exclude
-        if (entity instanceof Hoglin || entity instanceof Slime) return false; // Types to include
-        return !(entity instanceof Monster);
+        if (!(entity instanceof LivingEntity mob)) return true;
+        if (entity instanceof Hoglin || entity instanceof Slime) return false; // Mobs that don't inherit from LivingEntity
+        return !(entity instanceof Monster) && !isBossMob(mob);
+    }
+
+    public boolean isBossMob(LivingEntity entity) {
+        return entity instanceof Boss || entity instanceof ElderGuardian;
     }
 
     public Formatter getFormatter() {

@@ -25,7 +25,7 @@ bosses:
   level:
     formula: '{sumlevel}/{playercount}'
     backup_formula: '{distance}*0.01'
-  max_level: 50
+    max_level: 50
 player_level:
   check_radius: 128
   formula: '{average}'

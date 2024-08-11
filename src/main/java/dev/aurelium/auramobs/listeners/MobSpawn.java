@@ -138,66 +138,36 @@ public class MobSpawn implements Listener {
     private int getCalculatedLevel(LivingEntity entity, List<Entity> players, double distance, int maxlevel, int minlevel, int sumlevel) {
         int level;
         String lformula;
+        String prefix = plugin.isBossMob(entity) ? "bosses.level." : "mob_level.";
         int globalOnline = plugin.getServer().getOnlinePlayers().size();
-        if(plugin.isBossMob(entity)) {
-            if (players.isEmpty()) {
-                lformula = MessageUtils.setPlaceholders(null, plugin.optionString("bosses.level.backup_formula")
-                        .replace("{distance}", Double.toString(distance))
-                        .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
-                        .replace("{playercount}", globalOnline > 0 ? String.valueOf(globalOnline) : "1")
-                        .replace("{location_x}", Double.toString(entity.getLocation().getX()))
-                        .replace("{location_y}", Double.toString(entity.getLocation().getY()))
-                        .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
-                        .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
-                        .replace("{random_double}", String.valueOf(random.nextDouble()))
-                );
-            } else {
-                lformula = MessageUtils.setPlaceholders(null, plugin.optionString("bosses.level.formula")
-                        .replace("{highestlvl}", Integer.toString(maxlevel))
-                        .replace("{lowestlvl}", Integer.toString(minlevel))
-                        .replace("{sumlevel}", Integer.toString(sumlevel))
-                        .replace("{playercount}", Integer.toString(players.size()))
-                        .replace("{distance}", Double.toString(distance))
-                        .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
-                        .replace("{location_x}", Double.toString(entity.getLocation().getX()))
-                        .replace("{location_y}", Double.toString(entity.getLocation().getY()))
-                        .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
-                        .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
-                        .replace("{random_double}", String.valueOf(random.nextDouble()))
-                );
-            }
-            level = (int) new ExpressionBuilder(lformula).build().evaluate();
-            level = Math.min(level, plugin.optionInt("bosses.max_level"));
+        if (players.isEmpty()) {
+            lformula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "backup_formula")
+                    .replace("{distance}", Double.toString(distance))
+                    .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
+                    .replace("{playercount}", globalOnline > 0 ? String.valueOf(globalOnline) : "1")
+                    .replace("{location_x}", Double.toString(entity.getLocation().getX()))
+                    .replace("{location_y}", Double.toString(entity.getLocation().getY()))
+                    .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
+                    .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
+                    .replace("{random_double}", String.valueOf(random.nextDouble()))
+            );
         } else {
-            if (players.isEmpty()) {
-                lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
-                        .replace("{distance}", Double.toString(distance))
-                        .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
-                        .replace("{playercount}", globalOnline > 0 ? String.valueOf(globalOnline) : "1")
-                        .replace("{location_x}", Double.toString(entity.getLocation().getX()))
-                        .replace("{location_y}", Double.toString(entity.getLocation().getY()))
-                        .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
-                        .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
-                        .replace("{random_double}", String.valueOf(random.nextDouble()))
-                );
-            } else {
-                lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
-                        .replace("{highestlvl}", Integer.toString(maxlevel))
-                        .replace("{lowestlvl}", Integer.toString(minlevel))
-                        .replace("{sumlevel}", Integer.toString(sumlevel))
-                        .replace("{playercount}", Integer.toString(players.size()))
-                        .replace("{distance}", Double.toString(distance))
-                        .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
-                        .replace("{location_x}", Double.toString(entity.getLocation().getX()))
-                        .replace("{location_y}", Double.toString(entity.getLocation().getY()))
-                        .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
-                        .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
-                        .replace("{random_double}", String.valueOf(random.nextDouble()))
-                );
-            }
-            level = (int) new ExpressionBuilder(lformula).build().evaluate();
-            level = Math.min(level, plugin.optionInt("mob_level.max_level"));
+            lformula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "formula")
+                    .replace("{highestlvl}", Integer.toString(maxlevel))
+                    .replace("{lowestlvl}", Integer.toString(minlevel))
+                    .replace("{sumlevel}", Integer.toString(sumlevel))
+                    .replace("{playercount}", Integer.toString(players.size()))
+                    .replace("{distance}", Double.toString(distance))
+                    .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
+                    .replace("{location_x}", Double.toString(entity.getLocation().getX()))
+                    .replace("{location_y}", Double.toString(entity.getLocation().getY()))
+                    .replace("{location_z}", Double.toString(entity.getLocation().getZ()))
+                    .replace("{random_int}", String.valueOf(random.nextInt(100) + 1))
+                    .replace("{random_double}", String.valueOf(random.nextDouble()))
+            );
         }
+        level = (int) new ExpressionBuilder(lformula).build().evaluate();
+        level = Math.min(level, plugin.optionInt(prefix + "max_level"));
         return level;
     }
 

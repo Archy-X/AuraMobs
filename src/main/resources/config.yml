@@ -53,6 +53,7 @@ spawn_reasons:
   - 'NATURAL'
   - 'JOCKEY'
   - 'SPAWNER'
+  - 'TRIAL_SPAWNER'
   - 'EGG'
   - 'SPAWNER_EGG'
   - 'LIGHTNING'

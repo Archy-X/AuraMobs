@@ -37,4 +37,7 @@ mobs:
   warden: Warden
   breeze: Breeze
   bogged: Bogged
+  ender_dragon: Ender Dragon
+  wither: Wither
+  elder_guardian: Elder Guardian
 file_version: 1

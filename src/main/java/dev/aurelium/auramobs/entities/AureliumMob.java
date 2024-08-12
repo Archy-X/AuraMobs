@@ -8,6 +8,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.persistence.PersistentDataType;
@@ -33,14 +34,15 @@ public class AureliumMob {
         Location mobloc = mob.getLocation();
         Location spawnpoint = mob.getWorld().getSpawnLocation();
         double distance = mobloc.distance(spawnpoint);
-        double startDamage = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
+        double startDamage = mob instanceof EnderDragon ? 0 : BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
         double startHealth = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
-        String damageFormula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_defaults.damage.formula")
+        String prefix = plugin.isBossMob(mob) ? "bosses." : "mob_defaults.";
+        String damageFormula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "damage.formula")
                 .replace("{mob_damage}", String.valueOf(startDamage))
                 .replace("{level}", String.valueOf(level1))
                 .replace("{distance}", Double.toString(distance))
         );
-        String healthFormula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_defaults.health.formula")
+        String healthFormula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "health.formula")
                 .replace("{mob_health}", String.valueOf(startHealth))
                 .replace("{level}", Integer.toString(level1))
                 .replace("{distance}", Double.toString(distance))
@@ -56,7 +58,8 @@ public class AureliumMob {
         if (damage > plugin.getMaxDamage()) {
             damage = plugin.getMaxDamage();
         }
-        mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
+
+        if (!(mob instanceof EnderDragon)) mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
 
         AttributeInstance healthAttr = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (healthAttr == null) return;

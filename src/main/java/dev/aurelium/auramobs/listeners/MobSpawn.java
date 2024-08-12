@@ -46,7 +46,12 @@ public class MobSpawn implements Listener {
             if (plugin.isInvalidEntity(e.getEntity())) {
                 return;
             }
+
             LivingEntity entity = e.getEntity();
+
+            if (!plugin.optionBoolean("bosses.enabled") && plugin.isBossMob(entity)) {
+                return;
+            }
 
             if (!passWorld(e.getEntity().getWorld())) return;
 
@@ -130,12 +135,13 @@ public class MobSpawn implements Listener {
         };
     }
 
-    private int getCalculatedLevel(Entity entity, List<Entity> players, double distance, int maxlevel, int minlevel, int sumlevel) {
+    private int getCalculatedLevel(LivingEntity entity, List<Entity> players, double distance, int maxlevel, int minlevel, int sumlevel) {
         int level;
         String lformula;
+        String prefix = plugin.isBossMob(entity) ? "bosses.level." : "mob_level.";
         int globalOnline = plugin.getServer().getOnlinePlayers().size();
         if (players.isEmpty()) {
-            lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.backup_formula")
+            lformula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "backup_formula")
                     .replace("{distance}", Double.toString(distance))
                     .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
                     .replace("{playercount}", globalOnline > 0 ? String.valueOf(globalOnline) : "1")
@@ -146,7 +152,7 @@ public class MobSpawn implements Listener {
                     .replace("{random_double}", String.valueOf(random.nextDouble()))
             );
         } else {
-            lformula = MessageUtils.setPlaceholders(null, plugin.optionString("mob_level.formula")
+            lformula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "formula")
                     .replace("{highestlvl}", Integer.toString(maxlevel))
                     .replace("{lowestlvl}", Integer.toString(minlevel))
                     .replace("{sumlevel}", Integer.toString(sumlevel))
@@ -161,7 +167,7 @@ public class MobSpawn implements Listener {
             );
         }
         level = (int) new ExpressionBuilder(lformula).build().evaluate();
-        level = Math.min(level, plugin.optionInt("mob_level.max_level"));
+        level = Math.min(level, plugin.optionInt(prefix + "max_level"));
         return level;
     }
 

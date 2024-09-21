@@ -54,7 +54,7 @@ public class ScaleManager {
                 }
 
                 if (scale.contains("-")) {
-                    if(scale.split("-").length != 2) {
+                    if (scale.split("-").length != 2) {
                         plugin.getLogger().warning("Scale entry " + entry + " has an invalid scale value!");
                         continue;
                     }

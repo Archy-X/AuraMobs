@@ -85,3 +85,4 @@ spawn_reasons:
   - 'COMMAND'
   - 'CUSTOM'
   - 'DEFAULT'
+scales:

@@ -79,6 +79,10 @@ public class AureliumMob {
             ));
             mob.setCustomNameVisible(false);
         }
+
+        if (plugin.getScaleManager().hasScaleAttribute()) {
+            plugin.getScaleManager().applyScale(mob, level1);
+        }
     }
 
 }

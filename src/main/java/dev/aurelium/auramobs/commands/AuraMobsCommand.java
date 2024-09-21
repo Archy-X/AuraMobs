@@ -26,6 +26,7 @@ public class AuraMobsCommand extends BaseCommand {
         plugin.getConfigManager().loadConfig();
         plugin.getPolyglot().getMessageManager().loadMessages();
         plugin.setLanguage(new Locale(plugin.optionString("language")));
+        plugin.getScaleManager().loadConfiguration();
         sender.sendMessage(ColorUtils.colorMessage(plugin.getMsg("commands.reload")));
     }
 

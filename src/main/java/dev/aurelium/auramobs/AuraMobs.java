@@ -14,6 +14,7 @@ import dev.aurelium.auramobs.config.OptionKey;
 import dev.aurelium.auramobs.config.OptionValue;
 import dev.aurelium.auramobs.listeners.*;
 import dev.aurelium.auramobs.util.Formatter;
+import dev.aurelium.auramobs.util.ScaleUtil;
 import dev.aurelium.auraskills.api.AuraSkillsApi;
 import dev.aurelium.auraskills.api.skill.Skill;
 import dev.aurelium.auraskills.api.skill.Skills;
@@ -79,6 +80,9 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         language = new Locale(optionString("language"));
         mobKey = new NamespacedKey(this, "isAureliumMob");
         namesEnabled = optionBoolean("custom_name.enabled");
+
+        ScaleUtil.initialize(this);
+
         this.getServer().getPluginManager().registerEvents(new MobSpawn(this), this);
         this.getServer().getPluginManager().registerEvents(new EntityXpGainListener(this), this);
         if (namesEnabled) {

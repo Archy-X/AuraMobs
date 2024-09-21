@@ -6,7 +6,6 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.util.ColorUtils;
-import dev.aurelium.auramobs.util.ScaleUtil;
 import org.bukkit.command.CommandSender;
 
 import java.util.Locale;
@@ -27,7 +26,7 @@ public class AuraMobsCommand extends BaseCommand {
         plugin.getConfigManager().loadConfig();
         plugin.getPolyglot().getMessageManager().loadMessages();
         plugin.setLanguage(new Locale(plugin.optionString("language")));
-        ScaleUtil.loadConfiguration();
+        plugin.getScaleManager().loadConfiguration();
         sender.sendMessage(ColorUtils.colorMessage(plugin.getMsg("commands.reload")));
     }
 

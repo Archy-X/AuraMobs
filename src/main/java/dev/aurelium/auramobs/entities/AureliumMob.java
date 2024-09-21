@@ -3,7 +3,6 @@ package dev.aurelium.auramobs.entities;
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.util.ColorUtils;
 import dev.aurelium.auramobs.util.MessageUtils;
-import dev.aurelium.auramobs.util.ScaleUtil;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
@@ -81,7 +80,9 @@ public class AureliumMob {
             mob.setCustomNameVisible(false);
         }
 
-        ScaleUtil.applyScale(mob, level1);
+        if (plugin.getScaleManager().hasScaleAttribute()) {
+            plugin.getScaleManager().applyScale(mob, level1);
+        }
     }
 
 }

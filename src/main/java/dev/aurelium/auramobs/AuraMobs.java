@@ -14,7 +14,7 @@ import dev.aurelium.auramobs.config.OptionKey;
 import dev.aurelium.auramobs.config.OptionValue;
 import dev.aurelium.auramobs.listeners.*;
 import dev.aurelium.auramobs.util.Formatter;
-import dev.aurelium.auramobs.util.ScaleUtil;
+import dev.aurelium.auramobs.entities.ScaleManager;
 import dev.aurelium.auraskills.api.AuraSkillsApi;
 import dev.aurelium.auraskills.api.skill.Skill;
 import dev.aurelium.auraskills.api.skill.Skills;
@@ -44,6 +44,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     private ConfigManager configManager;
     private Polyglot polyglot;
     private Locale language;
+    private ScaleManager scaleManager;
     private List<String> enabledWorlds;
     private boolean worldWhitelist;
     private boolean placeholderAPIEnabled;
@@ -80,8 +81,8 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         language = new Locale(optionString("language"));
         mobKey = new NamespacedKey(this, "isAureliumMob");
         namesEnabled = optionBoolean("custom_name.enabled");
-
-        ScaleUtil.initialize(this);
+        scaleManager = new ScaleManager(this);
+        scaleManager.loadConfiguration();
 
         this.getServer().getPluginManager().registerEvents(new MobSpawn(this), this);
         this.getServer().getPluginManager().registerEvents(new EntityXpGainListener(this), this);
@@ -132,6 +133,10 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     public Polyglot getPolyglot() {
         return polyglot;
+    }
+
+    public ScaleManager getScaleManager() {
+        return scaleManager;
     }
 
     public boolean isNamesEnabled() {

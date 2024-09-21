@@ -3,6 +3,7 @@ package dev.aurelium.auramobs.entities;
 import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
@@ -41,6 +42,9 @@ public class ScaleManager {
                 int levelStart = Integer.parseInt(entry.split("-")[0]);
                 int levelEnd = Integer.parseInt(entry.split("-")[1]);
                 double chance = entrySection.getDouble("chance");
+                double intervalStart = 0;
+                double intervalEnd = 0;
+                double[] fixed = new double[0];
 
                 String scale = entrySection.getString("scale");
 
@@ -50,19 +54,30 @@ public class ScaleManager {
                 }
 
                 if (scale.contains("-")) {
-
                     if(scale.split("-").length != 2) {
                         plugin.getLogger().warning("Scale entry " + entry + " has an invalid scale value!");
                         continue;
                     }
 
-                    double intervalStart = Double.parseDouble(scale.split("-")[0]);
-                    double intervalEnd = Double.parseDouble(scale.split("-")[1]);
-                    entries.add(new EntityScale(levelStart, levelEnd, new double[0], intervalStart, intervalEnd, chance));
+                    intervalStart = Double.parseDouble(scale.split("-")[0]);
+                    intervalEnd = Double.parseDouble(scale.split("-")[1]);
+
                 } else {
-                    double[] fixed = Arrays.stream(scale.replace(" ", "").split(",")).mapToDouble(Double::parseDouble).toArray();
-                    entries.add(new EntityScale(levelStart, levelEnd, fixed, 0, 0, chance));
+                    fixed = Arrays.stream(scale.replace(" ", "").split(",")).mapToDouble(Double::parseDouble).toArray();
                 }
+
+                List<EntityType> types = new ArrayList<>();
+                if (entrySection.contains("types")) {
+                    for (String type : entrySection.getStringList("types")) {
+                        try {
+                            types.add(EntityType.valueOf(type.toUpperCase()));
+                        } catch (IllegalArgumentException e) {
+                            plugin.getLogger().warning("Invalid entity type in scale entry " + entry + ": " + type);
+                        }
+                    }
+                }
+
+                entries.add(new EntityScale(levelStart, levelEnd, fixed, intervalStart, intervalEnd, chance, types));
             }
         } catch (Exception e) {
             plugin.getLogger().warning("Failed to load scale configuration: " + e.getMessage());
@@ -72,6 +87,11 @@ public class ScaleManager {
     public void applyScale(LivingEntity entity, int level) {
         for (EntityScale entry : entries) {
             if (level >= entry.getLevelStart() && level <= entry.getLevelEnd()) {
+
+                if (!entry.getTypes().isEmpty() && !entry.getTypes().contains(entity.getType())) {
+                    continue;
+                }
+
                 if (Math.random() < entry.getChance()) {
                     if (entry.getFixed().length > 0) {
                         double random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];

@@ -2,6 +2,7 @@ package dev.aurelium.auramobs.entities;
 
 import dev.aurelium.auramobs.AuraMobs;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -35,20 +36,27 @@ public class ScaleManager {
             if (scaleAttribute == null) return;
 
             ConfigurationSection section = plugin.getConfig().getConfigurationSection("scales");
+            if (section == null) return;
 
             for (String entry : section.getKeys(false)) {
                 ConfigurationSection entrySection = section.getConfigurationSection(entry);
+                if (entrySection == null) continue;
+
+                if (entry.split("-").length < 2) {
+                    plugin.getLogger().warning("Scale entry key must be in a range format (e.g. 1-20)");
+                    continue;
+                }
 
                 int levelStart = Integer.parseInt(entry.split("-")[0]);
                 int levelEnd = Integer.parseInt(entry.split("-")[1]);
-                double chance = entrySection.getDouble("chance");
+                double chance = entrySection.getDouble("chance", 1.0);
                 double intervalStart = 0;
                 double intervalEnd = 0;
                 double[] fixed = new double[0];
 
                 String scale = entrySection.getString("scale");
 
-                if(scale == null) {
+                if (scale == null) {
                     plugin.getLogger().warning("Scale entry " + entry + " is missing the scale value!");
                     continue;
                 }
@@ -85,21 +93,24 @@ public class ScaleManager {
     }
 
     public void applyScale(LivingEntity entity, int level) {
+        AttributeInstance ai = entity.getAttribute(scaleAttribute);
+        if (ai == null) return;
+
         for (EntityScale entry : entries) {
-            if (level >= entry.getLevelStart() && level <= entry.getLevelEnd()) {
+            if (level < entry.getLevelStart() || level > entry.getLevelEnd()) {
+                continue;
+            }
+            if (!entry.getTypes().isEmpty() && !entry.getTypes().contains(entity.getType())) {
+                continue;
+            }
 
-                if (!entry.getTypes().isEmpty() && !entry.getTypes().contains(entity.getType())) {
-                    continue;
-                }
-
-                if (Math.random() < entry.getChance()) {
-                    if (entry.getFixed().length > 0) {
-                        double random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];
-                        entity.getAttribute(scaleAttribute).setBaseValue(Math.max(.00625, Math.min(16, random)));
-                    } else {
-                        double random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
-                        entity.getAttribute(scaleAttribute).setBaseValue(Math.max(.00625, Math.min(16, random)));
-                    }
+            if (Math.random() < entry.getChance()) {
+                if (entry.getFixed().length > 0) {
+                    double random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];
+                    ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
+                } else {
+                    double random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
+                    ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
                 }
             }
         }

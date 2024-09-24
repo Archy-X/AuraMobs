@@ -51,6 +51,28 @@ public class AureliumMob {
         Expression resHealth = new ExpressionBuilder(healthFormula).build();
         double damage = BigDecimal.valueOf(resDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
         double health = resHealth.evaluate();
+
+        if(plugin.optionString(prefix + "damage.max") != null && !plugin.optionString(prefix + "damage.max").isEmpty()){
+            String damageMax = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "damage.max")
+                    .replace("{mob_damage}", String.valueOf(startDamage))
+                    .replace("{level}", String.valueOf(level1))
+                    .replace("{distance}", Double.toString(distance))
+            );
+            Expression resMaxDamage = new ExpressionBuilder(damageMax).build();
+            double maxDamage = BigDecimal.valueOf(resMaxDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
+            damage = Math.min(maxDamage, damage);
+        }
+        if(plugin.optionString(prefix + "health.max") != null && !plugin.optionString(prefix + "health.max").isEmpty()){
+            String healthMax = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "health.max")
+                    .replace("{mob_health}", String.valueOf(startHealth))
+                    .replace("{level}", String.valueOf(level1))
+                    .replace("{distance}", Double.toString(distance))
+            );
+            Expression resMaxHealth = new ExpressionBuilder(healthMax).build();
+            double maxHealth = resMaxHealth.evaluate();
+            health = Math.min(maxHealth, health);
+        }
+
         String formattedHealth = plugin.getFormatter().format(health);
         if (health > plugin.getMaxHealth()) {
             health = plugin.getMaxHealth();

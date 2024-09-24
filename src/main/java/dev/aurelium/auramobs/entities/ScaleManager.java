@@ -106,11 +106,11 @@ public class ScaleManager {
 
             if (Math.random() < entry.getChance()) {
                 if (entry.getFixed().length > 0) {
-                    double random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];
-                    ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
+                    double random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)] ;
+                    ai.setBaseValue(Math.max(.00625, Math.min(16, random * ai.getValue())));
                 } else {
                     double random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
-                    ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
+                    ai.setBaseValue(Math.max(.00625, Math.min(16, random * ai.getValue())));
                 }
             }
         }

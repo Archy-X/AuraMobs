@@ -15,8 +15,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ScaleManager {
 
     private final List<EntityScale> entries = new ArrayList<>();
-    private Attribute scaleAttribute;
     private final AuraMobs plugin;
+    private boolean cover;
+    private Attribute scaleAttribute;
 
     public ScaleManager(AuraMobs plugin) {
         this.plugin = plugin;
@@ -38,8 +39,13 @@ public class ScaleManager {
             ConfigurationSection section = plugin.getConfig().getConfigurationSection("scales");
             if (section == null) return;
 
-            for (String entry : section.getKeys(false)) {
-                ConfigurationSection entrySection = section.getConfigurationSection(entry);
+            ConfigurationSection levelSection = plugin.getConfig().getConfigurationSection("scales.level");
+            if (levelSection == null) return;
+
+            cover = plugin.optionBoolean("scales.cover");
+
+            for (String entry : levelSection.getKeys(false)) {
+                ConfigurationSection entrySection = levelSection.getConfigurationSection(entry);
                 if (entrySection == null) continue;
 
                 if (entry.split("-").length < 2) {
@@ -105,13 +111,14 @@ public class ScaleManager {
             }
 
             if (Math.random() < entry.getChance()) {
+                double random;
                 if (entry.getFixed().length > 0) {
-                    double random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];
-                    ai.setBaseValue(Math.max(.00625, Math.min(16, random * ai.getValue())));
+                    random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];
                 } else {
-                    double random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
-                    ai.setBaseValue(Math.max(.00625, Math.min(16, random * ai.getValue())));
+                    random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
                 }
+                if (!cover) random = random * ai.getValue();
+                ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
             }
         }
     }

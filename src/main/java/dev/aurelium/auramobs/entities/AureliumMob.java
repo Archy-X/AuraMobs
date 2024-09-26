@@ -64,7 +64,7 @@ public class AureliumMob {
             damage = Math.min(maxDamage, damage);
         }
         String optHealthMax = plugin.optionString(prefix + "health.max");
-        if (plugin.optHealthMax != null && !optHealthMax.isEmpty()) {
+        if (optHealthMax != null && !optHealthMax.isEmpty()) {
             String healthMax = MessageUtils.setPlaceholders(null, optHealthMax
                     .replace("{mob_health}", String.valueOf(startHealth))
                     .replace("{level}", String.valueOf(level1))

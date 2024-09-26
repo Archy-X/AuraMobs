@@ -52,8 +52,9 @@ public class AureliumMob {
         double damage = BigDecimal.valueOf(resDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
         double health = resHealth.evaluate();
 
-        if(plugin.optionString(prefix + "damage.max") != null && !plugin.optionString(prefix + "damage.max").isEmpty()){
-            String damageMax = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "damage.max")
+        String optDamageMax = plugin.optionString(prefix + "damage.max");
+        if (optDamageMax != null && !optDamageMax.isEmpty()) {
+            String damageMax = MessageUtils.setPlaceholders(null, optDamageMax
                     .replace("{mob_damage}", String.valueOf(startDamage))
                     .replace("{level}", String.valueOf(level1))
                     .replace("{distance}", Double.toString(distance))
@@ -62,7 +63,8 @@ public class AureliumMob {
             double maxDamage = BigDecimal.valueOf(resMaxDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
             damage = Math.min(maxDamage, damage);
         }
-        if(plugin.optionString(prefix + "health.max") != null && !plugin.optionString(prefix + "health.max").isEmpty()){
+        String optHealthMax = plugin.optionString(prefix + "health.max");
+        if (plugin.optHealthMax != null && !optHealthMax.isEmpty()) {
             String healthMax = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "health.max")
                     .replace("{mob_health}", String.valueOf(startHealth))
                     .replace("{level}", String.valueOf(level1))

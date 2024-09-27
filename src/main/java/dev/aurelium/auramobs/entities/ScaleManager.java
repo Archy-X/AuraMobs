@@ -16,7 +16,7 @@ public class ScaleManager {
 
     private final List<EntityScale> entries = new ArrayList<>();
     private final AuraMobs plugin;
-    private boolean cover;
+    private boolean override;
     private Attribute scaleAttribute;
 
     public ScaleManager(AuraMobs plugin) {
@@ -36,13 +36,13 @@ public class ScaleManager {
 
             if (scaleAttribute == null) return;
 
-            ConfigurationSection section = plugin.getConfig().getConfigurationSection("scales");
+            ConfigurationSection section = plugin.getConfig().getConfigurationSection("scaling");
             if (section == null) return;
 
-            ConfigurationSection levelSection = plugin.getConfig().getConfigurationSection("scales.level");
+            ConfigurationSection levelSection = section.getConfigurationSection("levels");
             if (levelSection == null) return;
 
-            cover = plugin.optionBoolean("scales.cover");
+            override = plugin.optionBoolean("scaling.override");
 
             for (String entry : levelSection.getKeys(false)) {
                 ConfigurationSection entrySection = levelSection.getConfigurationSection(entry);
@@ -117,7 +117,9 @@ public class ScaleManager {
                 } else {
                     random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
                 }
-                if (!cover) random = random * ai.getValue();
+                if (!override) {
+                    random = random * ai.getValue();
+                }
                 ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
             }
         }

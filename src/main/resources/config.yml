@@ -89,6 +89,6 @@ spawn_reasons:
   - 'COMMAND'
   - 'CUSTOM'
   - 'DEFAULT'
-scales:
-  cover: false
-  level: []
+scaling:
+  override: false
+  levels: {}

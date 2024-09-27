@@ -13,7 +13,7 @@ mob_defaults:
     max: ''
   health:
     formula: '{mob_health} * (1 + ({level} - 1) / 25)'
-    max: '{mob_health} + 300'
+    max: ''
 mob_level:
   formula: '{sumlevel}/{playercount}'
   backup_formula: '{distance}*0.01'

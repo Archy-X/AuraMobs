@@ -15,8 +15,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ScaleManager {
 
     private final List<EntityScale> entries = new ArrayList<>();
-    private Attribute scaleAttribute;
     private final AuraMobs plugin;
+    private boolean override;
+    private Attribute scaleAttribute;
 
     public ScaleManager(AuraMobs plugin) {
         this.plugin = plugin;
@@ -35,11 +36,16 @@ public class ScaleManager {
 
             if (scaleAttribute == null) return;
 
-            ConfigurationSection section = plugin.getConfig().getConfigurationSection("scales");
+            ConfigurationSection section = plugin.getConfig().getConfigurationSection("scaling");
             if (section == null) return;
 
-            for (String entry : section.getKeys(false)) {
-                ConfigurationSection entrySection = section.getConfigurationSection(entry);
+            ConfigurationSection levelSection = section.getConfigurationSection("levels");
+            if (levelSection == null) return;
+
+            override = plugin.optionBoolean("scaling.override");
+
+            for (String entry : levelSection.getKeys(false)) {
+                ConfigurationSection entrySection = levelSection.getConfigurationSection(entry);
                 if (entrySection == null) continue;
 
                 if (entry.split("-").length < 2) {
@@ -105,13 +111,16 @@ public class ScaleManager {
             }
 
             if (Math.random() < entry.getChance()) {
+                double random;
                 if (entry.getFixed().length > 0) {
-                    double random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];
-                    ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
+                    random = entry.getFixed()[ThreadLocalRandom.current().nextInt(entry.getFixed().length)];
                 } else {
-                    double random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
-                    ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
+                    random = entry.getIntervalStart() + (entry.getIntervalEnd() - entry.getIntervalStart()) * Math.random();
                 }
+                if (!override) {
+                    random = random * ai.getValue();
+                }
+                ai.setBaseValue(Math.max(.00625, Math.min(16, random)));
             }
         }
     }

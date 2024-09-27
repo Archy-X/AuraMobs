@@ -10,8 +10,10 @@ language: en
 mob_defaults:
   damage:
     formula: '{mob_damage} + ({mob_damage} * ({level} - 1) / 25)'
+    max: ''
   health:
     formula: '{mob_health} * (1 + ({level} - 1) / 25)'
+    max: ''
 mob_level:
   formula: '{sumlevel}/{playercount}'
   backup_formula: '{distance}*0.01'
@@ -20,8 +22,10 @@ bosses:
   enabled: false
   health:
     formula: '{mob_health} * (1 + ({level} - 1) / 25)'
+    max: ''
   damage:
     formula: '{mob_damage} + ({mob_damage} * ({level} - 1) / 25)'
+    max: ''
   level:
     formula: '{sumlevel}/{playercount}'
     backup_formula: '{distance}*0.01'
@@ -85,4 +89,6 @@ spawn_reasons:
   - 'COMMAND'
   - 'CUSTOM'
   - 'DEFAULT'
-scales:
+scaling:
+  override: false
+  levels: {}

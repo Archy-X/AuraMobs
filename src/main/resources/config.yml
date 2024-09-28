@@ -39,7 +39,7 @@ custom_name:
   health_rounding_places: 0
   display_by_range: true
   display_range: 5
-  allow_override: false
+  allow_override: true
 skills_xp:
   enabled: true
   default_formula: '{source_xp} * (1 + {mob_level} / 100)'

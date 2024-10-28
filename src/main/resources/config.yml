@@ -40,6 +40,7 @@ custom_name:
   display_by_range: true
   display_range: 5
   allow_override: true
+  ignore_mythic_mobs: true
 skills_xp:
   enabled: true
   default_formula: '{source_xp} * (1 + {mob_level} / 100)'

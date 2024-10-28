@@ -48,6 +48,8 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     private List<String> enabledWorlds;
     private boolean worldWhitelist;
     private boolean placeholderAPIEnabled;
+    private boolean mythicMobsEnabled;
+    private boolean ignoreMythicMobs;
 
     @Override
     public void onLoad() {
@@ -83,6 +85,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         namesEnabled = optionBoolean("custom_name.enabled");
         scaleManager = new ScaleManager(this);
         scaleManager.loadConfiguration();
+        ignoreMythicMobs = optionBoolean("custom_name.ignore_mythic_mobs");
 
         this.getServer().getPluginManager().registerEvents(new MobSpawn(this), this);
         this.getServer().getPluginManager().registerEvents(new EntityXpGainListener(this), this);
@@ -107,6 +110,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         formatter = new Formatter(optionInt("custom_name.health_rounding_places"));
         // Check for PlaceholderAPI
         placeholderAPIEnabled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
+        mythicMobsEnabled = getServer().getPluginManager().isPluginEnabled("MythicMobs");
     }
 
     @Override
@@ -224,6 +228,10 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         return worldWhitelist;
     }
 
+    public boolean ignoreMythicMobs() {
+        return ignoreMythicMobs;
+    }
+
     public WorldGuardHook getWorldGuard() {
         return worldGuard;
     }
@@ -234,6 +242,10 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     public boolean isPlaceholderAPIEnabled() {
         return placeholderAPIEnabled;
+    }
+
+    public boolean isMythicMobsEnabled() {
+        return mythicMobsEnabled;
     }
 
     // Message and config convenience methods

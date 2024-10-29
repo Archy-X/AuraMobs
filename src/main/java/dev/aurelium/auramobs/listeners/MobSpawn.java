@@ -4,6 +4,7 @@ import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.api.WorldGuardHook;
 import dev.aurelium.auramobs.entities.AureliumMob;
 import dev.aurelium.auramobs.util.MessageUtils;
+import io.lumine.mythic.core.constants.MobKeys;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -108,6 +110,9 @@ public class MobSpawn implements Listener {
                 if (entity.isDead() || !entity.isValid()) {
                     return;
                 }
+
+                if (plugin.isMythicMobsEnabled() && entity.getPersistentDataContainer().has(MobKeys.TYPE, PersistentDataType.STRING) && plugin.ignoreMythicMobs()) return;
+
                 int sumlevel = 0;
                 int maxlevel = Integer.MIN_VALUE;
                 int minlevel = Integer.MAX_VALUE;

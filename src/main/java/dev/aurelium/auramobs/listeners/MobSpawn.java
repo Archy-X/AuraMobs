@@ -29,21 +29,14 @@ public class MobSpawn implements Listener {
     private final AuraMobs plugin;
     private final Random random = new Random();
 
-    public MobSpawn(AuraMobs plugin){
+    public MobSpawn(AuraMobs plugin) {
         this.plugin = plugin;
     }
 
-    @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGH)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onSpawn(CreatureSpawnEvent e) {
         try {
-            boolean valid = false;
-            for (String s : plugin.optionList("spawn_reasons")) {
-                if (e.getSpawnReason().name().equalsIgnoreCase(s)) {
-                    valid = true;
-                    break;
-                }
-            }
-            if (!valid) return;
+            if(!plugin.getSpawnReasons().contains(e.getSpawnReason().name())) return;
 
             if (plugin.isInvalidEntity(e.getEntity())) {
                 return;
@@ -87,17 +80,19 @@ public class MobSpawn implements Listener {
     }
 
 
-    public boolean passWorld(World world) {
+    private boolean passWorld(World world) {
         if (plugin.isWorldWhitelist()) {
             if (plugin.getEnabledWorlds().contains("*")) return true;
             for (String enabledworld : plugin.getEnabledWorlds()) {
-                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) return true;
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", "")))
+                    return true;
             }
             return false;
         } else {
             if (plugin.getEnabledWorlds().contains("*")) return false;
             for (String enabledworld : plugin.getEnabledWorlds()) {
-                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) return false;
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", "")))
+                    return false;
             }
             return true;
         }
@@ -111,18 +106,27 @@ public class MobSpawn implements Listener {
                     return;
                 }
 
-                if (plugin.isMythicMobsEnabled() && entity.getPersistentDataContainer().has(MobKeys.TYPE, PersistentDataType.STRING) && plugin.ignoreMythicMobs()) return;
+                if (plugin.isMythicMobsEnabled() && entity.getPersistentDataContainer().has(MobKeys.TYPE, PersistentDataType.STRING) && plugin.ignoreMythicMobs())
+                    return;
 
                 int sumlevel = 0;
                 int maxlevel = Integer.MIN_VALUE;
                 int minlevel = Integer.MAX_VALUE;
-                List<Entity> players = entity.getNearbyEntities(radius, radius, radius).stream().filter(entity -> entity instanceof Player).toList();
-                for (Entity player : players) {
-                    if (player.hasMetadata("NPC")) continue;
-                    int lvl = plugin.getLevel((Player) player);
-                    sumlevel+=lvl;
-                    if (lvl>maxlevel) {maxlevel = lvl;}
-                    if (lvl<minlevel) {minlevel = lvl;}
+                int playercount = 0;
+
+                for (Entity entity : entity.getNearbyEntities(radius, radius, radius)) {
+                    if (entity instanceof Player player) {
+                        if (player.hasMetadata("NPC")) continue;
+                        int lvl = plugin.getLevel(player);
+                        sumlevel += lvl;
+                        playercount++;
+                        if (lvl > maxlevel) {
+                            maxlevel = lvl;
+                        }
+                        if (lvl < minlevel) {
+                            minlevel = lvl;
+                        }
+                    }
                 }
                 Location mobloc = entity.getLocation();
                 Location spawnpoint = entity.getWorld().getSpawnLocation();
@@ -133,19 +137,19 @@ public class MobSpawn implements Listener {
                 if (overrideLevel != 0) {
                     level = overrideLevel;
                 } else {
-                    level = getCalculatedLevel(entity, players, distance, maxlevel, minlevel, sumlevel);
+                    level = getCalculatedLevel(entity, playercount, distance, maxlevel, minlevel, sumlevel);
                 }
                 new AureliumMob(entity, correctLevel(entity.getLocation(), level), plugin);
             }
         };
     }
 
-    private int getCalculatedLevel(LivingEntity entity, List<Entity> players, double distance, int maxlevel, int minlevel, int sumlevel) {
+    private int getCalculatedLevel(LivingEntity entity, int playercount, double distance, int maxlevel, int minlevel, int sumlevel) {
         int level;
         String lformula;
         String prefix = plugin.isBossMob(entity) ? "bosses.level." : "mob_level.";
         int globalOnline = plugin.getServer().getOnlinePlayers().size();
-        if (players.isEmpty()) {
+        if (playercount == 0) {
             lformula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "backup_formula")
                     .replace("{distance}", Double.toString(distance))
                     .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
@@ -161,7 +165,7 @@ public class MobSpawn implements Listener {
                     .replace("{highestlvl}", Integer.toString(maxlevel))
                     .replace("{lowestlvl}", Integer.toString(minlevel))
                     .replace("{sumlevel}", Integer.toString(sumlevel))
-                    .replace("{playercount}", Integer.toString(players.size()))
+                    .replace("{playercount}", Integer.toString(playercount))
                     .replace("{distance}", Double.toString(distance))
                     .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
                     .replace("{location_x}", Double.toString(entity.getLocation().getX()))

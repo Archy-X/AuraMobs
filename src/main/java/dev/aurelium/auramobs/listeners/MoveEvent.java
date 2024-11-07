@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoveEvent implements Listener {
@@ -27,10 +28,18 @@ public class MoveEvent implements Listener {
         World toWorld = e.getTo().getWorld();
         if (fromWorld == null || toWorld == null) return;
 
-        List<Entity> from = fromWorld.getNearbyEntities(e.getFrom(), range, range, range).stream()
-                .filter(mob -> mob instanceof LivingEntity && plugin.isAuraMob((LivingEntity) mob)).toList();
-        List<Entity> to = toWorld.getNearbyEntities(e.getTo(), range, range, range).stream()
-                .filter(mob -> mob instanceof LivingEntity && plugin.isAuraMob((LivingEntity) mob)).toList();
+        List<Entity> from = new ArrayList<>();
+        for (Entity mob : fromWorld.getNearbyEntities(e.getFrom(), range, range, range)) {
+            if (mob instanceof LivingEntity && plugin.isAuraMob((LivingEntity) mob)) {
+                from.add(mob);
+            }
+        }
+        List<Entity> to = new ArrayList<>();
+        for (Entity mob : toWorld.getNearbyEntities(e.getTo(), range, range, range)) {
+            if (mob instanceof LivingEntity && plugin.isAuraMob((LivingEntity) mob)) {
+                to.add(mob);
+            }
+        }
 
         to.forEach(mob -> {
             if (!from.contains(mob)) {

@@ -91,5 +91,10 @@ spawn_reasons:
   - 'CUSTOM'
   - 'DEFAULT'
 scaling:
+  worlds:
+    type: blacklist
+    list:
+      - "disabledworld"
+      - "worldexample_*"
   override: false
   levels: {}

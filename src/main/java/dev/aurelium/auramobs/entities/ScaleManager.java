@@ -105,6 +105,7 @@ public class ScaleManager {
     }
 
     public void applyScale(LivingEntity entity, int level) {
+        if(entries.isEmpty()) return;
         if(!passWorld(entity.getWorld())) return;
 
         AttributeInstance ai = entity.getAttribute(scaleAttribute);

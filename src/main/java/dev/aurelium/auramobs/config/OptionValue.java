@@ -3,7 +3,9 @@ package dev.aurelium.auramobs.config;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class OptionValue {
 
@@ -54,6 +56,7 @@ public class OptionValue {
         }
         return stringList;
     }
+
 
     public ChatColor asColor() {
         if (value instanceof ChatColor) {

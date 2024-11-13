@@ -252,7 +252,9 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         return mythicMobsEnabled;
     }
 
-    public Set<String> getSpawnReasons(){ return spawnReasons; }
+    public Set<String> getSpawnReasons() {
+        return spawnReasons;
+    }
 
     // Message and config convenience methods
     public String getMsg(String key) {

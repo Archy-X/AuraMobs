@@ -142,15 +142,17 @@ public class ScaleManager {
         if (worldWhitelist) {
             if (enabledWorlds.contains("*")) return true;
             for (String enabledworld : enabledWorlds) {
-                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", "")))
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) {
                     return true;
+                }
             }
             return false;
         } else {
             if (enabledWorlds.contains("*")) return false;
             for (String enabledworld : enabledWorlds) {
-                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", "")))
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) {
                     return false;
+                }
             }
             return true;
         }

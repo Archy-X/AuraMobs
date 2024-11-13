@@ -36,7 +36,7 @@ public class MobSpawn implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onSpawn(CreatureSpawnEvent e) {
         try {
-            if(!plugin.getSpawnReasons().contains(e.getSpawnReason().name())) return;
+            if (!plugin.getSpawnReasons().contains(e.getSpawnReason().name())) return;
 
             if (plugin.isInvalidEntity(e.getEntity())) {
                 return;

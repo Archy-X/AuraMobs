@@ -84,15 +84,17 @@ public class MobSpawn implements Listener {
         if (plugin.isWorldWhitelist()) {
             if (plugin.getEnabledWorlds().contains("*")) return true;
             for (String enabledworld : plugin.getEnabledWorlds()) {
-                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", "")))
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) {
                     return true;
+                }
             }
             return false;
         } else {
             if (plugin.getEnabledWorlds().contains("*")) return false;
             for (String enabledworld : plugin.getEnabledWorlds()) {
-                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", "")))
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) {
                     return false;
+                }
             }
             return true;
         }

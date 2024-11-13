@@ -108,8 +108,9 @@ public class MobSpawn implements Listener {
                     return;
                 }
 
-                if (plugin.isMythicMobsEnabled() && entity.getPersistentDataContainer().has(MobKeys.TYPE, PersistentDataType.STRING) && plugin.ignoreMythicMobs())
+                if (plugin.isMythicMobsEnabled() && entity.getPersistentDataContainer().has(MobKeys.TYPE, PersistentDataType.STRING) && plugin.ignoreMythicMobs()) {
                     return;
+                }
 
                 int sumlevel = 0;
                 int maxlevel = Integer.MIN_VALUE;

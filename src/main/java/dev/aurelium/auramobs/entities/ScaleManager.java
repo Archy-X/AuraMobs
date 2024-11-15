@@ -1,6 +1,7 @@
 package dev.aurelium.auramobs.entities;
 
 import dev.aurelium.auramobs.AuraMobs;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,6 +17,8 @@ public class ScaleManager {
 
     private final List<EntityScale> entries = new ArrayList<>();
     private final AuraMobs plugin;
+    private List<String> enabledWorlds;
+    private boolean worldWhitelist;
     private boolean override;
     private Attribute scaleAttribute;
 
@@ -26,6 +29,9 @@ public class ScaleManager {
     public void loadConfiguration() {
         try {
             entries.clear();
+
+            enabledWorlds = plugin.optionList("scaling.worlds.list");
+            worldWhitelist = plugin.optionString("scaling.worlds.type").equalsIgnoreCase("whitelist");
 
             for (Attribute attribute : Attribute.values()) {
                 if (attribute.name().toLowerCase().contains("scale")) {
@@ -99,6 +105,9 @@ public class ScaleManager {
     }
 
     public void applyScale(LivingEntity entity, int level) {
+        if (entries.isEmpty()) return;
+        if (!passWorld(entity.getWorld())) return;
+
         AttributeInstance ai = entity.getAttribute(scaleAttribute);
         if (ai == null) return;
 
@@ -127,5 +136,25 @@ public class ScaleManager {
 
     public boolean hasScaleAttribute() {
         return scaleAttribute != null;
+    }
+
+    private boolean passWorld(World world) {
+        if (worldWhitelist) {
+            if (enabledWorlds.contains("*")) return true;
+            for (String enabledworld : enabledWorlds) {
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            if (enabledWorlds.contains("*")) return false;
+            for (String enabledworld : enabledWorlds) {
+                if (world.getName().equalsIgnoreCase(enabledworld) || world.getName().startsWith(enabledworld.replace("*", ""))) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

@@ -27,8 +27,10 @@ import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
@@ -50,6 +52,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     private boolean placeholderAPIEnabled;
     private boolean mythicMobsEnabled;
     private boolean ignoreMythicMobs;
+    private Set<String> spawnReasons;
 
     @Override
     public void onLoad() {
@@ -111,6 +114,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         // Check for PlaceholderAPI
         placeholderAPIEnabled = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
         mythicMobsEnabled = getServer().getPluginManager().isPluginEnabled("MythicMobs");
+        spawnReasons = new HashSet<>(optionList("spawn_reasons"));
     }
 
     @Override
@@ -246,6 +250,10 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     public boolean isMythicMobsEnabled() {
         return mythicMobsEnabled;
+    }
+
+    public Set<String> getSpawnReasons() {
+        return spawnReasons;
     }
 
     // Message and config convenience methods

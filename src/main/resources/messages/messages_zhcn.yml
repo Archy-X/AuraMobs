@@ -1,0 +1,43 @@
+commands:
+  reload: '成功重载 AuraMobs!'
+mobs:
+  blaze: 烈焰人
+  cave_spider: 洞穴蜘蛛
+  creeper: 苦力怕
+  enderman: 末影人
+  endermite: 末影螨
+  evoker: 唤魔者
+  evoker_fangs: 唤魔者尖牙
+  ghast: 恶魂
+  giant: 巨人
+  guardian: 守卫者
+  husk: 尸壳
+  illusioner: 幻术师
+  piglin: 猪灵
+  hoglin: 疣猪兽
+  shulker: 潜影贝
+  silverfish: 蠹虫
+  skeleton: 骷髅
+  slime: 史莱姆
+  spider: 蜘蛛
+  vex: 恼鬼
+  vindicator: 卫道士
+  witch: 女巫
+  wither_skeleton: 凋零骷髅
+  zombie: 僵尸
+  drowned: 溺尸
+  magma_cube: 岩浆史莱姆
+  piglin_brute: 猪灵蛮兵
+  pillager: 掠夺者
+  ravager: 劫掠兽
+  zombified_piglin: 僵尸猪灵
+  zombie_villager: 僵尸村民
+  stray: 流浪者
+  zoglin: 僵尸疣猪兽
+  warden: 监守者
+  breeze: 旋风人
+  bogged: 沼骸
+  ender_dragon: 末影龙
+  wither: 凋零
+  elder_guardian: 远古守卫者
+file_version: 1

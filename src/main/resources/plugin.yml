@@ -8,6 +8,7 @@ depend:
 softdepend:
   - PlaceholderAPI
   - WorldGuard
+  - MythicMobs
 permissions:
   auramobs.reload:
     default: op

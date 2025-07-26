@@ -40,4 +40,5 @@ mobs:
   ender_dragon: Ender Dragon
   wither: Wither
   elder_guardian: Elder Guardian
-file_version: 1
+  creaking: Creaking
+file_version: 2

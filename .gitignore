@@ -31,3 +31,4 @@ buildNumber.properties
 build.xml
 .gradle/
 build/
+run/

@@ -83,7 +83,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         for (Player player: this.getServer().getOnlinePlayers()) {
             globalLevel += getLevel(player);
         }
-        language = new Locale(optionString("language"));
+        language = Locale.forLanguageTag(optionString("language").replace("_", "-"));
         mobKey = new NamespacedKey(this, "isAureliumMob");
         namesEnabled = optionBoolean("custom_name.enabled");
         scaleManager = new ScaleManager(this);

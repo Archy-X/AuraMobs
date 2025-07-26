@@ -3,17 +3,23 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     `java-library`
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.gradleup.shadow") version "8.3.5"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = "dev.aurelium"
 version = project.property("projectVersion") as String
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 repositories {
     mavenCentral()
     maven("https://jitpack.io")
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://maven.enginehub.org/repo/")
     maven("https://repo.aikar.co/content/groups/aikar/")
@@ -48,32 +54,40 @@ tasks.withType<ShadowJar> {
     relocate("io.leangen.geantyref", "dev.aurelium.auramobs.geantyref")
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+val compiler = javaToolchains.compilerFor {
+    languageVersion = JavaLanguageVersion.of(21)
+}
 
 tasks {
+    val projectVersion = project.version.toString()
+
     processResources {
         filesMatching("plugin.yml") {
-            expand("projectVersion" to project.version)
+            expand("projectVersion" to projectVersion)
         }
     }
+
     build {
         dependsOn(shadowJar)
     }
-    assemble {
-        dependsOn(shadowJar)
-    }
+
     javadoc {
         options {
             (this as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
         }
     }
-}
 
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-    options.compilerArgs.add("-parameters")
-    options.isFork = true
-    options.forkOptions.executable = "javac"
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+        options.compilerArgs.add("-parameters")
+        options.compilerArgs.add("-Xlint:deprecation")
+        options.isFork = true
+        options.forkOptions.executable = compiler.map { it.executablePath }.get().toString()
+    }
+
+    runServer {
+        minecraftVersion("1.21.7")
+    }
 }
 
 publishing {

@@ -1,5 +1,10 @@
 commands:
   reload: '¡AuraMobs recargado exitosamente!'
+  summon:
+    console: '¡Este subcomando solo puede ser ejecutado por jugadores!'
+    invalid: 'Tipo de mob no válido: {type}'
+    failure: '¡No se pudo invocar a un {mob} de nivel {level}!'
+    success: '¡{mob} de nivel {level} invocado con éxito!'
 mobs:
   blaze: Blaze
   cave_spider: Araña de Cueva
@@ -40,4 +45,4 @@ mobs:
   ender_dragon: Enderdragón
   wither: Wither
   elder_guardian: Guardián anciano
-file_version: 1
+file_version: 2

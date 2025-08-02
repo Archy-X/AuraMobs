@@ -1,5 +1,10 @@
 commands:
   reload: 'AuraMobs succesvol opnieuw geladen!'
+  summon:
+    console: 'Deze subopdracht kan alleen door spelers worden uitgevoerd!'
+    invalid: 'Ongeldig mobtype: {type}'
+    failure: 'Kon geen lvl {level} {mob} oproepen!'
+    success: 'Succesvol een lvl {level} {mob} opgeroepen!'
 mobs:
   blaze: Blaze
   cave_spider: Grottenspin
@@ -40,4 +45,4 @@ mobs:
   ender_dragon: Enderdraak
   wither: Wither
   elder_guardian: Oude bewaker
-file_version: 1
+file_version: 2

@@ -1,5 +1,10 @@
 commands:
   reload: 'AuraMobs successfully reloaded!'
+  summon:
+    console: 'This subcommand may only be executed by players!'
+    invalid: 'Invalid mob type: {type}'
+    failure: 'Failed to summon a lvl {level} {mob}!'
+    success: 'Successfully summoned a lvl {level} {mob}!'
 mobs:
   blaze: Blaze
   cave_spider: Cave Spider
@@ -41,4 +46,4 @@ mobs:
   wither: Wither
   elder_guardian: Elder Guardian
   creaking: Creaking
-file_version: 2
+file_version: 3

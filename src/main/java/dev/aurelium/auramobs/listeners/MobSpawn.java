@@ -7,6 +7,7 @@ import dev.aurelium.auramobs.util.MessageUtils;
 import io.lumine.mythic.core.constants.MobKeys;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -16,6 +17,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -69,6 +71,12 @@ public class MobSpawn implements Listener {
                 if (e.getEntity().getCustomName() != null) {
                     return;
                 }
+            }
+
+            NamespacedKey summonKey = new NamespacedKey(plugin, "auramobs_custom_summoned");
+            PersistentDataContainer data = entity.getPersistentDataContainer();
+            if (data.has(summonKey, PersistentDataType.BYTE)) {
+                return; // Already handled via command
             }
 
             int radius = plugin.optionInt("player_level.check_radius");

@@ -1,5 +1,10 @@
 commands:
   reload: 'AuraMobs erfolgreich neu geladen!'
+  summon:
+    console: 'Dieser Befehl kann nur von Spielern ausgeführt werden!'
+    invalid: 'Ungültiger Mob-Typ: {type}'
+    failure: 'Fehler beim Beschwören eines LvL {level} {mob}!'
+    success: 'Erfolgreich einen LvL {level} {mob} beschworen!'
 mobs:
   blaze: Lohe
   cave_spider: Höhlenspinne
@@ -40,4 +45,4 @@ mobs:
   ender_dragon: Enderdrache
   wither: Wither
   elder_guardian: Großwächter
-file_version: 1
+file_version: 2

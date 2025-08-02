@@ -6,6 +6,7 @@ import com.archyx.polyglot.PolyglotProvider;
 import com.archyx.polyglot.config.PolyglotConfig;
 import com.archyx.polyglot.config.PolyglotConfigBuilder;
 import com.archyx.polyglot.lang.MessageKey;
+import com.google.common.collect.ImmutableList;
 import dev.aurelium.auramobs.api.AuraMobsAPI;
 import dev.aurelium.auramobs.api.WorldGuardHook;
 import dev.aurelium.auramobs.commands.AuraMobsCommand;
@@ -27,10 +28,7 @@ import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
@@ -129,6 +127,11 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     public void registerCommands() {
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new AuraMobsCommand(this));
+        manager.getCommandCompletions().registerCompletion("entitytypes", c -> Arrays.stream(EntityType.values())
+                .filter(type -> type.isSpawnable() && type.isAlive())
+                .map(type -> type.name().toLowerCase(Locale.ROOT))
+                .toList());
+        manager.getCommandCompletions().registerCompletion("level", c -> ImmutableList.of("<level>"));
     }
 
     public AuraSkillsApi getAuraSkills() {

@@ -3,9 +3,11 @@ package dev.aurelium.auramobs.listeners;
 import co.aikar.commands.LogLevel;
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.util.ColorUtils;
+import dev.aurelium.auramobs.util.CustomFunctions;
 import dev.aurelium.auramobs.util.MessageUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.function.Function;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -134,7 +136,9 @@ public class MobDamage implements Listener {
     }
 
     private double evaluate(String expression) {
-        return new ExpressionBuilder(expression).build().evaluate();
+        ExpressionBuilder builder = new ExpressionBuilder(expression);
+        for (Function func : CustomFunctions.getCustomFunctions()) builder.function(func);
+        return builder.build().evaluate();
     }
 
 }

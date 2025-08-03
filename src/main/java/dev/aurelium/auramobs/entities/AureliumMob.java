@@ -2,9 +2,11 @@ package dev.aurelium.auramobs.entities;
 
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.util.ColorUtils;
+import dev.aurelium.auramobs.util.CustomFunctions;
 import dev.aurelium.auramobs.util.MessageUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.function.Function;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -55,9 +57,16 @@ public class AureliumMob {
                 .replace("{level}", Integer.toString(level1))
                 .replace("{distance}", Double.toString(distance))
         );
-        Expression resDamage = new ExpressionBuilder(damageFormula).build();
-        Expression resHealth = new ExpressionBuilder(healthFormula).build();
-        Expression resSpeed = new ExpressionBuilder(speedFormula).build();
+
+        ExpressionBuilder bDamage = new ExpressionBuilder(damageFormula);
+        ExpressionBuilder bHealth = new ExpressionBuilder(healthFormula);
+        ExpressionBuilder bSpeed = new ExpressionBuilder(speedFormula);
+        for (Function func : CustomFunctions.getCustomFunctions()) bDamage.function(func);
+        for (Function func : CustomFunctions.getCustomFunctions()) bHealth.function(func);
+        for (Function func : CustomFunctions.getCustomFunctions()) bSpeed.function(func);
+        Expression resDamage = bDamage.build();
+        Expression resHealth = bHealth.build();
+        Expression resSpeed = bSpeed.build();
         double damage = BigDecimal.valueOf(resDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
         double health = resHealth.evaluate();
         double speed = resSpeed.evaluate();
@@ -69,7 +78,9 @@ public class AureliumMob {
                     .replace("{level}", String.valueOf(level1))
                     .replace("{distance}", Double.toString(distance))
             );
-            Expression resMaxDamage = new ExpressionBuilder(damageMax).build();
+            ExpressionBuilder builder = new ExpressionBuilder(damageMax);
+            for (Function func : CustomFunctions.getCustomFunctions()) builder.function(func);
+            Expression resMaxDamage = builder.build();
             double maxDamage = BigDecimal.valueOf(resMaxDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
             damage = Math.min(maxDamage, damage);
         }
@@ -80,7 +91,9 @@ public class AureliumMob {
                     .replace("{level}", String.valueOf(level1))
                     .replace("{distance}", Double.toString(distance))
             );
-            Expression resMaxHealth = new ExpressionBuilder(healthMax).build();
+            ExpressionBuilder builder = new ExpressionBuilder(healthMax);
+            for (Function func : CustomFunctions.getCustomFunctions()) builder.function(func);
+            Expression resMaxHealth = builder.build();
             double maxHealth = resMaxHealth.evaluate();
             health = Math.min(maxHealth, health);
         }
@@ -91,7 +104,9 @@ public class AureliumMob {
                     .replace("{level}", String.valueOf(level1))
                     .replace("{distance}", Double.toString(distance))
             );
-            Expression resMaxSpeed = new ExpressionBuilder(speedMax).build();
+            ExpressionBuilder builder = new ExpressionBuilder(speedMax);
+            for (Function func : CustomFunctions.getCustomFunctions()) builder.function(func);
+            Expression resMaxSpeed = builder.build();
             double maxSpeed = resMaxSpeed.evaluate();
             speed = Math.min(maxSpeed, speed);
         }

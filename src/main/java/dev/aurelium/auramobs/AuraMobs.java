@@ -14,6 +14,7 @@ import dev.aurelium.auramobs.config.ConfigManager;
 import dev.aurelium.auramobs.config.OptionKey;
 import dev.aurelium.auramobs.config.OptionValue;
 import dev.aurelium.auramobs.listeners.*;
+import dev.aurelium.auramobs.util.CustomFunctions;
 import dev.aurelium.auramobs.util.Formatter;
 import dev.aurelium.auramobs.entities.ScaleManager;
 import dev.aurelium.auraskills.api.AuraSkillsApi;
@@ -21,6 +22,7 @@ import dev.aurelium.auraskills.api.skill.Skill;
 import dev.aurelium.auraskills.api.skill.Skills;
 import dev.aurelium.auraskills.api.user.SkillsUser;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.function.Function;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -216,7 +218,9 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
             formula = formula.replace(replace, Integer.toString(user.getSkillLevel(skill)));
         }
 
-        return (int) Math.round(new ExpressionBuilder(formula).build().evaluate());
+        ExpressionBuilder builder = new ExpressionBuilder(formula);
+        for (Function func : CustomFunctions.getCustomFunctions()) builder.function(func);
+        return (int) Math.round(builder.build().evaluate());
     }
 
     public boolean isAuraMob(LivingEntity m) {

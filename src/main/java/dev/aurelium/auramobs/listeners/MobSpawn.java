@@ -3,9 +3,11 @@ package dev.aurelium.auramobs.listeners;
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.api.WorldGuardHook;
 import dev.aurelium.auramobs.entities.AureliumMob;
+import dev.aurelium.auramobs.util.CustomFunctions;
 import dev.aurelium.auramobs.util.MessageUtils;
 import io.lumine.mythic.core.constants.MobKeys;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.function.Function;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -185,7 +187,9 @@ public class MobSpawn implements Listener {
                     .replace("{random_double}", String.valueOf(random.nextDouble()))
             );
         }
-        level = (int) new ExpressionBuilder(lformula).build().evaluate();
+        ExpressionBuilder lBuilder = new ExpressionBuilder(lformula);
+        for (Function func : CustomFunctions.getCustomFunctions()) lBuilder.function(func);
+        level = (int) lBuilder.build().evaluate();
         level = Math.min(level, plugin.optionInt(prefix + "max_level"));
         return level;
     }

@@ -59,11 +59,9 @@ public class AuraMobsCommand extends BaseCommand {
             return;
         }
 
-        NamespacedKey summonKey = new NamespacedKey(plugin, "auramobs_custom_summoned");
-
         LivingEntity entity = (LivingEntity) player.getWorld().spawn(player.getLocation(), type.getEntityClass(), ent -> {
             if (ent instanceof LivingEntity living) {
-                living.getPersistentDataContainer().set(summonKey, PersistentDataType.BYTE, (byte) 1);
+                living.getPersistentDataContainer().set(plugin.getSummonKey(), PersistentDataType.BYTE, (byte) 1);
             }
         });
         new AureliumMob(entity, level, plugin);

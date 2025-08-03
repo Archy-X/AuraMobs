@@ -6,6 +6,7 @@ import dev.aurelium.auramobs.util.MessageUtils;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.EnderDragon;
@@ -31,11 +32,13 @@ public class AureliumMob {
         else {
             level1 = 1;
         }
+        mob.getPersistentDataContainer().set(plugin.getLevelKey(), PersistentDataType.INTEGER, level1);
         Location mobloc = mob.getLocation();
         Location spawnpoint = mob.getWorld().getSpawnLocation();
         double distance = mobloc.distance(spawnpoint);
         double startDamage = mob instanceof EnderDragon ? 0 : BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
         double startHealth = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
+        double startSpeed = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
         String prefix = plugin.isBossMob(mob) ? "bosses." : "mob_defaults.";
         String damageFormula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "damage.formula")
                 .replace("{mob_damage}", String.valueOf(startDamage))
@@ -47,10 +50,17 @@ public class AureliumMob {
                 .replace("{level}", Integer.toString(level1))
                 .replace("{distance}", Double.toString(distance))
         );
+        String speedFormula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "speed.formula")
+                .replace("{mob_speed}", String.valueOf(startSpeed))
+                .replace("{level}", Integer.toString(level1))
+                .replace("{distance}", Double.toString(distance))
+        );
         Expression resDamage = new ExpressionBuilder(damageFormula).build();
         Expression resHealth = new ExpressionBuilder(healthFormula).build();
+        Expression resSpeed = new ExpressionBuilder(speedFormula).build();
         double damage = BigDecimal.valueOf(resDamage.evaluate()).setScale(2, RoundingMode.CEILING).doubleValue();
         double health = resHealth.evaluate();
+        double speed = resSpeed.evaluate();
 
         String optDamageMax = plugin.optionString(prefix + "damage.max");
         if (optDamageMax != null && !optDamageMax.isEmpty()) {
@@ -74,6 +84,17 @@ public class AureliumMob {
             double maxHealth = resMaxHealth.evaluate();
             health = Math.min(maxHealth, health);
         }
+        String optSpeedMax = plugin.optionString(prefix + "speed.max");
+        if (optSpeedMax != null && !optSpeedMax.isEmpty()) {
+            String speedMax = MessageUtils.setPlaceholders(null, optSpeedMax
+                    .replace("{mob_speed}", String.valueOf(startSpeed))
+                    .replace("{level}", String.valueOf(level1))
+                    .replace("{distance}", Double.toString(distance))
+            );
+            Expression resMaxSpeed = new ExpressionBuilder(speedMax).build();
+            double maxSpeed = resMaxSpeed.evaluate();
+            speed = Math.min(maxSpeed, speed);
+        }
 
         String formattedHealth = plugin.getFormatter().format(health);
         if (health > plugin.getMaxHealth()) {
@@ -82,8 +103,14 @@ public class AureliumMob {
         if (damage > plugin.getMaxDamage()) {
             damage = plugin.getMaxDamage();
         }
+        if (speed > plugin.getMaxSpeed()) {
+            speed = plugin.getMaxSpeed();
+        }
 
-        if (!(mob instanceof EnderDragon)) mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
+        if (!(mob instanceof EnderDragon)) {
+            mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
+            mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
+        }
 
         AttributeInstance healthAttr = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (healthAttr == null) return;

@@ -34,10 +34,13 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     private static final int bstatsId = 22266;
     private NamespacedKey mobKey;
+    private NamespacedKey levelKey;
+    private NamespacedKey summonKey;
     private WorldGuardHook worldGuard;
     private AuraSkillsApi auraSkills;
     private double maxHealth;
     private double maxDamage;
+    private double maxSpeed;
     private boolean namesEnabled;
     private int globalLevel;
     private Formatter formatter;
@@ -83,6 +86,8 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         }
         language = Locale.forLanguageTag(optionString("language").replace("_", "-"));
         mobKey = new NamespacedKey(this, "isAureliumMob");
+        levelKey = new NamespacedKey(this, "auramobs_level");
+        summonKey = new NamespacedKey(this, "auramobs_custom_summoned");
         namesEnabled = optionBoolean("custom_name.enabled");
         scaleManager = new ScaleManager(this);
         scaleManager.loadConfiguration();
@@ -107,6 +112,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         loadWorlds();
         maxHealth = Bukkit.spigot().getConfig().getDouble("settings.attribute.maxHealth.max");
         maxDamage = Bukkit.spigot().getConfig().getDouble("settings.attribute.attackDamage.max");
+        maxSpeed = Bukkit.spigot().getConfig().getDouble("settings.attribute.movementSpeed.max");
 
         formatter = new Formatter(optionInt("custom_name.health_rounding_places"));
         // Check for PlaceholderAPI
@@ -160,6 +166,10 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     public double getMaxDamage() {
         return maxDamage;
+    }
+
+    public double getMaxSpeed() {
+        return maxSpeed;
     }
 
     public int getSumLevel(Player player) {
@@ -245,6 +255,14 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
 
     public NamespacedKey getMobKey() {
         return mobKey;
+    }
+
+    public NamespacedKey getLevelKey() {
+        return levelKey;
+    }
+
+    public NamespacedKey getSummonKey() {
+        return summonKey;
     }
 
     public boolean isPlaceholderAPIEnabled() {

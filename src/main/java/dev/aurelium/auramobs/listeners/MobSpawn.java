@@ -73,9 +73,8 @@ public class MobSpawn implements Listener {
                 }
             }
 
-            NamespacedKey summonKey = new NamespacedKey(plugin, "auramobs_custom_summoned");
             PersistentDataContainer data = entity.getPersistentDataContainer();
-            if (data.has(summonKey, PersistentDataType.BYTE)) {
+            if (data.has(plugin.getSummonKey(), PersistentDataType.BYTE)) {
                 return; // Already handled via command
             }
 

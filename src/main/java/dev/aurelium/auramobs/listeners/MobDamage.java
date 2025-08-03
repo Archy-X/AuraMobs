@@ -1,8 +1,16 @@
 package dev.aurelium.auramobs.listeners;
 
+import co.aikar.commands.LogLevel;
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.util.ColorUtils;
+import dev.aurelium.auramobs.util.MessageUtils;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -10,9 +18,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Locale;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MobDamage implements Listener {
 
@@ -54,9 +68,21 @@ public class MobDamage implements Listener {
 
     }
 
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onPlayerDamagedByCreeperExplosion(EntityDamageByEntityEvent e) {
+        if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) return;
+
+        LivingEntity damager = (LivingEntity) e.getDamager();
+        if (!(damager instanceof Creeper)) return;
+        if (!plugin.isAuraMob(damager)) return;
+
+        double multiplier = plugin.optionDouble("mob_defaults.damage.explosion-multiplier");
+        e.setDamage(scaleNonBossMobDamage(e.getFinalDamage() * multiplier, damager));
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onArrowHit(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Projectile p)) {
+        if (!(e.getDamager() instanceof Projectile p)) {
             return;
         }
 
@@ -68,7 +94,47 @@ public class MobDamage implements Listener {
             return;
         }
 
-        e.setDamage(entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+        double multiplier = plugin.optionDouble("mob_defaults.damage.projectile-multiplier");
+        e.setDamage(scaleNonBossMobDamage(e.getFinalDamage() * multiplier, entity));
+    }
+
+    private double scaleNonBossMobDamage(double baseDamage, LivingEntity source) {
+        double distance = source.getLocation().distance(source.getWorld().getSpawnLocation());
+        String prefix = "mob_defaults.";
+
+        PersistentDataContainer data = source.getPersistentDataContainer();
+        int level = data.has(plugin.getLevelKey(), PersistentDataType.INTEGER) ?
+                data.get(plugin.getLevelKey(), PersistentDataType.INTEGER) : 1;
+
+        Map<String, String> placeholders = Map.of(
+                "{mob_damage}", String.valueOf(baseDamage),
+                "{level}", String.valueOf(level),
+                "{distance}", String.valueOf(distance)
+        );
+
+        String formula = applyPlaceholders(plugin.optionString(prefix + "damage.formula"), placeholders);
+        double scaledDamage = evaluate(formula);
+
+        String maxFormula = plugin.optionString(prefix + "damage.max");
+        if (maxFormula != null && !maxFormula.isEmpty()) {
+            String maxExpr = applyPlaceholders(maxFormula, placeholders);
+            double maxDamage = evaluate(maxExpr);
+            scaledDamage = Math.min(maxDamage, scaledDamage);
+        }
+
+        return scaledDamage;
+    }
+
+    private String applyPlaceholders(String input, Map<String, String> values) {
+        String result = input;
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            result = result.replace(entry.getKey(), entry.getValue());
+        }
+        return MessageUtils.setPlaceholders(null, result);
+    }
+
+    private double evaluate(String expression) {
+        return new ExpressionBuilder(expression).build().evaluate();
     }
 
 }

@@ -78,7 +78,7 @@ public class MobDamage implements Listener {
         if (!(damager instanceof Creeper)) return;
         if (!plugin.isAuraMob(damager)) return;
 
-        double multiplier = plugin.optionDouble("mob_defaults.damage.explosion-multiplier");
+        double multiplier = plugin.optionDouble("mob_defaults.damage.explosion_multiplier");
         e.setDamage(scaleNonBossMobDamage(e.getFinalDamage() * multiplier, damager));
     }
 
@@ -96,7 +96,7 @@ public class MobDamage implements Listener {
             return;
         }
 
-        double multiplier = plugin.optionDouble("mob_defaults.damage.projectile-multiplier");
+        double multiplier = plugin.optionDouble("mob_defaults.damage.projectile_multiplier");
         e.setDamage(scaleNonBossMobDamage(e.getFinalDamage() * multiplier, entity));
     }
 

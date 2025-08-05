@@ -136,7 +136,10 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new AuraMobsCommand(this));
         manager.getCommandCompletions().registerCompletion("entitytypes", c -> Arrays.stream(EntityType.values())
-                .filter(type -> type.isSpawnable() && type.isAlive())
+                .filter(type -> type.isSpawnable()
+                    && type.isAlive()
+                    && type.getEntityClass() != null
+                    && !isInvalidEntity(type.getEntityClass()))
                 .map(type -> type.name().toLowerCase(Locale.ROOT))
                 .toList());
         manager.getCommandCompletions().registerCompletion("level", c -> ImmutableList.of("<level>"));
@@ -228,13 +231,30 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
     }
 
     public boolean isInvalidEntity(Entity entity) {
-        if (!(entity instanceof LivingEntity mob)) return true;
         if (entity instanceof Hoglin || entity instanceof Slime) return false; // Mobs that don't inherit from LivingEntity
-        return !(entity instanceof Monster) && !isBossMob(mob);
+        if (!(entity instanceof LivingEntity mob)) return true;
+        return isInvalidEntity(mob);
+    }
+
+    public boolean isInvalidEntity(LivingEntity mob) {
+        return !(mob instanceof Monster) && !isBossMob(mob);
     }
 
     public boolean isBossMob(LivingEntity entity) {
         return entity instanceof Boss || entity instanceof ElderGuardian;
+    }
+
+    public boolean isInvalidEntity(Class<? extends Entity> clazz) {
+        if (Hoglin.class.isAssignableFrom(clazz) || Slime.class.isAssignableFrom(clazz)) return false;
+        if (!LivingEntity.class.isAssignableFrom(clazz)) return true; // Not a living entity
+        return !Monster.class.isAssignableFrom(clazz) && !isBossMobClass(clazz);
+    }
+
+    public boolean isBossMobClass(Class<? extends Entity> clazz) {
+        return Wither.class.isAssignableFrom(clazz)
+            || EnderDragon.class.isAssignableFrom(clazz)
+            || ElderGuardian.class.isAssignableFrom(clazz)
+            || Warden.class.isAssignableFrom(clazz);
     }
 
     public Formatter getFormatter() {

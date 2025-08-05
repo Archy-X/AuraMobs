@@ -5,7 +5,6 @@ import co.aikar.commands.annotation.*;
 import dev.aurelium.auramobs.AuraMobs;
 import dev.aurelium.auramobs.entities.AureliumMob;
 import dev.aurelium.auramobs.util.ColorUtils;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -53,7 +52,7 @@ public class AuraMobsCommand extends BaseCommand {
             return;
         }
 
-        if (!type.isSpawnable() || !type.isAlive() || type.getEntityClass() == null) {
+        if (!type.isSpawnable() || !type.isAlive() || type.getEntityClass() == null || plugin.isInvalidEntity(type.getEntityClass())) {
             sender.sendMessage(ColorUtils.colorMessage(plugin.getMsg("commands.summon.failure")
                     .replace("{mob}", type.name()).replace("{level}", String.valueOf(level))));
             return;

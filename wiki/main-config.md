@@ -18,8 +18,13 @@ The available placeholders in this section are `{level}` for the level of the mo
 
 * `damage:`
   * `formula` - The formula for how much damage a mob deals based on its level. `{mob_damage}` is the base damage of the mob without any modifications.
-* `health`
-  * `formula` - The formulae for how much max health a mob has based on its level. `{mob_health}` is the base mob health without any modifications.
+  * `max` -  The formula for the max damage a mob can deal. When empty, damage is only controlled by `formula`.
+* `health:`
+  * `formula` - The formula for how much max health a mob has based on its level. `{mob_health}` is the base mob health without any modifications.
+  * `max` - The formula for the max health a mob can have. When empty, health is only controlled by `formula`.
+* `speed:`
+  * `formula` - The formula for the movement speed attribute of a mob based on its level. For reference, a zombie has a default speed of 0.23 and a piglin is 0.35.
+  * `max` - The formula for the max speed a mob can have. When empty, speed is only controlled by `formula`.
 
 ### Mob level
 
@@ -43,6 +48,15 @@ Placeholders for only `formula`:
 * `{lowestlvl}` - The lowest player level in the check\_radius.
 * `{sumlevel}` - The sum of all player levels in the check\_radius.
 * `{playercount}` - The number of players in the check\_radius.
+
+### Bosses
+
+`bosses:`
+
+* `enabled` - Whether bosses can have levels. This includes the Ender Dragon, Wither, and Elder Guardian.
+* `health:` - This section works the same as `mob_defaults.health`.
+* `damage:` - This section works the same as `mob_defaults.damage`.
+* `level:` - Controls the level of bosses. Works the same as the `mob_level` section.
 
 ### Player level
 
@@ -68,6 +82,8 @@ Placeholders for only `formula`:
 * `health_rounding_places` - The number of decimals to round mob health to. If 0, the value is rounded to an integer.
 * `display_by_range` - If true, the custom name will show when the player gets close enough even if the player is not directly targeting the mob.
 * `display_range` - The maximum number of blocks away to show the custom name if `display_by_range` is true.
+* `allow_override` - If false, mobs that already have a custom name from another plugin will not be affected by AuraMobs.
+* `ignore_mythic_mobs` - If true, mobs from the MythicMobs plugin will not be affected by AuraMobs.
 
 ### Skills XP
 
@@ -83,7 +99,7 @@ Placeholders for only `formula`:
 `worlds:`
 
 * `type` - The type of world list to use, either `blacklist` (only worlds on the list are disabled) or `whitelist` (all worlds except those on the list are disabled).
-* &#x20;`list` - The list of worlds to blacklist/whitelist the mob level functionality.
+* `list` - The list of worlds to blacklist/whitelist the mob level functionality.
 
 ### Mob replacements
 
@@ -95,3 +111,29 @@ Placeholders for only `formula`:
 ### Spawn reasons
 
 `spawn_reasons` - A list of valid [spawn reasons](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html) for which levels will be applied to mobs.
+
+### Scaling
+
+Scaling allows the resizing of mobs based on AuraMobs level. This feature has no effect unless scaling is defined in the `levels` section as described below.
+
+* `worlds:`
+  * `type` - The type of world list to use, either `blacklist` (scaling is disabled in listed worlds) or `whitelist` (scaling is only enabled in the listed worlds).
+  * `list` - The list of worlds to blacklist/whitelist mob scaling.
+* `override` - If true, the AuraMobs scale will override any existing scale. If false, the mob's new scale will be multiplied from its existing scale.
+* `levels:` - The key of each section is the mob level range it applies to (e.g. `1-20:`). Options within each level range include:
+  * `chance` - The chance for a mob to be scaled from 0 to 1 (defaults to 1).
+  * `scale` - The scale to set the mob to, where 1 is unchanged. This can be a single decimal (1.5), a comma separated string (1, 2, 3), or a range (1-3).
+  * `types` - A list of entity types to only apply this scale to. If not specified, all mob types will be scaled.
+
+Example of a mob scaling config:
+
+```yaml
+scaling:
+  levels:
+    50-100:
+      chance: 0.3
+      scale: 1.5
+      types:
+        - spider
+        - cave_spider
+```

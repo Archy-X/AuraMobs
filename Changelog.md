@@ -1,8 +1,37 @@
 # Changelog
 
+## 2.2.0
+
+### New Features
+
+- Add summon command
+  - Syntax: /auramobs summon <type> <level>
+- Add accurate damage scaling for damage from creeper explosions and arrows
+- Add damage multipliers for explosions and projectiles to mob_defaults.damage
+- Add speed property that allows scaling a mob's movement speed with its level
+- Add new math functions usable in formulas
+  - random_between(min, max) - random decimal number between min and max
+  - rand() - random decimal between 0 and 1
+  - clamp(value, min, max) - clamp a value between a minimum and maximum
+  - lerp(a, b, t) - performs linear interpolation between a and b using t (0.0 to 1.0)
+  - logn(base, value) - computes the logarithm of a value with a custom base
+  - round(x) - rounds a value to the nearest integer
+- Add mob scaling world whitelist and blacklist
+- Add custom_name.ignore_mythic_mobs for ignoring MythicMobs entities
+- Add Parched to messages_en.yml
+
+### Changes
+
+- The plugin now requires Java 21
+
+### Bug Fixes
+
+- Fix cured zombie villagers keeping custom name
+
 ## 2.1.0
 
 ### New Features
+
 - Add mob scaling feature
   - Scaling allows the resizing of mobs based on AuraMobs level
   - Scaling entries are defined in the `scaling.levels` section
@@ -24,6 +53,7 @@
   - If false, levels will not be applied to mobs with custom names already
 - Add German and Dutch messages files
 
-## Bug Fixes
+### Bug Fixes
+
 - Fix some mob names not working in Turkish
 - Fix Citizens NPCs being used in level calculations

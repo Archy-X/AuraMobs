@@ -46,4 +46,5 @@ mobs:
   wither: Wither
   elder_guardian: Elder Guardian
   creaking: Creaking
-file_version: 3
+  parched: Parched
+file_version: 4

@@ -12,3 +12,5 @@ softdepend:
 permissions:
   auramobs.reload:
     default: op
+  auramobs.summon:
+    default: op

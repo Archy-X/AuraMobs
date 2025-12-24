@@ -10,7 +10,6 @@ import net.objecthunter.exp4j.function.Function;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.persistence.PersistentDataType;
@@ -37,9 +36,10 @@ public class AureliumMob {
         Location mobloc = mob.getLocation();
         Location spawnpoint = mob.getWorld().getSpawnLocation();
         double distance = mobloc.distance(spawnpoint);
-        double startDamage = mob instanceof EnderDragon ? 0 : BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
-        double startHealth = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
-        double startSpeed = BigDecimal.valueOf(mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
+        double startDamage = getAttributeBaseValue(mob, Attribute.GENERIC_ATTACK_DAMAGE);
+        double startHealth = getAttributeBaseValue(mob, Attribute.GENERIC_MAX_HEALTH);
+        double startSpeed = getAttributeBaseValue(mob, Attribute.GENERIC_MOVEMENT_SPEED);
+
         String prefix = plugin.isBossMob(mob) ? "bosses." : "mob_defaults.";
         String damageFormula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "damage.formula")
                 .replace("{mob_damage}", String.valueOf(startDamage))
@@ -121,14 +121,12 @@ public class AureliumMob {
             speed = plugin.getMaxSpeed();
         }
 
-        if (!(mob instanceof EnderDragon)) {
-            mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
-            mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
-        }
+        setAttributeBaseValue(mob, Attribute.GENERIC_ATTACK_DAMAGE, damage);
+        setAttributeBaseValue(mob, Attribute.GENERIC_MOVEMENT_SPEED, speed);
+        setAttributeBaseValue(mob, Attribute.GENERIC_MAX_HEALTH, health);
 
         AttributeInstance healthAttr = mob.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (healthAttr == null) return;
-        healthAttr.setBaseValue(health);
 
         double maxValue = healthAttr.getValue();
         mob.setHealth(Math.min(health, maxValue));
@@ -150,4 +148,19 @@ public class AureliumMob {
         }
     }
 
+    private double getAttributeBaseValue(LivingEntity entity, Attribute attribute) {
+        AttributeInstance instance = entity.getAttribute(attribute);
+        if (instance == null) {
+            return 0;
+        } else {
+            return BigDecimal.valueOf(instance.getBaseValue()).setScale(2, RoundingMode.CEILING).doubleValue();
+        }
+    }
+
+    private void setAttributeBaseValue(LivingEntity entity, Attribute attribute, double value) {
+        AttributeInstance instance = entity.getAttribute(attribute);
+        if (instance != null) {
+            instance.setBaseValue(value);
+        }
+    }
 }

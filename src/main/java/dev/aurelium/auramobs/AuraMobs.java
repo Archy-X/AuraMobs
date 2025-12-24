@@ -139,7 +139,7 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
                 .filter(type -> type.isSpawnable()
                     && type.isAlive()
                     && type.getEntityClass() != null
-                    && !isInvalidEntity(type.getEntityClass()))
+                    && !isNotEnemy(type.getEntityClass()))
                 .map(type -> type.name().toLowerCase(Locale.ROOT))
                 .toList());
         manager.getCommandCompletions().registerCompletion("level", c -> ImmutableList.of("<level>"));
@@ -230,31 +230,16 @@ public class AuraMobs extends JavaPlugin implements PolyglotProvider {
         return m.getPersistentDataContainer().has(mobKey, PersistentDataType.INTEGER);
     }
 
-    public boolean isInvalidEntity(Entity entity) {
-        if (entity instanceof Hoglin || entity instanceof Slime) return false; // Mobs that don't inherit from LivingEntity
-        if (!(entity instanceof LivingEntity mob)) return true;
-        return isInvalidEntity(mob);
-    }
-
-    public boolean isInvalidEntity(LivingEntity mob) {
-        return !(mob instanceof Monster) && !isBossMob(mob);
+    public boolean isNotEnemy(Entity entity) {
+        return !(entity instanceof Enemy);
     }
 
     public boolean isBossMob(LivingEntity entity) {
         return entity instanceof Boss || entity instanceof ElderGuardian;
     }
 
-    public boolean isInvalidEntity(Class<? extends Entity> clazz) {
-        if (Hoglin.class.isAssignableFrom(clazz) || Slime.class.isAssignableFrom(clazz)) return false;
-        if (!LivingEntity.class.isAssignableFrom(clazz)) return true; // Not a living entity
-        return !Monster.class.isAssignableFrom(clazz) && !isBossMobClass(clazz);
-    }
-
-    public boolean isBossMobClass(Class<? extends Entity> clazz) {
-        return Wither.class.isAssignableFrom(clazz)
-            || EnderDragon.class.isAssignableFrom(clazz)
-            || ElderGuardian.class.isAssignableFrom(clazz)
-            || Warden.class.isAssignableFrom(clazz);
+    public boolean isNotEnemy(Class<? extends Entity> clazz) {
+        return !Enemy.class.isAssignableFrom(clazz);
     }
 
     public Formatter getFormatter() {

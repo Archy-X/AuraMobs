@@ -9,6 +9,7 @@ mobs:
   blaze: Blaze
   cave_spider: Cave Spider
   creeper: Creeper
+  drowned: Drowned
   enderman: Enderman
   endermite: Endermite
   evoker: Evoker
@@ -30,9 +31,8 @@ mobs:
   witch: Witch
   wither_skeleton: Wither Skeleton
   zombie: Zombie
-  drowned: Drowned
   magma_cube: Magma Cube
-  piglin_brute: Brutal Piglin
+  piglin_brute: Piglin Brute
   pillager: Pillager
   ravager: Ravager
   zombified_piglin: Zombified Piglin
@@ -47,4 +47,5 @@ mobs:
   elder_guardian: Elder Guardian
   creaking: Creaking
   parched: Parched
-file_version: 4
+  phantom: Phantom
+file_version: 5

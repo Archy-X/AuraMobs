@@ -41,7 +41,7 @@ public class MobSpawn implements Listener {
         try {
             if (!plugin.getSpawnReasons().contains(e.getSpawnReason().name())) return;
 
-            if (plugin.isInvalidEntity(e.getEntity())) {
+            if (plugin.isNotEnemy(e.getEntity())) {
                 return;
             }
 

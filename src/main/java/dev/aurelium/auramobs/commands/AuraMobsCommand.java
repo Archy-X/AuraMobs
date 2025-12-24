@@ -52,7 +52,7 @@ public class AuraMobsCommand extends BaseCommand {
             return;
         }
 
-        if (!type.isSpawnable() || !type.isAlive() || type.getEntityClass() == null || plugin.isInvalidEntity(type.getEntityClass())) {
+        if (!type.isSpawnable() || !type.isAlive() || type.getEntityClass() == null || plugin.isNotEnemy(type.getEntityClass())) {
             sender.sendMessage(ColorUtils.colorMessage(plugin.getMsg("commands.summon.failure")
                     .replace("{mob}", type.name()).replace("{level}", String.valueOf(level))));
             return;

@@ -31,6 +31,9 @@ bosses:
   damage:
     formula: '{mob_damage} + ({mob_damage} * ({level} - 1) / 25)'
     max: ''
+  speed:
+    formula: '{mob_speed} + sqrt({level}) * 0.01'
+    max: ''
   level:
     formula: '{sumlevel}/{playercount}'
     backup_formula: '{distance}*0.01'

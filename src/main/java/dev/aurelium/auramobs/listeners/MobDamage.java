@@ -64,8 +64,8 @@ public class MobDamage implements Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerDamagedByCreeperExplosion(EntityDamageByEntityEvent e) {
         if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) return;
+        if (!(e.getDamager() instanceof LivingEntity damager)) return;
 
-        LivingEntity damager = (LivingEntity) e.getDamager();
         if (!(damager instanceof Creeper)) return;
         if (!plugin.isAuraMob(damager)) return;
 

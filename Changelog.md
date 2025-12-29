@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.2.1
+
+### Bug Fixes
+
+- Fix permissions bypass with auramobs summon command
+- Fix error spawning boss mobs with levels
+- Fix ClassCastException when wither skulls fire
+- Fix mobs like ghasts, slimes, and phantoms not having levels
+
 ## 2.2.0
 
 ### New Features

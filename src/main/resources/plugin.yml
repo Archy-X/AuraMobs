@@ -14,3 +14,5 @@ permissions:
     default: op
   auramobs.summon:
     default: op
+  auramobs.exclude:
+    default: false

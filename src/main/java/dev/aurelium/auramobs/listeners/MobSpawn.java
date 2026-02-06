@@ -120,47 +120,55 @@ public class MobSpawn implements Listener {
                     return;
                 }
 
-                int sumlevel = 0;
-                int maxlevel = Integer.MIN_VALUE;
-                int minlevel = Integer.MAX_VALUE;
-                int playercount = 0;
+                int sumLevel = 0;
+                int maxLevel = Integer.MIN_VALUE;
+                int minLevel = Integer.MAX_VALUE;
+                int playerCount = 0;
 
                 for (Entity entity : entity.getNearbyEntities(radius, radius, radius)) {
-                    if (entity instanceof Player player) {
-                        if (player.hasMetadata("NPC")) continue;
-                        int lvl = plugin.getLevel(player);
-                        sumlevel += lvl;
-                        playercount++;
-                        if (lvl > maxlevel) {
-                            maxlevel = lvl;
-                        }
-                        if (lvl < minlevel) {
-                            minlevel = lvl;
-                        }
+                    if (!(entity instanceof Player player)) continue;
+                    if (player.hasMetadata("NPC")) continue;
+                    if (player.hasPermission("auramobs.exclude") || isVanished(player)) continue;
+
+                    int lvl = plugin.getLevel(player);
+                    sumLevel += lvl;
+                    playerCount++;
+                    if (lvl > maxLevel) {
+                        maxLevel = lvl;
+                    }
+                    if (lvl < minLevel) {
+                        minLevel = lvl;
                     }
                 }
-                Location mobloc = entity.getLocation();
-                Location spawnpoint = entity.getWorld().getSpawnLocation();
-                double distance = mobloc.distance(spawnpoint);
+                Location mobLoc = entity.getLocation();
+                Location spawnPoint = entity.getWorld().getSpawnLocation();
+                double distance = mobLoc.distance(spawnPoint);
                 int level;
 
                 int overrideLevel = getMetadataLevel(entity);
                 if (overrideLevel != 0) {
                     level = overrideLevel;
                 } else {
-                    level = getCalculatedLevel(entity, playercount, distance, maxlevel, minlevel, sumlevel);
+                    level = getCalculatedLevel(entity, playerCount, distance, maxLevel, minLevel, sumLevel);
                 }
                 new AureliumMob(entity, correctLevel(entity.getLocation(), level), plugin);
             }
         };
     }
 
-    private int getCalculatedLevel(LivingEntity entity, int playercount, double distance, int maxlevel, int minlevel, int sumlevel) {
+    private boolean isVanished(Player player) {
+        for (MetadataValue meta : player.getMetadata("vanished")) {
+            if (meta.asBoolean()) return true;
+        }
+        return false;
+    }
+
+    private int getCalculatedLevel(LivingEntity entity, int playerCount, double distance, int maxLevel, int minLevel, int sumLevel) {
         int level;
         String lformula;
         String prefix = plugin.isBossMob(entity) ? "bosses.level." : "mob_level.";
         int globalOnline = plugin.getServer().getOnlinePlayers().size();
-        if (playercount == 0) {
+        if (playerCount == 0) {
             lformula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "backup_formula")
                     .replace("{distance}", Double.toString(distance))
                     .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
@@ -173,10 +181,10 @@ public class MobSpawn implements Listener {
             );
         } else {
             lformula = MessageUtils.setPlaceholders(null, plugin.optionString(prefix + "formula")
-                    .replace("{highestlvl}", Integer.toString(maxlevel))
-                    .replace("{lowestlvl}", Integer.toString(minlevel))
-                    .replace("{sumlevel}", Integer.toString(sumlevel))
-                    .replace("{playercount}", Integer.toString(playercount))
+                    .replace("{highestlvl}", Integer.toString(maxLevel))
+                    .replace("{lowestlvl}", Integer.toString(minLevel))
+                    .replace("{sumlevel}", Integer.toString(sumLevel))
+                    .replace("{playercount}", Integer.toString(playerCount))
                     .replace("{distance}", Double.toString(distance))
                     .replace("{sumlevel_global}", Integer.toString(plugin.getGlobalLevel()))
                     .replace("{location_x}", Double.toString(entity.getLocation().getX()))

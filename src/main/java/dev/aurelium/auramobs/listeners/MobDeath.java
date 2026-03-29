@@ -22,6 +22,7 @@ public class MobDeath implements Listener {
             return;
         }
 
+        entity.setCustomNameVisible(false);
         entity.setCustomName(null);
     }
 

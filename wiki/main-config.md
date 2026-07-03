@@ -37,11 +37,13 @@ The available placeholders in this section are `{level}` for the level of the mo
 Placeholders for both `formula` and `backup_formula`:
 
 * `{distance}` - Distance the mob spawn is from the world spawn.
-* `{sumlevel_global}` - The sum of the player level of all online players (player levels are determined by `player_level.formula`)
+* `{sumlevel_global}` - The sum of the player level of all online players (player levels are determined by `player_level.formula`).
 * `{location_x}` - The X coordinate of the mob spawn.
 * `{location_y}` - The Y coordinate of the mob spawn.
 * `{location_z}` - The Z coordinate of the mob spawn.
-* `{playercount}` - The number of players in the check\_radius for `formula` or on the server for `backup_formula`
+* `{playercount}` - The number of players in the check\_radius for `formula` or on the server for `backup_formula`.
+* `{random_int}` - A random integer from 1 to 100 (inclusive).
+* `{random_double}` - A random double from 0.0 (inclusive) to 1.0 (exclusive).
 
 Placeholders for only `formula`:
 
@@ -137,3 +139,16 @@ scaling:
         - spider
         - cave_spider
 ```
+
+## Functions
+
+All configurable formulas (mob level, health, damage, player level, etc.) support
+the [Exp4j built-in functions](https://www.objecthunter.net/exp4j/#Built-in_functions).
+
+Formulas also support the following custom functions:
+- `random_between(num1, num2)` - Returns a random decimal between num1 (inclusive) and num2 (exclusive)
+- `rand()` - Returns a random decimal between 0 (inclusive) and 1 (exclusive).
+- `clamp(value, min, max)` - Clamps a value between a minimum and maximum. Example: clamp(12, 0, 10) → 10.
+- `lerp(a, b, t)` - Performs linear interpolation between a and b using t (0.0 to 1.0). Example: lerp(10, 20, 0.5) → 15.
+- `logn(base, value)` - Computes the logarithm of a value with a custom base. Example: logn(2, 0) → 3.
+- `round(x)` - Rounds a value to the nearest integer. Example: round(4.5) → 5.

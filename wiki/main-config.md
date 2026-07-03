@@ -41,13 +41,13 @@ Placeholders for both `formula` and `backup_formula`:
 * `{location_x}` - The X coordinate of the mob spawn.
 * `{location_y}` - The Y coordinate of the mob spawn.
 * `{location_z}` - The Z coordinate of the mob spawn.
+* `{playercount}` - The number of players in the check\_radius for `formula` or on the server for `backup_formula`
 
 Placeholders for only `formula`:
 
 * `{highestlvl}` - The highest player level in the check\_radius.
 * `{lowestlvl}` - The lowest player level in the check\_radius.
 * `{sumlevel}` - The sum of all player levels in the check\_radius.
-* `{playercount}` - The number of players in the check\_radius.
 
 ### Bosses
 

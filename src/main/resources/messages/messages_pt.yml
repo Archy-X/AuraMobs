@@ -1,0 +1,43 @@
+commands:
+  reload: 'AuraMobs recarregado com sucesso!'
+mobs:
+  blaze: Blaze
+  cave_spider: Aranha da Caverna
+  creeper: Creeper
+  enderman: Enderman
+  endermite: Endermite
+  evoker: Evocador
+  evoker_fangs: Presas do Evocador
+  ghast: Ghast
+  giant: Gigante
+  guardian: Guardião
+  husk: Zumbi do Deserto
+  illusioner: Ilusionista
+  piglin: Piglin
+  hoglin: Hoglin
+  shulker: Shulker
+  silverfish: Traça
+  skeleton: Esqueleto
+  slime: Slime
+  spider: Aranha
+  vex: Vex
+  vindicator: Vingador
+  witch: Bruxa
+  wither_skeleton: Esqueleto do Wither
+  zombie: Zumbi
+  drowned: Afogado
+  magma_cube: Cubo de Magma
+  piglin_brute: Piglin Bruto
+  pillager: Saqueador
+  ravager: Devastador
+  zombified_piglin: Piglin Zumbificado
+  zombie_villager: Aldeão Zumbi
+  stray: Esqueleto Errante
+  zoglin: Zoglin
+  warden: Guardião das Profundezas
+  breeze: Brisa
+  bogged: Empantanado
+  ender_dragon: Dragão do End
+  wither: Wither
+  elder_guardian: Guardião Ancião
+file_version: 1
